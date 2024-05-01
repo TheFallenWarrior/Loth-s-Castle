@@ -95,8 +95,8 @@ uint8_t joy_read(uint8_t x){
 			(Rectangle){
 				(float)(consoleBuffer[i]%16)*8,
 				(float)(consoleBuffer[i]>>4)*8,
-				(float)(1+consoleBuffer[i]%16)*8,
-				(float)(1+(consoleBuffer[i]>>4))*8
+				8.0f,
+				8.0f
 			},
 			(Vector2){(float)((i%CONSOLE_WIDTH)*8), (float)((i>>5)*8)},
 			LIGHTGRAY
