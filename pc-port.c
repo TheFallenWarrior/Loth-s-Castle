@@ -52,9 +52,9 @@ void cputs(const char*);
 void cputsxy(uint8_t, uint8_t, const char*);
 void cprintf(const char*, ...);
 
-static RenderTexture2D target;
-static Rectangle       sourceRec;
-static Rectangle       destRec;
+static RenderTexture2D renderTarget;
+static Rectangle       renderSourceRec;
+static Rectangle       renderDestRec;
 static Texture         nescii;
 
 static uint8_t cursorX, cursorY;
@@ -64,14 +64,17 @@ void init(){
 	clrscr();
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Loth's Castle");
 	nescii = LoadTexture("nescii.png");
-	target = LoadRenderTexture(VIRTUAL_SCREEN_WIDTH, VIRTUAL_SCREEN_HEIGHT);
-	sourceRec = (Rectangle){
+	renderTarget = LoadRenderTexture(
+		VIRTUAL_SCREEN_WIDTH,
+		VIRTUAL_SCREEN_HEIGHT
+	);
+	renderSourceRec = (Rectangle){
 		0.0f,
 		0.0f,
-		(float)target.texture.width,
-		-(float)target.texture.height
+		(float)renderTarget.texture.width,
+		-(float)renderTarget.texture.height
 	};
-	destRec = (Rectangle){
+	renderDestRec = (Rectangle){
 		0,
 		0,
 		SCREEN_WIDTH,
@@ -87,7 +90,7 @@ uint8_t joy_read(uint8_t x){
 
 	if(WindowShouldClose()) exit(0);
 
-	BeginTextureMode(target);
+	BeginTextureMode(renderTarget);
 	ClearBackground(BLACK);
 	for(int i=0;i<(CONSOLE_WIDTH*CONSOLE_HEIGHT);i++){
 		DrawTextureRec(
@@ -107,9 +110,9 @@ uint8_t joy_read(uint8_t x){
 	BeginDrawing();
 	ClearBackground(RED);
 	DrawTexturePro(
-		target.texture,
-		sourceRec,
-		destRec, (Vector2){0, 0},
+		renderTarget.texture,
+		renderSourceRec,
+		renderDestRec, (Vector2){0, 0},
 		0,
 		WHITE
 	);
