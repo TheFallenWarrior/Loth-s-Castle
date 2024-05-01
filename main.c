@@ -113,33 +113,33 @@ enum enemyTypes{
 	DRAGON
 };
 
-const uint8_t* const playerRaceNames[] = {
+const char* const playerRaceNames[] = {
 	"HUMAN",
 	"ELF",
 	"DWARF",
 	"GNOLL"
 };
 
-const uint8_t* const genderNames[] = {
+const char* const genderNames[] = {
 	"MALE",
 	"FEMALE"
 };
 
-const uint8_t* const armorNames[] = {
+const char* const armorNames[] = {
 	"RAGS",
 	"LEATHER",
 	"CHAIN",
 	"PLATE"
 };
 
-const uint8_t* const weaponNames[] = {
+const char* const weaponNames[] = {
 	"STICK",
 	"DAGGER",
 	"MACE",
 	"SWORD"
 };
 
-const uint8_t* const treasureNames[] = {
+const char* const treasureNames[] = {
 	"RUBY RED",
 	"NORNSTONE",
 	"PALE PEARL",
@@ -150,7 +150,7 @@ const uint8_t* const treasureNames[] = {
 	"SYLMARYL"
 };
 
-const uint8_t* const statusNames[] = {
+const char* const statusNames[] = {
 	"",
 	"LETHARGIC",
 	"BLEEDING",
@@ -158,7 +158,7 @@ const uint8_t* const statusNames[] = {
 	"BLIND"
 };
 
-const uint8_t* const enemyNames[] = {
+const char* const enemyNames[] = {
 	"GOBLIN",
 	"KOBOLD",
 	"WOLF",
@@ -171,7 +171,7 @@ const uint8_t* const enemyNames[] = {
 	"DRAGON"
 };
 
-const uint8_t* const messageStrings[] = {
+const char* const messageStrings[] = {
 	"",
 	"Lit up a torch.",
 	"Ascended the stairs.",
@@ -185,7 +185,7 @@ const uint8_t* const messageStrings[] = {
 	"You have the Orb of Yendor."
 };
 
-const uint8_t* const roomDescriptions[] = {
+const char* const roomDescriptions[] = {
 	"an empty room",
 	"stairs going up",
 	"stairs going down",
