@@ -8,7 +8,7 @@
 	#include <nes.h>
 	#define init()	joy_install(joy_static_stddrv)
 #else
-	#include "game.c"
+	#include "pc-port.c"
 #endif
 #include <stdint.h>
 #include <stdlib.h>

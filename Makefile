@@ -16,7 +16,7 @@ run: main.nes
 
 asm: main.s
 
-main: main.c game.c
+main: main.c pc-port.c
 	gcc main.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
 
 run-pc: main

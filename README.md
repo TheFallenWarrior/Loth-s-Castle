@@ -4,7 +4,7 @@ Loth's Castle is an old-school ASCII rogue-like for the NES. It is a Wizard's
 Castle clone written in C.
 
 For the sake of simplicity, the entirety of the game's source code resides in
-`main.c` and the PC-specific code sits in `game.c`.
+`main.c` and the PC-specific code sits in `pc-port.c`.
 
 ## Building
 
@@ -23,7 +23,7 @@ Both versions should look and behave the same aside from drawscreen times.
 
 Game code by João F. S. Pereira (TheFallenWarrior).
 
-Some `#define`s in `game.c` were taken from the cc65 runtime library.
+Some `#define`s in `pc-port.c` were taken from the cc65 runtime library.
 
 Game design was heavily inspired by Amulet of Yendor and Leslie Bird's
 [Wizard's Castle](https://github.com/lesliesbird/WizardsCastle).
