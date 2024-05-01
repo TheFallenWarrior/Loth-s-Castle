@@ -757,7 +757,7 @@ void gameLoop(){
 	else if(JOY_BTN_B(k)) useTorch();
 }
 
-void main(){
+int main(){
 	init();
 
 	// Title Screen
@@ -774,4 +774,6 @@ void main(){
 	clrscr();
 	while(1) gameLoop();
 	joy_uninstall();
+
+	return 0;
 }
