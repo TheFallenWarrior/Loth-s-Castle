@@ -35,6 +35,9 @@
 #define VIRTUAL_SCREEN_HEIGHT 224
 #define SCREEN_SCALE    2
 
+#define CONSOLE_WIDTH   32
+#define CONSOLE_HEIGHT  28
+
 #define SCREEN_WIDTH    256*SCREEN_SCALE
 #define SCREEN_HEIGHT   224*SCREEN_SCALE
 
@@ -55,7 +58,7 @@ static Rectangle       destRec;
 static Texture         nescii;
 
 static uint8_t cursorX, cursorY;
-static uint8_t consoleBuffer[32*28];
+static uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
 void init(){
 	clrscr();
@@ -86,7 +89,7 @@ uint8_t joy_read(uint8_t x){
 
 	BeginTextureMode(target);
 	ClearBackground(BLACK);
-	for(int i=0;i<(32*28);i++){
+	for(int i=0;i<(CONSOLE_WIDTH*CONSOLE_HEIGHT);i++){
 		DrawTextureRec(
 			nescii,
 			(Rectangle){
@@ -95,7 +98,7 @@ uint8_t joy_read(uint8_t x){
 				(float)(1+consoleBuffer[i]%16)*8,
 				(float)(1+(consoleBuffer[i]>>4))*8
 			},
-			(Vector2){(float)((i%32)*8), (float)((i>>5)*8)},
+			(Vector2){(float)((i%CONSOLE_WIDTH)*8), (float)((i>>5)*8)},
 			LIGHTGRAY
 		);
 	}
@@ -129,15 +132,15 @@ inline void joy_uninstall(){}
 
 void clrscr(){
 	cursorX = cursorY = 0;
-	memset(consoleBuffer, '\0', 32*28);
+	memset(consoleBuffer, '\0', CONSOLE_WIDTH*CONSOLE_HEIGHT);
 }
 
 void adjustxy(){
-	if(cursorY >= 28) cursorY %= 28;
-	while(cursorX >= 32){
-		cursorX -= 32;
+	if(cursorY >= CONSOLE_HEIGHT) cursorY %= CONSOLE_HEIGHT;
+	while(cursorX >= CONSOLE_WIDTH){
+		cursorX -= CONSOLE_WIDTH;
 		cursorY++;
-		if(cursorY >= 28) cursorY %= 28;
+		if(cursorY >= CONSOLE_HEIGHT) cursorY %= CONSOLE_HEIGHT;
 	}
 }
 
@@ -151,7 +154,7 @@ void cputc(uint8_t c){
 	if(c == '\r') cursorX = 0;
 	else if(c == '\n') cursorY++;
 	else{
-		consoleBuffer[cursorX + cursorY*32] = c;
+		consoleBuffer[cursorX + cursorY*CONSOLE_WIDTH] = c;
 		cursorX++;
 	}
 	adjustxy();
@@ -177,7 +180,7 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 }
 
 void cprintf(const char *str, ...){
-	char tmp[768];
+	char tmp[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 	va_list args;
 	va_start(args, str);
 
