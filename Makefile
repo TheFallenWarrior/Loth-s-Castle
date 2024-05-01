@@ -1,7 +1,7 @@
 
 .PHONY:	all run run-pc clean
 
-all: main.nes
+all: main.nes main
 
 main.nes: main.c
 	cl65 -Oir -t nes main.c tileset.s -o $@

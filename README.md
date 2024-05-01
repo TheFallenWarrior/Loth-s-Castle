@@ -14,8 +14,8 @@ As is, Loth's Castle can be compiled to NES through
 platforms should work too).
 
 Assuming you have both Raylib and and cc65 installed, you can compile the NES
-version with either `make` or `make main.nes`, and the Linux version with
-`make main`.
+version with `make main.nes`, and the Linux version with `make main`. `make
+all` will compile both targets at once.
 
 Both versions should look and behave the same aside from drawscreen times.
 
