@@ -706,8 +706,8 @@ void updateStats(){
 }
 
 void drawScreen(){
+	clrscr();
 	updateStats();
-	clearScreenArea(5, 28);
 
 	// Draw message window
 	drawWindow(0, 20, 31, 7);
