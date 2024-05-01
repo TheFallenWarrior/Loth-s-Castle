@@ -136,12 +136,11 @@ void clrscr(){
 }
 
 void adjustxy(){
-	if(cursorY >= CONSOLE_HEIGHT) cursorY %= CONSOLE_HEIGHT;
 	while(cursorX >= CONSOLE_WIDTH){
 		cursorX -= CONSOLE_WIDTH;
 		cursorY++;
-		if(cursorY >= CONSOLE_HEIGHT) cursorY %= CONSOLE_HEIGHT;
 	}
+	cursorY %= CONSOLE_HEIGHT;
 }
 
 void gotoxy(uint8_t x, uint8_t y){
