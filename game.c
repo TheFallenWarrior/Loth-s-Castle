@@ -149,13 +149,13 @@ void adjustxy(){
 void gotoxy(uint8_t x, uint8_t y){
 	cursorX = x;
 	cursorY = y;
+	adjustxy();
 }
 
 void cputc(uint8_t c){
 	if(c == '\r') cursorX = 0;
 	else if(c == '\n') cursorY++;
 	else{
-		adjustxy();
 		consoleBuffer[cursorX + cursorY*32] = c;
 		cursorX++;
 	}
