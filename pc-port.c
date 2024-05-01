@@ -17,15 +17,10 @@
 #define JOY_DOWN_MASK   0x20
 #define JOY_LEFT_MASK   0x40
 #define JOY_RIGHT_MASK  0x80
-#define JOY_BTN_1_MASK  0x01
-#define JOY_BTN_2_MASK  0x02
-#define JOY_BTN_3_MASK  0x04
-#define JOY_BTN_4_MASK  0x08
-
-#define JOY_BTN_A_MASK  JOY_BTN_1_MASK
-#define JOY_BTN_B_MASK  JOY_BTN_2_MASK
-#define JOY_SELECT_MASK JOY_BTN_3_MASK
-#define JOY_START_MASK  JOY_BTN_4_MASK
+#define JOY_BTN_A_MASK  0x01
+#define JOY_BTN_B_MASK  0x02
+#define JOY_SELECT_MASK 0x04
+#define JOY_START_MASK  0x08
 
 #define JOY_UP(v)       ((v) & JOY_UP_MASK)
 #define JOY_DOWN(v)     ((v) & JOY_DOWN_MASK)
