@@ -96,12 +96,15 @@ uint8_t joy_read(uint8_t x){
 		DrawTextureRec(
 			nescii,
 			(Rectangle){
-				(float)(consoleBuffer[i]%16)*8,
-				(float)(consoleBuffer[i]>>4)*8,
+				(consoleBuffer[i]%16)*8,
+				(int)(consoleBuffer[i]/16)*8,
 				8,
 				8
 			},
-			(Vector2){(float)((i%CONSOLE_WIDTH)*8), (float)((i>>5)*8)},
+			(Vector2){
+				((i%CONSOLE_WIDTH)*8),
+				(int)((i/CONSOLE_WIDTH)*8)
+			},
 			LIGHTGRAY
 		);
 	}
