@@ -69,8 +69,8 @@ void init(){
 		VIRTUAL_SCREEN_HEIGHT
 	);
 	renderSourceRec = (Rectangle){
-		0.0f,
-		0.0f,
+		0,
+		0,
 		(float)renderTarget.texture.width,
 		-(float)renderTarget.texture.height
 	};
@@ -98,8 +98,8 @@ uint8_t joy_read(uint8_t x){
 			(Rectangle){
 				(float)(consoleBuffer[i]%16)*8,
 				(float)(consoleBuffer[i]>>4)*8,
-				8.0f,
-				8.0f
+				8,
+				8
 			},
 			(Vector2){(float)((i%CONSOLE_WIDTH)*8), (float)((i>>5)*8)},
 			LIGHTGRAY
