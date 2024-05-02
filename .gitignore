@@ -1,3 +1,7 @@
 main
+*.nes
 *.o
-main.nes
+*.da
+*.cdl
+*.nl
+screenshot*.png
