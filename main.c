@@ -380,10 +380,10 @@ void battle(){
 				);
 				j = waitForInput();
 				if(!(j&0xf0)) continue;
-				if(JOY_UP(j))         Player.pos[Y] = (Player.pos[Y]-1)%8;
-				else if(JOY_DOWN(j))  Player.pos[Y] = (Player.pos[Y]+1)%8;
-				else if(JOY_LEFT(j))  Player.pos[X] = (Player.pos[X]-1)%8;
-				else if(JOY_RIGHT(j)) Player.pos[X] = (Player.pos[X]+1)%8;
+				if(JOY_UP(j))         Player.pos[Y] = (Player.pos[Y]-1)&7;
+				else if(JOY_DOWN(j))  Player.pos[Y] = (Player.pos[Y]+1)&7;
+				else if(JOY_LEFT(j))  Player.pos[X] = (Player.pos[X]-1)&7;
+				else if(JOY_RIGHT(j)) Player.pos[X] = (Player.pos[X]+1)&7;
 				revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 				trigger();
 				return;
@@ -468,7 +468,7 @@ void useTorch(){
 		--Player.torches;
 		for(i=(Player.pos[X]+7); i<=(Player.pos[X]+9); ++i){
 			for(j=(Player.pos[Y]+7); j<=(Player.pos[Y]+9); ++j)
-				revealRoom(i%8, j%8, Player.pos[Z]);
+				revealRoom(i&7, j&7, Player.pos[Z]);
 		}
 	}
 }
@@ -478,7 +478,7 @@ void trigger(){
 	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 	switch(k){
 		case WARP:
-		for(i=0;i<3;++i) Player.pos[i] = rand()%8;
+		for(i=0;i<3;++i) Player.pos[i] = rand()&7;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 		message = WARP;
 		break;
@@ -510,11 +510,11 @@ void interact(){
 	message = k;
 	switch(k){
 		case UPSTAIRS:
-		Player.pos[Z] = (Player.pos[Z]+1)%8;
+		Player.pos[Z] = (Player.pos[Z]+1)&7;
 		break;
 
 		case DOWNSTAIRS:
-		Player.pos[Z] = (Player.pos[Z]-1)%8;
+		Player.pos[Z] = (Player.pos[Z]-1)&7;
 		break;
 
 		case TREASURE:
