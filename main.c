@@ -171,6 +171,15 @@ const char* const enemyNames[] = {
 	"DRAGON"
 };
 
+const char* const attrChangeDescriptions[] = {
+	"BETTER",
+	"SICK",
+	"NIMBLER",
+	"CLUMSIER",
+	"SMARTER",
+	"STUPIDER"
+};
+
 const char* const messageStrings[] = {
 	"",
 	"Lit up a torch.",
@@ -459,6 +468,53 @@ void battle(){
 	message = 0;
 }
 
+void drinkFountain(){
+	l = rand()%8;
+	cclearxy(1, 21, 30);
+	cclearxy(1, 23, 30);
+	cputsxy(1, 21, "Drank from the fountain.");
+	waitForInput();
+	if(l > 5){
+		Player.race = rand()%4;
+		cclearxy(1, 21, 30);
+		gotoxy(1, 21);
+		cprintf("You turned into a %s.", playerRaceNames[Player.race]);
+		message = 0;
+		waitForInput();
+		return;
+	} else switch(l){
+		case 0:
+		++Player.hp;
+		break;
+	
+		case 1:
+		--Player.hp;
+		break;
+	
+		case 2:
+		++Player.dex;
+		break;
+	
+		case 3:
+		--Player.dex;
+		break;
+			case 4:
+		++Player.spi;
+		break;
+	
+		case 5:
+		--Player.spi;
+		break;
+	}
+	updateStats();
+	cclearxy(1, 21, 30);
+	gotoxy(1, 21);
+	cprintf("You feel %s.", attrChangeDescriptions[l]);
+	message = 0;
+	waitForInput();
+	return;
+}
+
 // Light up rooms adjacent to the player
 void useTorch(){
 	if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == WARP)
@@ -528,6 +584,9 @@ void interact(){
 		message = 0;
 		waitForInput();
 		break;
+
+		case FOUNTAIN:
+		drinkFountain();
 	}
 }
 
