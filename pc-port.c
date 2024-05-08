@@ -52,13 +52,13 @@ void cputs(const char*);
 void cputsxy(uint8_t, uint8_t, const char*);
 void cprintf(const char*, ...);
 
-static RenderTexture2D renderTarget;
-static Rectangle       renderSourceRec;
-static Rectangle       renderDestRec;
-static Texture         nescii;
+RenderTexture2D renderTarget;
+Rectangle       renderSourceRec;
+Rectangle       renderDestRec;
+Texture         nescii;
 
-static uint8_t cursorX, cursorY;
-static uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
+uint8_t cursorX, cursorY;
+uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
 void init(){
 	clrscr();
