@@ -622,10 +622,20 @@ void charCreation(){
 			Player.gold = 0;
 			return;
 		}
-		if(JOY_UP(k))         Player.race = HUMAN;
-		else if(JOY_RIGHT(k)) Player.race = ELF;
-		else if(JOY_DOWN(k))  Player.race = DWARF;
-		else if(JOY_LEFT(k))  Player.race = GNOLL;
+		if(JOY_UP(k)) Player.race = HUMAN;
+		else if(JOY_RIGHT(k)){
+			Player.race = ELF;
+			Player.hp  -= 2;
+			Player.dex += 2;
+		} else if(JOY_DOWN(k)){
+			Player.race = DWARF;
+			Player.hp  += 2;
+			Player.dex -= 2;
+		} else if(JOY_LEFT(k)) {
+			Player.race = GNOLL;
+			Player.hp  -= 4;
+			Player.dex += 4;
+		}
 	} while(!(k&0xf0));
 	cclearxy(0, 27, 32);
 	drawWindow(0, 6, 31, 3);
