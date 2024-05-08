@@ -4,7 +4,7 @@
 all: main.nes main
 
 main.nes: main.c
-	cl65 -Oir -t nes main.c tileset.s -o $@
+	cl65 -Oi -t nes main.c tileset.s -o $@
 
 run: main.nes
 	fceux main.nes
