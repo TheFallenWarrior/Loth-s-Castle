@@ -614,8 +614,8 @@ void charCreation(){
 	do{
 		k = waitForInput();
 		if(JOY_SELECT(k)){ //Skip character creation
-			Player.race = rand()%4;
-			Player.gender = rand()%2;
+			Player.race = 3;
+			Player.gender = 1;
 			Player.dex += 8;
 			Player.arm  = CHAIN;
 			Player.weap = MACE;
