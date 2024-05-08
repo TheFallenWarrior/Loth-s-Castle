@@ -317,8 +317,8 @@ void battle(){
 		i = waitForInput();
 		if(!(i&0xf0)) continue;
 		if(JOY_UP(i)){
-			j = D4+Player.weap - Enemy.type;
-			j = (j>200 ? 0 : j);
+			l = D4+Player.weap;
+			j = (Enemy.type>l ? 0 : l-Enemy.type);
 			Enemy.hp = (j>Enemy.hp ? 0 : Enemy.hp-j);
 			clearScreenArea(21, 28);
 			drawWindow(0, 20, 31, 7);
@@ -428,8 +428,8 @@ void battle(){
 			enemyNames[Enemy.type]
 		);
 		waitForInput();
-		j = (D4+Enemy.type)/2 - Player.arm;
-		j = (j > 200 ? 0 : j);
+		l = (D4+Enemy.type)/2;
+		j = (Player.arm>l ? 0 : l-Player.arm);
 		Player.hp = (j>Player.hp ? 0 : Player.hp-j);
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
