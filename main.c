@@ -233,9 +233,6 @@ const uint8_t bitMaskTable[] = {
 	0x80,
 };
 
-// General purpose variables
-uint8_t i, j, k, l;
-
 uint8_t message;
 
 // Castle rooms 3D matrix
@@ -257,6 +254,14 @@ struct{
 	uint8_t type;
 	uint8_t hp;
 } Enemy;
+
+#ifdef __NES__
+	#pragma bss-name (push, "ZEROPAGE")
+	#pragma data-name (push, "ZEROPAGE")
+#endif
+
+// General purpose variables, put in zero-page for faster access
+uint8_t i, j, k, l;
 
 // Waits for controller input and then returns it
 uint8_t waitForInput(){
