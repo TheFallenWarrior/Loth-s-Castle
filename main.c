@@ -503,7 +503,8 @@ void drinkFountain(){
 		case 3:
 		--Player.dex;
 		break;
-			case 4:
+		
+		case 4:
 		++Player.spi;
 		break;
 	
@@ -632,11 +633,13 @@ void charCreation(){
 			Player.race = ELF;
 			Player.hp  -= 2;
 			Player.dex += 2;
-		} else if(JOY_DOWN(k)){
+		}
+		else if(JOY_DOWN(k)){
 			Player.race = DWARF;
 			Player.hp  += 2;
 			Player.dex -= 2;
-		} else if(JOY_LEFT(k)) {
+		}
+		else if(JOY_LEFT(k)) {
 			Player.race = GNOLL;
 			Player.hp  -= 4;
 			Player.dex += 4;
