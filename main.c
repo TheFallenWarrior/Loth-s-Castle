@@ -677,7 +677,7 @@ void charCreation(){
 			++Player.hp;
 			--j;
 		}
-		else if(JOY_RIGHT(k)){
+		else if(JOY_RIGHT(k) && Player.dex < 18){
 			++Player.dex;
 			--j;
 		}
