@@ -458,7 +458,7 @@ void battle(){
 	);
 	waitForInput();
 	cclearxy(1, 21, 30);
-	loot = rand()%1000;
+	loot = rand()%((1+Enemy.type)*175);
 	Player.gold += loot;
 	gotoxy(1, 20);
 	cprintf(
