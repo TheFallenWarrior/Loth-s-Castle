@@ -828,8 +828,8 @@ void gameLoop(){
 	else if(JOY_LEFT(k))  Player.pos[X] = (Player.pos[X]-1)&7;
 	else if(JOY_RIGHT(k)) Player.pos[X] = (Player.pos[X]+1)&7;
 	else if(JOY_BTN_A(k)){
-		if(message) message = 0;
-		else interact();
+		message = 0;
+		interact();
 	}
 	else if(JOY_BTN_B(k)) useTorch();
 }
