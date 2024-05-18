@@ -18,15 +18,6 @@
 #define D8         	(1+rand()%8)
 #define MIN(x, y)  	((x) > (y) ? (y) : (x))
 
-#define bRUBYRED    0x01    // Avoid Lethargy
-#define bNORNSTONE  0x02    // Nothing
-#define bPALEPEARL  0x04    // Avoid Leech
-#define bOPALEYE    0x08    // Cure Blindness
-#define bGREENGEM   0x10    // Avoid Forgetting
-#define bBLUEFLAME  0x20    // Nothing
-#define bPALINTIR   0x40    // Nothing
-#define bSYLMARYL   0x80    // Nothing
-
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
 uint8_t waitForInput();
 void clearScreenArea(uint8_t, uint8_t);
@@ -71,14 +62,25 @@ enum armorTypes{
 };
 
 enum treasureTypes{
-	nRUBYRED,
-	nNORNSTONE,
-	nPALEPEARL,
-	nOPALEYE,
-	nGREENGEM,
-	nBLUEFLAME,
-	nPALINTIR,
-	nSYLMARYL
+	RUBYRED,    // Avoid Lethargy
+	NORNSTONE,  // Nothing
+	PALEPEARL,  // Avoid Bleeding
+	OPALEYE,    // Cure Blindness
+	GREENGEM,   // Avoid Forgetting
+	BLUEFLAME,  // Nothing
+	PALINTIR,   // Nothing
+	SYLMARYL    // Nothing
+};
+
+enum treasureMasks{
+	RUBYRED_MASK    = 0x01,
+	NORNSTONE_MASK  = 0x02,
+	PALEPEARL_MASK  = 0x04,
+	OPALEYE_MASK    = 0x08,
+	GREENGEM_MASK   = 0x10,
+	BLUEFLAME_MASK  = 0x20,
+	PALINTIR_MASK   = 0x40,
+	SYLMARYL_MASK   = 0x80
 };
 
 enum statusAilments{
