@@ -27,11 +27,13 @@
 #define bPALINTIR   0x40    // Nothing
 #define bSYLMARYL   0x80    // Nothing
 
+void cprintfxy(uint8_t, uint8_t, const char*, ...);
 uint8_t waitForInput();
 void clearScreenArea(uint8_t, uint8_t);
 void drawWindow(uint8_t, uint8_t, uint8_t, uint8_t);
 void revealRoom(uint8_t, uint8_t, uint8_t);
 void battle();
+void drinkFountain();
 void useTorch();
 void trigger();
 void interact();

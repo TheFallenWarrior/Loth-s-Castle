@@ -50,6 +50,7 @@ void cputc(uint8_t);
 void cputcxy(uint8_t, uint8_t, uint8_t);
 void cputs(const char*);
 void cputsxy(uint8_t, uint8_t, const char*);
+void vcprintf(const char*, va_list);
 void cprintf(const char*, ...);
 
 RenderTexture2D renderTarget;
