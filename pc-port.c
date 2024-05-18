@@ -34,12 +34,12 @@
 #define CONSOLE_WIDTH   32
 #define CONSOLE_HEIGHT  28
 
-#define VIRTUAL_SCREEN_WIDTH  CONSOLE_WIDTH *8
-#define VIRTUAL_SCREEN_HEIGHT CONSOLE_HEIGHT*8
+#define VIRTUAL_SCREEN_WIDTH  (CONSOLE_WIDTH *8)
+#define VIRTUAL_SCREEN_HEIGHT (CONSOLE_HEIGHT*8)
 #define SCREEN_SCALE    2
 
-#define SCREEN_WIDTH    VIRTUAL_SCREEN_WIDTH *SCREEN_SCALE
-#define SCREEN_HEIGHT   VIRTUAL_SCREEN_HEIGHT*SCREEN_SCALE
+#define SCREEN_WIDTH    (VIRTUAL_SCREEN_WIDTH *SCREEN_SCALE)
+#define SCREEN_HEIGHT   (VIRTUAL_SCREEN_HEIGHT*SCREEN_SCALE)
 
 void init();
 uint8_t joy_read(uint8_t);
@@ -56,6 +56,8 @@ RenderTexture2D renderTarget;
 Rectangle       renderSourceRec;
 Rectangle       renderDestRec;
 Texture         nescii;
+
+uint16_t monitorWidth, monitorHeight;
 
 uint8_t cursorX, cursorY;
 uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
@@ -80,6 +82,8 @@ void init(){
 		SCREEN_WIDTH,
 		SCREEN_HEIGHT
 	};
+	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
+	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 	SetTargetFPS(60);
 }
 
@@ -88,7 +92,32 @@ void init(){
 uint8_t joy_read(uint8_t x){
 	uint8_t r = 0;
 
-	if(WindowShouldClose()) exit(0);
+	if(WindowShouldClose()){
+		if(IsWindowFullscreen()) ToggleFullscreen();
+		CloseWindow();
+		exit(0);
+	}
+	if(IsKeyPressed(KEY_F3)){
+		ToggleFullscreen();
+		if(!IsWindowFullscreen()){
+			renderDestRec = (Rectangle){
+				0,
+				0,
+				SCREEN_WIDTH,
+				SCREEN_HEIGHT
+			};
+			SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		} else{
+			int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
+			renderDestRec = (Rectangle){
+				0,
+				0,
+				VIRTUAL_SCREEN_WIDTH*x,
+				VIRTUAL_SCREEN_HEIGHT*x
+			};
+			SetWindowSize(monitorWidth,monitorHeight);
+		}
+	}
 
 	BeginTextureMode(renderTarget);
 	ClearBackground(BLACK);
@@ -111,11 +140,14 @@ uint8_t joy_read(uint8_t x){
 	EndTextureMode();
 
 	BeginDrawing();
-	ClearBackground(RED);
+	ClearBackground(BLACK);
 	DrawTexturePro(
 		renderTarget.texture,
 		renderSourceRec,
-		renderDestRec, (Vector2){0, 0},
+		renderDestRec, (Vector2){
+			(renderDestRec.width-GetRenderWidth())/2,
+			(renderDestRec.height-GetRenderHeight())/2
+		},
 		0,
 		WHITE
 	);
