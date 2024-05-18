@@ -10,6 +10,7 @@
 #else
 	#include "pc-port.c"
 #endif
+#include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -263,6 +264,17 @@ struct{
 // General purpose variables, put in zero-page for faster access
 uint8_t i, j, k, l;
 
+// Equivalent to gotoxy(x, y); cprintf(str, ...);
+void cprintfxy(uint8_t x, uint8_t y, const char *str, ...){
+	va_list args;
+	va_start(args, str);
+
+	gotoxy(x, y);
+	vcprintf(str, args);
+
+	va_end(args);
+}
+
 // Waits for controller input and then returns it
 uint8_t waitForInput(){
 	while(joy_read(JOY_1));
@@ -312,7 +324,8 @@ void battle(){
 	while(1){
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		cputsxy(1,20,
+		cputsxy(
+			1,20,
 			"COMMAND\r\n\16"
 			"Up:   FIGHT\r\n\16"
 			"Right:BRIBE\r\n\16"
@@ -327,8 +340,8 @@ void battle(){
 			Enemy.hp = (j>Enemy.hp ? 0 : Enemy.hp-j);
 			clearScreenArea(21, 28);
 			drawWindow(0, 20, 31, 7);
-			gotoxy(1, 20);
-			cprintf(
+			cprintfxy(
+				1, 20,
 				"%s"
 				"%s took %d damage.",
 				"MESSAGE\r\n\16",
@@ -340,7 +353,8 @@ void battle(){
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
 				gotoxy(1,20);
-				cprintf(
+				cprintfxy(
+					1, 20,
 					"%s"
 					"You have no money.",
 					"MESSAGE\r\n\16"
@@ -353,8 +367,8 @@ void battle(){
 			Player.gold -= loot;
 			clearScreenArea(21, 28);
 			drawWindow(0, 20, 31, 7);
-			gotoxy(1, 20);
-			cprintf(
+			cprintfxy(
+				1, 20,
 				"%s"
 				"Gave %d GP to %s.",
 				"MESSAGE\r\n\16",
@@ -364,8 +378,8 @@ void battle(){
 			waitForInput();
 			if(Player.spi+D4 > Enemy.type+D8){
 				cclearxy(1, 21, 30);
-				gotoxy(1, 21);
-				cprintf(
+				cprintfxy(
+					1, 21,
 					"%s became amicable.",
 					enemyNames[Enemy.type]
 				);
@@ -374,8 +388,8 @@ void battle(){
 				return;
 			} else{
 				cclearxy(1, 21, 30);
-				gotoxy(1, 21);
-				cprintf(
+				cprintfxy(
+					1, 21,
 					"%s wasn't convinced.",
 					enemyNames[Enemy.type]
 				);
@@ -385,8 +399,8 @@ void battle(){
 			if(Player.dex+D4 > Enemy.type+D8){
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				gotoxy(1, 20);
-				cprintf(
+				cprintfxy(
+					1, 20,
 					"%s"
 					"Run to where?\r\n\16"
 					"(Use your D-pad.)",
@@ -404,15 +418,14 @@ void battle(){
 			} else{
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				gotoxy(1, 20);
-				cprintf("%sFailed to run away.", "MESSAGE\r\n\16");
+				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\16");
 			}
 		}
 		else if(JOY_LEFT(i)){
 			clearScreenArea(21, 28);
 			drawWindow(0, 20, 31, 7);
-			gotoxy(1, 20);
-			cprintf(
+			cprintfxy(
+				1, 20,
 				"%s"
 				"You can't cast spells.",
 				"MESSAGE\r\n\16"
@@ -425,8 +438,8 @@ void battle(){
 		if(Player.dex > 2*Enemy.type + D4) continue;
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		gotoxy(1, 20);
-		cprintf(
+		cprintfxy(
+			1, 20,
 			"%s"
 			"%s attacks you!",
 			"MESSAGE\r\n\16",
@@ -438,8 +451,8 @@ void battle(){
 		Player.hp = (j>Player.hp ? 0 : Player.hp-j);
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		gotoxy(1, 20);
-		cprintf(
+		cprintfxy(
+			1, 20,
 			"%s"
 			"%s took %d damage.",
 			"MESSAGE\r\n\16", "You", j
@@ -449,8 +462,8 @@ void battle(){
 	}
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
-	gotoxy(1, 20);
-	cprintf(
+	cprintfxy(
+		1, 20,
 		"%s"
 		"You killed %s.",
 		"MESSAGE\r\n\16",
@@ -460,8 +473,8 @@ void battle(){
 	cclearxy(1, 21, 30);
 	loot = rand()%((1+Enemy.type)*175);
 	Player.gold += loot;
-	gotoxy(1, 20);
-	cprintf(
+	cprintfxy(
+		1, 20,
 		"%s"
 		"%s dropped %d GP.",
 		"MESSAGE\r\n\16",
@@ -482,8 +495,11 @@ void drinkFountain(){
 	if(l > 5){
 		Player.race = rand()%4;
 		cclearxy(1, 21, 30);
-		gotoxy(1, 21);
-		cprintf("You turned into a %s.", playerRaceNames[Player.race]);
+		cprintfxy(
+			1, 21,
+			"You turned into a %s.", 
+			playerRaceNames[Player.race]
+		);
 		message = 0;
 		waitForInput();
 		return;
@@ -514,8 +530,7 @@ void drinkFountain(){
 	}
 	updateStats();
 	cclearxy(1, 21, 30);
-	gotoxy(1, 21);
-	cprintf("You feel %s.", attrChangeDescriptions[l]);
+	cprintfxy(1, 21, "You feel %s.", attrChangeDescriptions[l]);
 	message = 0;
 	waitForInput();
 	return;
@@ -554,8 +569,8 @@ void trigger(){
 		Enemy.hp = D4 + Enemy.type;
 		cclearxy(1, 21, 30);
 		cclearxy(1, 23, 30);
-		gotoxy(1, 21);
-		cprintf(
+		cprintfxy(
+			1, 21,
 			"Encounter!\r\n\16"
 			"A lousy %s appeared!",
 			enemyNames[Enemy.type]
@@ -584,8 +599,7 @@ void interact(){
 		Player.treasures |= bitMaskTable[l];
 		cclearxy(1, 21, 30);
 		cclearxy(1, 23, 30);
-		gotoxy(1, 21);
-		cprintf("You have obtained %s.", treasureNames[l]);
+		cprintfxy(1, 21, "You have obtained %s.", treasureNames[l]);
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		message = 0;
 		waitForInput();
@@ -605,7 +619,8 @@ void charCreation(){
 
 	drawWindow(0, 0, 31, 5);
 	gotoxy(1, 0);
-	cprintf(
+	cprintfxy(
+		1, 0,
 		"SELECT YOUR RACE\r\n\16"
 		"Up:   %s\r\n\16"
 		"Right:%s\r\n\16"
@@ -647,8 +662,8 @@ void charCreation(){
 	} while(!(k&0xf0));
 	cclearxy(0, 27, 32);
 	drawWindow(0, 6, 31, 3);
-	gotoxy(1, 6);
-	cprintf(
+	cprintfxy(
+		1, 6,
 		"SELECT YOUR GENDER\r\n\16"
 		"Up:   %s\r\n\16"
 		"Down: %s",
@@ -663,8 +678,8 @@ void charCreation(){
 	while(j){
 		cclearxy(0, 10, 155);
 		drawWindow(0, 10, 31, 5);
-		gotoxy(1, 10);
-		cprintf(
+		cprintfxy(
+			1, 10,
 			"DISTRIBUTE YOUR STATS\r\n\16"
 			"Up:   Hit Points %d\r\n\16"
 			"Right:Dexterity  %d\r\n\16"
@@ -686,8 +701,8 @@ void charCreation(){
 			--j;
 		}
 	}
-	gotoxy(1, 10);
-	cprintf(
+	cprintfxy(
+		1, 10,
 		"DISTRIBUTE YOUR STATS\r\n\16"
 		"Up:   Hit Points %d\r\n\16"
 		"Right:Dexterity  %d\r\n\16"
@@ -696,8 +711,8 @@ void charCreation(){
 		Player.hp, Player.dex, Player.spi, j
 	);
 	drawWindow(0, 16, 15, 5);
-	gotoxy(1, 16);
-	cprintf(
+	cprintfxy(
+		1, 16,
 		"BUY ARMOR\r\n\16"
 		"Up:%s   (00)\r\n\16"
 		"Ri:%s(10)\r\n\16"
@@ -709,8 +724,7 @@ void charCreation(){
 		armorNames[PLATE]
 	);
 	drawWindow(0, 25, 31, 2);
-	gotoxy(1, 25);
-	cprintf("YOUR GOLD\r\n\16%d GP", Player.gold);
+	cprintfxy(1, 25, "YOUR GOLD\r\n\16%d GP", Player.gold);
 	do{
 		k = waitForInput();
 		if(JOY_RIGHT(k)){
@@ -728,12 +742,11 @@ void charCreation(){
 	} while(!(k&0xf0));
 	drawWindow(16, 16, 15, 5);
 	cputsxy(17, 16, "BUY WEAPONS");
-	cputsxy(17, 17, "Up:STICK  (00)");
-	cputsxy(17, 18, "Ri:DAGGER (10)");
-	cputsxy(17, 19, "Do:MACE   (30)");
-	cputsxy(17, 20, "Le:SWORD  (50)");
-	gotoxy(1, 26);
-	cprintf("%d GP", Player.gold);
+	cprintfxy(17, 17, "Up:%s  (00)", weaponNames[STICK]);
+	cprintfxy(17, 18, "Ri:%s (10)", weaponNames[DAGGER]);
+	cprintfxy(17, 19, "Do:%s   (30)", weaponNames[MACE]);
+	cprintfxy(17, 20, "Le:%s  (50)", weaponNames[SWORD]);
+	cprintfxy(1, 26, "%d GP", Player.gold);
 	do{
 		k = waitForInput();
 		if(JOY_RIGHT(k)){
@@ -767,8 +780,8 @@ void updateStats(){
 	clearScreenArea(0, 4);
 	drawWindow(0, 0, 31, 4);
 
-	gotoxy(1, 0);
-	cprintf(
+	cprintfxy(
+		1, 0,
 		"%s %s\r\n\16"
 		"Hits:%2d  Attr: %2d/%2d  GP:%u\r\n\16"
 		"AC:  %2d  Torch:%2d     XY:%1d%1d\r\n\16"

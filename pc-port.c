@@ -216,13 +216,18 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	for(;k;k--) cputc('\0');
 }
 
-void cprintf(const char *str, ...){
+void vcprintf(const char *str, va_list arg){
 	char tmp[CONSOLE_WIDTH*CONSOLE_HEIGHT];
+
+	vsprintf(tmp, str, arg);
+	cputs(tmp);
+}
+
+void cprintf(const char *str, ...){
 	va_list args;
 	va_start(args, str);
 
-	vsprintf(tmp, str, args);
-	cputs(tmp);
+	vcprintf(str, args);
 
 	va_end(args);
 }
