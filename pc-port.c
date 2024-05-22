@@ -220,7 +220,7 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 void vcprintf(const char *str, va_list arg){
 	char tmp[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
-	vsprintf(tmp, str, arg);
+	vsnprintf(tmp, CONSOLE_WIDTH*CONSOLE_HEIGHT, str, arg);
 	cputs(tmp);
 }
 
