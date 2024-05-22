@@ -288,9 +288,8 @@ uint8_t waitForInput(){
 
 // Clears screen from x to max_x
 void clearScreenArea(uint8_t x, uint8_t max_x){
-	for(i=x;i<max_x;++i){
-		cclearxy(0, i, 32);
-	}
+	if(x >= max_x) return;
+	cclearxy(0, x, (max_x-x)*32);
 }
 
 // Draws a rectangle border
