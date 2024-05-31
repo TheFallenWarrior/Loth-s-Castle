@@ -596,7 +596,12 @@ void trigger(){
 		case WARP:
 		for(i=0;i<3;++i) Player.pos[i] = rand()&7;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
+
 		message = WARP;
+		drawScreen();
+		waitForInput();
+		message = 0;
+		trigger();
 		break;
 
 
