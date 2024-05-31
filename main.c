@@ -1,5 +1,6 @@
 /*
 	Loth's Castle
+	Copyright 2024 TheFallenWarrior
 */
 
 #ifdef __NES__

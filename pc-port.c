@@ -1,4 +1,7 @@
 /*
+	Loth's Castle
+	Copyright 2024 TheFallenWarrior
+	
 	Dirty 'backend' that makes the LC's CC65 source code compatible with
 	Raylib. This does the bare minimum to to make the game work, and doesn't
 	actually reimplement conio.h or joystick.h behaviours.
