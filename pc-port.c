@@ -88,6 +88,30 @@ void init(){
 	SetTargetFPS(60);
 }
 
+// Not to be confused with Raylib's ToggleFullscreen funtion. This one takes
+// monitor/render context into account to force integer scaling.
+void toggleFullscreen(){
+	ToggleFullscreen();
+	if(!IsWindowFullscreen()){
+		renderDestRec = (Rectangle){
+			0,
+			0,
+			SCREEN_WIDTH,
+			SCREEN_HEIGHT
+		};
+		SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	} else{
+		int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
+		renderDestRec = (Rectangle){
+			0,
+			0,
+			VIRTUAL_SCREEN_WIDTH*x,
+			VIRTUAL_SCREEN_HEIGHT*x
+		};
+		SetWindowSize(monitorWidth,monitorHeight);
+	}
+}
+
 // I assume that this function will always be looping inside waitForInput(),
 // so I use it to draw the screen as well.
 uint8_t joy_read(uint8_t r){
@@ -99,25 +123,7 @@ uint8_t joy_read(uint8_t r){
 		exit(0);
 	}
 	if(IsKeyPressed(KEY_F3)){
-		ToggleFullscreen();
-		if(!IsWindowFullscreen()){
-			renderDestRec = (Rectangle){
-				0,
-				0,
-				SCREEN_WIDTH,
-				SCREEN_HEIGHT
-			};
-			SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		} else{
-			int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
-			renderDestRec = (Rectangle){
-				0,
-				0,
-				VIRTUAL_SCREEN_WIDTH*x,
-				VIRTUAL_SCREEN_HEIGHT*x
-			};
-			SetWindowSize(monitorWidth,monitorHeight);
-		}
+		toggleFullscreen();
 	}
 
 	BeginTextureMode(renderTarget);
