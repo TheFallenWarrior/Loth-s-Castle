@@ -386,7 +386,6 @@ void battle(){
 			if(!Player.gold){
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				gotoxy(1,20);
 				cprintfxy(
 					1, 20,
 					"%s"
@@ -664,7 +663,6 @@ void charCreation(){
 	Player.gold = 60;
 
 	drawWindow(0, 0, 31, 5);
-	gotoxy(1, 0);
 	cprintfxy(
 		1, 0,
 		"SELECT YOUR RACE\r\n\16"
