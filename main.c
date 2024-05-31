@@ -118,6 +118,13 @@ enum enemyTypes{
 	DRAGON
 };
 
+enum buttons{
+	A,
+	B,
+	SELECT,
+	START
+};
+
 const char* const playerRaceNames[] = {
 	"HUMAN",
 	"ELF",
@@ -211,6 +218,22 @@ const char* const roomDescriptions[] = {
 	"a vendor",
 	"the Orb of Power"
 };
+
+#ifdef __NES__
+	const char* const buttonNames[] = {
+		"A",
+		"B",
+		"SELECT",
+		"START"
+	};
+#else
+	const char* const buttonNames[] = {
+		"C",
+		"X",
+		"SPACE",
+		"RETURN"
+	};
+#endif
 
 const uint8_t mapIcons[] = {
 	'?',
@@ -648,7 +671,11 @@ void charCreation(){
 		playerRaceNames[DWARF],
 		playerRaceNames[GNOLL]
 	);
-	cputsxy(0, 27, "Press SELECT to skip creation.");
+	cprintfxy(
+		0, 27,
+		"Press %s to skip creation.",
+		buttonNames[SELECT]
+	);
 	do{
 		k = waitForInput();
 		if(JOY_SELECT(k)){ //Skip character creation
@@ -826,8 +853,13 @@ void drawScreen(){
 		k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 		if(!(k & 0x80)){
 			cprintf("You see %s.", roomDescriptions[k-1]);
-			if(k > EMPTY)
-				cputsxy(1, 23, "Press A to interact.");
+			if(k > EMPTY){
+				cprintfxy(
+					1, 23,
+					"Press %s to interact.",
+					buttonNames[A]
+				);
+			}
 		}
 	}
 
@@ -869,7 +901,7 @@ int main(){
 
 	// Title Screen
 	clrscr();
-	cputs("\nLOTH'S CASTLE\r\n\n\nPRESS START");
+	cprintf("\nLOTH'S CASTLE\r\n\n\nPRESS %s", buttonNames[START]);
 	while(!JOY_START(joy_read(JOY_1))) ++j;
 	srand(j);
 
