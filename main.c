@@ -178,7 +178,7 @@ const char* const enemyNames[] = {
 
 const char* const attrChangeDescriptions[] = {
 	"BETTER",
-	"SICK",
+	"FLIMSIER",
 	"NIMBLER",
 	"CLUMSIER",
 	"SMARTER",
@@ -196,7 +196,7 @@ const char* const messageStrings[] = {
 	"",
 	"You've been teleported.",
 	"",
-	"You have the Orb of Yendor."
+	"You have the Orb of Power."
 };
 
 const char* const roomDescriptions[] = {
@@ -209,7 +209,7 @@ const char* const roomDescriptions[] = {
 	"a treasure item",
 	"",
 	"a vendor",
-	"the Orb of Yendor"
+	"the Orb of Power"
 };
 
 const uint8_t mapIcons[] = {
@@ -346,8 +346,15 @@ void battle(){
 			cprintfxy(
 				1, 20,
 				"%s"
-				"%s took %d damage.",
+				"You attack %s!",
 				"MESSAGE\r\n\16",
+				enemyNames[Enemy.type]
+			);
+			waitForInput();
+			cclearxy(1, 21, 30);
+			cprintfxy(
+				1, 21,
+				"%s took %d damage.",
 				enemyNames[Enemy.type], j
 			);
 		}
@@ -383,7 +390,8 @@ void battle(){
 				cclearxy(1, 21, 30);
 				cprintfxy(
 					1, 21,
-					"%s became amicable.",
+					"%s says:\r\n\16"
+					"`Ok, just don't tell anyone.'",
 					enemyNames[Enemy.type]
 				);
 				waitForInput();
@@ -393,7 +401,8 @@ void battle(){
 				cclearxy(1, 21, 30);
 				cprintfxy(
 					1, 21,
-					"%s wasn't convinced.",
+					"%s says:\r\n\16"
+					"`All I want is your life!'",
 					enemyNames[Enemy.type]
 				);
 			}
@@ -438,7 +447,6 @@ void battle(){
 		}
 		waitForInput();
 		if(!Enemy.hp) break;
-		if(Player.dex > 2*Enemy.type + D4) continue;
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cprintfxy(
@@ -449,6 +457,11 @@ void battle(){
 			enemyNames[Enemy.type]
 		);
 		waitForInput();
+		if(Player.dex > 2*Enemy.type + D4){
+			cputsxy(1, 21, "But you swiftly evade the\r\n\16blow.");
+			waitForInput();
+			continue;
+		}
 		l = (D4+Enemy.type)/2;
 		j = (Player.arm>l ? 0 : l-Player.arm);
 		Player.hp = (j>Player.hp ? 0 : Player.hp-j);
@@ -574,8 +587,9 @@ void trigger(){
 		cclearxy(1, 23, 30);
 		cprintfxy(
 			1, 21,
-			"Encounter!\r\n\16"
-			"A lousy %s appeared!",
+			"Encounter!\r\n\n\16"
+			"You are facing a lousy\r\n\16"
+			"%s!",
 			enemyNames[Enemy.type]
 		);
 		waitForInput();
