@@ -90,8 +90,8 @@ void init(){
 
 // I assume that this function will always be looping inside waitForInput(),
 // so I use it to draw the screen as well.
-uint8_t joy_read(uint8_t x){
-	uint8_t r = 0;
+uint8_t joy_read(uint8_t r){
+	r = 0;
 
 	if(WindowShouldClose()){
 		if(IsWindowFullscreen()) ToggleFullscreen();
@@ -132,8 +132,8 @@ uint8_t joy_read(uint8_t x){
 				8
 			},
 			(Vector2){
-				((i%CONSOLE_WIDTH)*8),
-				(int)((i/CONSOLE_WIDTH)*8)
+				(i%CONSOLE_WIDTH)*8,
+				(int)(i/CONSOLE_WIDTH)*8
 			},
 			LIGHTGRAY
 		);
@@ -145,7 +145,8 @@ uint8_t joy_read(uint8_t x){
 	DrawTexturePro(
 		renderTarget.texture,
 		renderSourceRec,
-		renderDestRec, (Vector2){
+		renderDestRec,
+			(Vector2){
 			(renderDestRec.width-GetRenderWidth())/2,
 			(renderDestRec.height-GetRenderHeight())/2
 		},
