@@ -53,8 +53,12 @@ void cputc(uint8_t);
 void cputcxy(uint8_t, uint8_t, uint8_t);
 void cputs(const char*);
 void cputsxy(uint8_t, uint8_t, const char*);
+void cclearxy(uint8_t, uint8_t, uint8_t);
+void chlinexy(uint8_t, uint8_t, uint8_t);
+void cvlinexy(uint8_t, uint8_t, uint8_t);
 void vcprintf(const char*, va_list);
 void cprintf(const char*, ...);
+void revers(uint8_t);
 
 RenderTexture2D renderTarget;
 Rectangle       renderSourceRec;
