@@ -370,7 +370,7 @@ void battle(){
 			cprintfxy(
 				1, 20,
 				"%s"
-				"You attack %s!",
+				"You attack the %s!",
 				"MESSAGE\r\n\x0e",
 				enemyNames[Enemy.type]
 			);
@@ -481,7 +481,11 @@ void battle(){
 		);
 		waitForInput();
 		if(Player.dex > 2*Enemy.type + D4){
-			cputsxy(1, 21, "But you swiftly evade the\r\n\x0eblow.");
+			cputsxy(
+				1, 21,
+				"But you swiftly evade the\r\n\x0e"
+				"blow."
+			);
 			waitForInput();
 			continue;
 		}
