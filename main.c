@@ -886,16 +886,13 @@ void gameLoop(){
 
 	drawScreen();
 
+	message = 0;
 	k = waitForInput();
-	if(k&0xf0) message = 0;
 	if(JOY_UP(k))         Player.pos[Y] = (Player.pos[Y]-1)&7;
 	else if(JOY_DOWN(k))  Player.pos[Y] = (Player.pos[Y]+1)&7;
 	else if(JOY_LEFT(k))  Player.pos[X] = (Player.pos[X]-1)&7;
 	else if(JOY_RIGHT(k)) Player.pos[X] = (Player.pos[X]+1)&7;
-	else if(JOY_BTN_A(k)){
-		message = 0;
-		interact();
-	}
+	else if(JOY_BTN_A(k)) interact();
 	else if(JOY_BTN_B(k)) useTorch();
 }
 
