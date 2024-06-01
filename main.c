@@ -319,18 +319,18 @@ void clearScreenArea(uint8_t x, uint8_t max_x){
 // Draws a rectangle border
 void drawWindow(uint8_t x, uint8_t y, uint8_t width, uint8_t height){
 	if(!width || !height) return;
-	cputcxy(x, y, '\24');
-	cputcxy(x+width, y, '\22');
-	cputcxy(x, y+height, '\21');
-	cputcxy(x+width, y+height, '\10');
+	cputcxy(x, y, '\x14');
+	cputcxy(x+width, y, '\x12');
+	cputcxy(x, y+height, '\x11');
+	cputcxy(x+width, y+height, '\x08');
 
 	for(i=x+1;i<x+width;++i){
-		cputcxy(i, y, '\13');
-		cputcxy(i, y+height, '\13');
+		cputcxy(i, y, '\x0b');
+		cputcxy(i, y+height, '\x0b');
 	}
 	for(i=y+1;i<y+height;++i){
-		cputcxy(x, i, '\16');
-		cputcxy(x+width, i, '\16');
+		cputcxy(x, i, '\x0e');
+		cputcxy(x+width, i, '\x0e');
 	}
 }
 
@@ -353,10 +353,10 @@ void battle(){
 		drawWindow(0, 20, 31, 7);
 		cputsxy(
 			1,20,
-			"COMMAND\r\n\16"
-			"Up:   FIGHT\r\n\16"
-			"Right:BRIBE\r\n\16"
-			"Down: RUN\r\n\16"
+			"COMMAND\r\n\x0e"
+			"Up:   FIGHT\r\n\x0e"
+			"Right:BRIBE\r\n\x0e"
+			"Down: RUN\r\n\x0e"
 			"Left: CAST"
 		);
 		i = waitForInput();
@@ -371,7 +371,7 @@ void battle(){
 				1, 20,
 				"%s"
 				"You attack %s!",
-				"MESSAGE\r\n\16",
+				"MESSAGE\r\n\x0e",
 				enemyNames[Enemy.type]
 			);
 			waitForInput();
@@ -390,7 +390,7 @@ void battle(){
 					1, 20,
 					"%s"
 					"You have no money.",
-					"MESSAGE\r\n\16"
+					"MESSAGE\r\n\x0e"
 				);
 				waitForInput();
 				continue;
@@ -404,7 +404,7 @@ void battle(){
 				1, 20,
 				"%s"
 				"Gave %d GP to %s.",
-				"MESSAGE\r\n\16",
+				"MESSAGE\r\n\x0e",
 				loot, enemyNames[Enemy.type]
 			);
 			updateStats();
@@ -413,7 +413,7 @@ void battle(){
 				cclearxy(1, 21, 30);
 				cprintfxy(
 					1, 21,
-					"%s says:\r\n\16"
+					"%s says:\r\n\x0e"
 					"`Ok, just don't tell anyone.'",
 					enemyNames[Enemy.type]
 				);
@@ -424,7 +424,7 @@ void battle(){
 				cclearxy(1, 21, 30);
 				cprintfxy(
 					1, 21,
-					"%s says:\r\n\16"
+					"%s says:\r\n\x0e"
 					"`All I want is your life!'",
 					enemyNames[Enemy.type]
 				);
@@ -437,9 +437,9 @@ void battle(){
 				cprintfxy(
 					1, 20,
 					"%s"
-					"Run to where?\r\n\16"
+					"Run to where?\r\n\x0e"
 					"(Use your D-pad.)",
-					"MESSAGE\r\n\16"
+					"MESSAGE\r\n\x0e"
 				);
 				j = waitForInput();
 				if(!(j&0xf0)) continue;
@@ -453,7 +453,7 @@ void battle(){
 			} else{
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\16");
+				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\x0e");
 			}
 		}
 		else if(JOY_LEFT(i)){
@@ -463,7 +463,7 @@ void battle(){
 				1, 20,
 				"%s"
 				"You can't cast spells.",
-				"MESSAGE\r\n\16"
+				"MESSAGE\r\n\x0e"
 			);
 			waitForInput();
 			continue;
@@ -476,12 +476,12 @@ void battle(){
 			1, 20,
 			"%s"
 			"%s attacks you!",
-			"MESSAGE\r\n\16",
+			"MESSAGE\r\n\x0e",
 			enemyNames[Enemy.type]
 		);
 		waitForInput();
 		if(Player.dex > 2*Enemy.type + D4){
-			cputsxy(1, 21, "But you swiftly evade the\r\n\16blow.");
+			cputsxy(1, 21, "But you swiftly evade the\r\n\x0eblow.");
 			waitForInput();
 			continue;
 		}
@@ -494,7 +494,7 @@ void battle(){
 			1, 20,
 			"%s"
 			"%s took %d damage.",
-			"MESSAGE\r\n\16", "You", j
+			"MESSAGE\r\n\x0e", "You", j
 		);
 		updateStats();
 		waitForInput();
@@ -505,7 +505,7 @@ void battle(){
 		1, 20,
 		"%s"
 		"You killed %s.",
-		"MESSAGE\r\n\16",
+		"MESSAGE\r\n\x0e",
 		enemyNames[Enemy.type]
 	);
 	waitForInput();
@@ -516,7 +516,7 @@ void battle(){
 		1, 20,
 		"%s"
 		"%s dropped %d GP.",
-		"MESSAGE\r\n\16",
+		"MESSAGE\r\n\x0e",
 		enemyNames[Enemy.type], loot
 	);
 	updateStats();
@@ -615,8 +615,8 @@ void trigger(){
 		cclearxy(1, 23, 30);
 		cprintfxy(
 			1, 21,
-			"Encounter!\r\n\n\16"
-			"You are facing a lousy\r\n\16"
+			"Encounter!\r\n\n\x0e"
+			"You are facing a lousy\r\n\x0e"
 			"%s!",
 			enemyNames[Enemy.type]
 		);
@@ -665,10 +665,10 @@ void charCreation(){
 	drawWindow(0, 0, 31, 5);
 	cprintfxy(
 		1, 0,
-		"SELECT YOUR RACE\r\n\16"
-		"Up:   %s\r\n\16"
-		"Right:%s\r\n\16"
-		"Down: %s\r\n\16"
+		"SELECT YOUR RACE\r\n\x0e"
+		"Up:   %s\r\n\x0e"
+		"Right:%s\r\n\x0e"
+		"Down: %s\r\n\x0e"
 		"Left: %s",
 		playerRaceNames[HUMAN],
 		playerRaceNames[ELF],
@@ -712,8 +712,8 @@ void charCreation(){
 	drawWindow(0, 6, 31, 3);
 	cprintfxy(
 		1, 6,
-		"SELECT YOUR GENDER\r\n\16"
-		"Up:   %s\r\n\16"
+		"SELECT YOUR GENDER\r\n\x0e"
+		"Up:   %s\r\n\x0e"
 		"Down: %s",
 		genderNames[0],
 		genderNames[1]
@@ -728,10 +728,10 @@ void charCreation(){
 		drawWindow(0, 10, 31, 5);
 		cprintfxy(
 			1, 10,
-			"DISTRIBUTE YOUR STATS\r\n\16"
-			"Up:   Hit Points %d\r\n\16"
-			"Right:Dexterity  %d\r\n\16"
-			"Down: Spirit     %d\r\n\16"
+			"DISTRIBUTE YOUR STATS\r\n\x0e"
+			"Up:   Hit Points %d\r\n\x0e"
+			"Right:Dexterity  %d\r\n\x0e"
+			"Down: Spirit     %d\r\n\x0e"
 			"Points: %d",
 			Player.hp, Player.dex, Player.spi, j
 		);
@@ -751,20 +751,20 @@ void charCreation(){
 	}
 	cprintfxy(
 		1, 10,
-		"DISTRIBUTE YOUR STATS\r\n\16"
-		"Up:   Hit Points %d\r\n\16"
-		"Right:Dexterity  %d\r\n\16"
-		"Down: Spirit     %d\r\n\16"
+		"DISTRIBUTE YOUR STATS\r\n\x0e"
+		"Up:   Hit Points %d\r\n\x0e"
+		"Right:Dexterity  %d\r\n\x0e"
+		"Down: Spirit     %d\r\n\x0e"
 		"Points: %d",
 		Player.hp, Player.dex, Player.spi, j
 	);
 	drawWindow(0, 16, 15, 5);
 	cprintfxy(
 		1, 16,
-		"BUY ARMOR\r\n\16"
-		"Up:%s   (00)\r\n\16"
-		"Ri:%s(10)\r\n\16"
-		"Do:%s  (30)\r\n\16"
+		"BUY ARMOR\r\n\x0e"
+		"Up:%s   (00)\r\n\x0e"
+		"Ri:%s(10)\r\n\x0e"
+		"Do:%s  (30)\r\n\x0e"
 		"Le:%s  (50)",
 		armorNames[RAGS],
 		armorNames[LEATHER],
@@ -772,7 +772,7 @@ void charCreation(){
 		armorNames[PLATE]
 	);
 	drawWindow(0, 25, 31, 2);
-	cprintfxy(1, 25, "YOUR GOLD\r\n\16%d GP", Player.gold);
+	cprintfxy(1, 25, "YOUR GOLD\r\n\x0e%d GP", Player.gold);
 	do{
 		k = waitForInput();
 		if(JOY_RIGHT(k)){
@@ -830,9 +830,9 @@ void updateStats(){
 
 	cprintfxy(
 		1, 0,
-		"%s %s\r\n\16"
-		"Hits:%2d  Attr: %2d/%2d  GP:%u\r\n\16"
-		"AC:  %2d  Torch:%2d     XY:%1d%1d\r\n\16"
+		"%s %s\r\n\x0e"
+		"Hits:%2d  Attr: %2d/%2d  GP:%u\r\n\x0e"
+		"AC:  %2d  Torch:%2d     XY:%1d%1d\r\n\x0e"
 		"Weapon:%6s         Lv:%1d",
 		(Player.status ? statusNames[Player.status] : genderNames[Player.gender]),
 		playerRaceNames[Player.race],
@@ -849,7 +849,7 @@ void drawScreen(){
 
 	// Draw message window
 	drawWindow(0, 20, 31, 7);
-	cputsxy(1, 20, "MESSAGE\r\n\16");
+	cputsxy(1, 20, "MESSAGE\r\n\x0e");
 
 	if(message){
 		cputs(messageStrings[message]);
@@ -871,7 +871,7 @@ void drawScreen(){
 	gotoxy(0, 5);
 	for(i=0;i<8;++i){
 		for(j=0;j<8;++j){
-			if(Player.pos[X] == j && Player.pos[Y] == i) cputs("[\300] ");
+			if(Player.pos[X] == j && Player.pos[Y] == i) cputs("[\xc0] ");
 			else if(rooms[Player.pos[Z]][i][j] & 0x80)
 				cprintf("[%c] ", mapIcons[MONSTER]);
 			else cprintf("[%c] ", mapIcons[rooms[Player.pos[Z]][i][j]]);
