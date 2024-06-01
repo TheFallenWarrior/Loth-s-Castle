@@ -241,10 +241,8 @@ void chlinexy(uint8_t x, uint8_t y,uint8_t k){
 
 void cvlinexy(uint8_t x, uint8_t y,uint8_t k){
 	gotoxy(x, y);
-	for(;k;k--){
-		cputc('\x0e');
-		cursorX--;
-		cursorY++;
+	for(int i=0;i<k;i++){
+		cputcxy(x, y+i,'\x0e');
 	}
 }
 
