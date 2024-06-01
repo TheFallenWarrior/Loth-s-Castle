@@ -870,13 +870,24 @@ void drawScreen(){
 	gotoxy(0, 5);
 	for(i=0;i<8;++i){
 		for(j=0;j<8;++j){
-			if(Player.pos[X] == j && Player.pos[Y] == i) cputs("[\xc0] ");
-			else if(rooms[Player.pos[Z]][i][j] & 0x80)
-				cprintf("[%c] ", mapIcons[MONSTER]);
-			else cprintf("[%c] ", mapIcons[rooms[Player.pos[Z]][i][j]]);
+			l = rooms[Player.pos[Z]][i][j];
+			k = mapIcons[l];
+			if(j == Player.pos[X] && i == Player.pos[Y]){
+				revers(1);
+				if(l == EMPTY){
+					k = '@';
+				}
+			}
+			if(l & 0x80) k = mapIcons[MONSTER];
+			cprintf("[%c]", k);
+			revers(0);
+			cputc(' ');
 		}
 		cputc('\n');
 	}
+
+	// This shouldn't be here.
+	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 }
 
 void gameLoop(){
