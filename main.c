@@ -324,14 +324,10 @@ void drawWindow(uint8_t x, uint8_t y, uint8_t width, uint8_t height){
 	cputcxy(x, y+height, '\x11');
 	cputcxy(x+width, y+height, '\x08');
 
-	for(i=x+1;i<x+width;++i){
-		cputcxy(i, y, '\x0b');
-		cputcxy(i, y+height, '\x0b');
-	}
-	for(i=y+1;i<y+height;++i){
-		cputcxy(x, i, '\x0e');
-		cputcxy(x+width, i, '\x0e');
-	}
+	chlinexy(x+1, y, width-1);
+	chlinexy(x+1, y+height, width-1);
+	cvlinexy(x, y+1, height-1);
+	cvlinexy(x+width, y+1, height-1);
 }
 
 void revealRoom(uint8_t x, uint8_t y, uint8_t z){
