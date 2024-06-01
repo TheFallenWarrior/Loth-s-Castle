@@ -596,8 +596,7 @@ void useTorch(){
 // An event that happens automatically
 void trigger(){
 	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
-	switch(k){
-		case WARP:
+	if(k == WARP){
 		for(i=0;i<3;++i) Player.pos[i] = rand()&7;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 
@@ -606,12 +605,8 @@ void trigger(){
 		waitForInput();
 		message = 0;
 		trigger();
-		break;
-
-
 	}
-	// case MONSTER:
-	if(k & 0x80){
+	else if(k & 0x80){
 		drawScreen();
 		Enemy.type = k & 0x7f;
 		Enemy.hp = D4 + Enemy.type;
