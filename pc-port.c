@@ -64,6 +64,7 @@ Texture         nescii;
 uint16_t monitorWidth, monitorHeight;
 
 uint8_t cursorX, cursorY;
+uint8_t reversedText;
 uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
 void init(){
@@ -88,6 +89,7 @@ void init(){
 	};
 	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
 	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
+	reversedText = 0;
 	SetTargetFPS(60);
 }
 
@@ -202,6 +204,7 @@ void cputc(uint8_t c){
 	if(c == '\r') cursorX = 0;
 	else if(c == '\n') cursorY++;
 	else{
+		if(reversedText) c ^= 0x80;
 		consoleBuffer[cursorX + cursorY*CONSOLE_WIDTH] = c;
 		cursorX++;
 	}
@@ -227,6 +230,20 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	for(;k;k--) cputc('\x00');
 }
 
+void chlinexy(uint8_t x, uint8_t y,uint8_t k){
+	gotoxy(x, y);
+	for(;k;k--) cputc('\x0b');
+}
+
+void cvlinexy(uint8_t x, uint8_t y,uint8_t k){
+	gotoxy(x, y);
+	for(;k;k--){
+		cputc('\x0e');
+		cursorX--;
+		cursorY++;
+	}
+}
+
 void vcprintf(const char *str, va_list arg){
 	char tmp[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
@@ -241,4 +258,8 @@ void cprintf(const char *str, ...){
 	vcprintf(str, args);
 
 	va_end(args);
+}
+
+void revers(uint8_t r){
+	reversedText = !!r;
 }
