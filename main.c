@@ -24,6 +24,9 @@ uint8_t waitForInput();
 void clearScreenArea(uint8_t, uint8_t);
 void drawWindow(uint8_t, uint8_t, uint8_t, uint8_t);
 void revealRoom(uint8_t, uint8_t, uint8_t);
+void playerAttack();
+uint8_t playerBribe();
+void enemyAttack();
 void battle();
 void drinkFountain();
 void useTorch();
@@ -291,6 +294,7 @@ struct{
 
 // General purpose variables, put in zero-page for faster access
 uint8_t i, j, k, l;
+uint16_t i16;
 
 // Equivalent to gotoxy(x, y); cprintf(str, ...);
 void cprintfxy(uint8_t x, uint8_t y, const char *str, ...){
@@ -342,8 +346,102 @@ void revealRoom(uint8_t x, uint8_t y, uint8_t z){
 	cclearxy(1, 22, 30);
 }
 
+void playerAttack(){
+	l = D4+Player.weap;
+	j = (Enemy.type>l ? 0 : l-Enemy.type);
+	Enemy.hp = (j>Enemy.hp ? 0 : Enemy.hp-j);
+	clearScreenArea(21, 28);
+	drawWindow(0, 20, 31, 7);
+	cprintfxy(
+		1, 20,
+		"%s"
+		"You attack the %s!",
+		"MESSAGE\r\n\x0e\n",
+		enemyNames[Enemy.type]
+	);
+	waitForInput();
+	cclearxy(1, 22, 30);
+	cprintfxy(
+		1, 22,
+		"%s took %d damage.",
+		enemyNames[Enemy.type], j
+	);
+}
+
+uint8_t playerBribe(){
+	i16 = rand()%1000;
+	i16 = MIN(i16, Player.gold);
+	Player.gold -= i16;
+	clearScreenArea(21, 28);
+	drawWindow(0, 20, 31, 7);
+	cprintfxy(
+		1, 20,
+		"%s"
+		"Gave %d GP to %s.",
+		"MESSAGE\r\n\x0e\n",
+		i16, enemyNames[Enemy.type]
+	);
+	updateStats();
+	waitForInput();
+	if(Player.spi+D4 > Enemy.type+D8){
+		cclearxy(1, 22, 30);
+		cprintfxy(
+			1, 22,
+			"%s says:\r\n\x0e"
+			"`Ok, just don't tell anyone.'",
+			enemyNames[Enemy.type]
+		);
+		waitForInput();
+		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
+		return 1;
+	} else{
+		cclearxy(1, 22, 30);
+		cprintfxy(
+			1, 22,
+			"%s says:\r\n\x0e"
+			"`All I want is your life!'",
+			enemyNames[Enemy.type]
+		);
+		return 0;
+	}
+}
+
+void enemyAttack(){
+	clearScreenArea(21, 28);
+	drawWindow(0, 20, 31, 7);
+	cprintfxy(
+		1, 20,
+		"%s"
+		"%s attacks you!",
+		"MESSAGE\r\n\x0e\n",
+		enemyNames[Enemy.type]
+	);
+	waitForInput();
+	if(Player.dex > 2*Enemy.type + D4){
+		cputsxy(
+			1, 22,
+			"But you swiftly evade the\r\n\x0e"
+			"blow."
+		);
+		waitForInput();
+		return;
+	}
+	l = (D4+Enemy.type)/2;
+	j = (Player.arm>l ? 0 : l-Player.arm);
+	Player.hp = (j>Player.hp ? 0 : Player.hp-j);
+	clearScreenArea(21, 28);
+	drawWindow(0, 20, 31, 7);
+	cprintfxy(
+		1, 20,
+		"%s"
+		"%s took %d damage.",
+		"MESSAGE\r\n\x0e\n", "You", j
+	);
+	updateStats();
+	waitForInput();
+}
+
 void battle(){
-	static uint16_t loot;
 	while(1){
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
@@ -358,25 +456,7 @@ void battle(){
 		i = waitForInput();
 		if(!(i&0xf0)) continue;
 		if(JOY_UP(i)){
-			l = D4+Player.weap;
-			j = (Enemy.type>l ? 0 : l-Enemy.type);
-			Enemy.hp = (j>Enemy.hp ? 0 : Enemy.hp-j);
-			clearScreenArea(21, 28);
-			drawWindow(0, 20, 31, 7);
-			cprintfxy(
-				1, 20,
-				"%s"
-				"You attack the %s!",
-				"MESSAGE\r\n\x0e\n",
-				enemyNames[Enemy.type]
-			);
-			waitForInput();
-			cclearxy(1, 22, 30);
-			cprintfxy(
-				1, 22,
-				"%s took %d damage.",
-				enemyNames[Enemy.type], j
-			);
+			playerAttack();
 		}
 		else if(JOY_RIGHT(i)){
 			if(!Player.gold){
@@ -391,40 +471,8 @@ void battle(){
 				waitForInput();
 				continue;
 			}
-			loot = rand()%1000;
-			loot = MIN(loot, Player.gold);
-			Player.gold -= loot;
-			clearScreenArea(21, 28);
-			drawWindow(0, 20, 31, 7);
-			cprintfxy(
-				1, 20,
-				"%s"
-				"Gave %d GP to %s.",
-				"MESSAGE\r\n\x0e\n",
-				loot, enemyNames[Enemy.type]
-			);
-			updateStats();
-			waitForInput();
-			if(Player.spi+D4 > Enemy.type+D8){
-				cclearxy(1, 22, 30);
-				cprintfxy(
-					1, 22,
-					"%s says:\r\n\x0e"
-					"`Ok, just don't tell anyone.'",
-					enemyNames[Enemy.type]
-				);
-				waitForInput();
-				rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
-				return;
-			} else{
-				cclearxy(1, 22, 30);
-				cprintfxy(
-					1, 22,
-					"%s says:\r\n\x0e"
-					"`All I want is your life!'",
-					enemyNames[Enemy.type]
-				);
-			}
+			if(playerBribe()) return;
+			
 		}
 		else if(JOY_DOWN(i)){
 			if(Player.dex+D4 > Enemy.type+D8){
@@ -466,38 +514,9 @@ void battle(){
 		}
 		waitForInput();
 		if(!Enemy.hp) break;
-		clearScreenArea(21, 28);
-		drawWindow(0, 20, 31, 7);
-		cprintfxy(
-			1, 20,
-			"%s"
-			"%s attacks you!",
-			"MESSAGE\r\n\x0e\n",
-			enemyNames[Enemy.type]
-		);
-		waitForInput();
-		if(Player.dex > 2*Enemy.type + D4){
-			cputsxy(
-				1, 22,
-				"But you swiftly evade the\r\n\x0e"
-				"blow."
-			);
-			waitForInput();
-			continue;
-		}
-		l = (D4+Enemy.type)/2;
-		j = (Player.arm>l ? 0 : l-Player.arm);
-		Player.hp = (j>Player.hp ? 0 : Player.hp-j);
-		clearScreenArea(21, 28);
-		drawWindow(0, 20, 31, 7);
-		cprintfxy(
-			1, 20,
-			"%s"
-			"%s took %d damage.",
-			"MESSAGE\r\n\x0e\n", "You", j
-		);
-		updateStats();
-		waitForInput();
+
+		enemyAttack();
+		
 	}
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
@@ -510,14 +529,14 @@ void battle(){
 	);
 	waitForInput();
 	cclearxy(1, 22, 30);
-	loot = rand()%((1+Enemy.type)*175);
-	Player.gold += loot;
+	i16 = rand()%((1+Enemy.type)*175);
+	Player.gold += i16;
 	cprintfxy(
 		1, 20,
 		"%s"
 		"%s dropped %d GP.",
 		"MESSAGE\r\n\x0e\n",
-		enemyNames[Enemy.type], loot
+		enemyNames[Enemy.type], i16
 	);
 	updateStats();
 	waitForInput();
