@@ -341,10 +341,9 @@ void drawWindow(uint8_t x, uint8_t y, uint8_t width, uint8_t height){
 void revealRoom(uint8_t x, uint8_t y, uint8_t z){
 	l = rooms[z][y][x];
 	if(!l){
-		l = 1+rand()%9;
-		if(l == MONSTER){
-			l = 0x80 | (rand()%(2+Player.turns/10))%11;
-		}
+		l = 1+rand()%15;
+		if(l >= YENDORORB) l = EMPTY;
+		if(l == MONSTER)   l = 0x80 | (rand()%(2+Player.turns/10))%10;
 		rooms[z][y][x] = l;
 	}
 	cclearxy(1, 22, 30);
