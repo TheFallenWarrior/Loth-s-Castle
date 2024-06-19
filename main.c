@@ -101,6 +101,7 @@ enum roomContents{
 	UPSTAIRS,
 	DOWNSTAIRS,
 	FOUNTAIN,
+	GOLDPIECES,
 	CHEST,
 	MONSTER,
 	TREASURE,
@@ -202,6 +203,7 @@ const char* const messageStrings[] = {
 	"Ascended the stairs.",
 	"Descended the stairs.",
 	"Drank from the fountain.",
+	"",
 	"Opened the chest.",
 	"",
 	"",
@@ -215,6 +217,7 @@ const char* const roomDescriptions[] = {
 	"stairs going up",
 	"stairs going down",
 	"a fountain of water",
+	"a pile of gold pieces",
 	"a wooden chest",
 	"",
 	"a treasure item",
@@ -245,6 +248,7 @@ const uint8_t mapIcons[] = {
 	'U',
 	'D',
 	'F',
+	'G',
 	'C',
 	'M',
 	'T',
@@ -339,7 +343,7 @@ void revealRoom(uint8_t x, uint8_t y, uint8_t z){
 	if(!l){
 		l = 1+rand()%9;
 		if(l == MONSTER){
-			l = 0x80 | (rand()%(2+Player.turns/10))%10;
+			l = 0x80 | (rand()%(2+Player.turns/10))%11;
 		}
 		rooms[z][y][x] = l;
 	}
@@ -651,6 +655,16 @@ void interact(){
 
 		case DOWNSTAIRS:
 		Player.pos[Z] = (Player.pos[Z]-1)&7;
+		break;
+
+		case GOLDPIECES:
+		i16 = 10*D8 + Player.turns;
+		Player.gold += i16;
+		cclearxy(1, 22, 30);
+		cclearxy(1, 24, 30);
+		cprintfxy(1, 22, "You found %d GP.", i16);
+		waitForInput();
+		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		break;
 
 		case TREASURE:
