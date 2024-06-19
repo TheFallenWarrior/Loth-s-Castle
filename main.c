@@ -15,9 +15,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define D4         	(1+rand()%4)
-#define D8         	(1+rand()%8)
-#define MIN(x, y)  	((x) > (y) ? (y) : (x))
+#define D4        	(1+rand()%4)
+#define D8        	(1+rand()%8)
+#define MIN(x, y) 	((x) > (y) ? (y) : (x))
 
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
 uint8_t waitForInput();
@@ -226,6 +226,21 @@ const char* const roomDescriptions[] = {
 	"the Orb of Power"
 };
 
+const char* const vendorQuotes[] = {
+	" `Why is there so much gold\r\n\x0e"
+	" in the Astral Plane?'",
+	" `Old Loth was a despot.'",
+	" `Another earthling?\r\n\x0e"
+	" MINOTAURs love flesh like\r\n\x0e"
+	" yours.'",
+	" `You look cute.'",
+	" `Please look through my\r\n\x0e"
+	" wares.'",
+	" `Forget about 25.807,\r\n\x0e"
+	" DRAGONs are the real\r\n\x0e"
+	" root of all evil.'"
+};
+
 #ifdef __NES__
 	const char* const buttonNames[] = {
 		"A",
@@ -270,6 +285,7 @@ const uint8_t bitMaskTable[] = {
 };
 
 uint8_t message;
+uint8_t vendorsAngry;
 
 // Castle rooms 3D matrix
 //            Z  Y  X
@@ -391,10 +407,13 @@ uint8_t playerBribe(){
 		cprintfxy(
 			1, 22,
 			"%s says:\r\n\x0e"
-			"`Ok, just don't tell anyone.'",
-			enemyNames[Enemy.type]
+			"%s",
+			enemyNames[Enemy.type],
+			"`Ok, just don't tell anyone.'"
 		);
 		waitForInput();
+		if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR)
+			vendorsAngry = 0; 
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		return 1;
 	} else{
@@ -402,8 +421,9 @@ uint8_t playerBribe(){
 		cprintfxy(
 			1, 22,
 			"%s says:\r\n\x0e"
-			"`All I want is your life!'",
-			enemyNames[Enemy.type]
+			"%s",
+			enemyNames[Enemy.type],
+			"`All I want is your life!'"
 		);
 		return 0;
 	}
@@ -533,6 +553,8 @@ void battle(){
 	waitForInput();
 	cclearxy(1, 22, 30);
 	i16 = rand()%((1+Enemy.type)*175);
+	if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR)
+		i16 *= 4;
 	Player.gold += i16;
 	cprintfxy(
 		1, 20,
@@ -597,6 +619,199 @@ void drinkFountain(){
 	return;
 }
 
+void vendor(){
+	cclearxy(1, 22, 30);
+	cclearxy(1, 24, 30);
+	cputsxy(
+			1,20,
+			"COMMAND\r\n\x0e\n"
+			"Up:   BARTER\r\n\x0e"
+			"Right:TALK\r\n\x0e"
+			"Down: ATTACK"
+	);
+	i = waitForInput();
+	clearScreenArea(21, 28);
+	drawWindow(0, 20, 31, 7);
+	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
+	if(JOY_UP(i)){
+		if(Player.gold < 1000){
+			cprintf(
+				"%s says:\r\n\x0e"
+				"%s",
+				"VENDOR",
+				"`You don't have enough money.'"
+			);
+			message = 0;
+			waitForInput();
+			return;
+		}
+		cprintfxy(1, 20,
+			"BUY ARMOR\r\n\x0e\n"
+			"%s",
+			"Up:   Nothing\r\n\x0e"
+		);
+		if(LEATHER>Player.arm){
+			cprintf("Right:%s(1000)\r\n\x0e", armorNames[LEATHER]);
+		}
+		if(CHAIN>Player.arm){
+			cprintf("Down: %s  (2000)\r\n\x0e", armorNames[CHAIN]);
+		}
+		if(PLATE>Player.arm){
+			cprintf("Left: %s  (3000)", armorNames[PLATE]);
+		}
+		do{
+			j = waitForInput();
+			if(JOY_RIGHT(j) && LEATHER>Player.arm && Player.gold > 1000){
+				Player.arm = LEATHER;
+				Player.gold -= 1000;
+				l = 1;
+			}
+			else if(JOY_DOWN(j) && CHAIN>Player.arm && Player.gold > 2000){
+				Player.arm = CHAIN;
+				Player.gold -= 2000;
+				l = 1;
+			}
+			else if(JOY_LEFT(j) && PLATE>Player.arm && Player.gold > 3000){
+				Player.arm = PLATE;
+				Player.gold -= 2000;
+				l = 1;
+			}
+			else l = 0;
+		}while(!(j&0xf0));
+		updateStats();
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
+		if(l) cprintf("Bought the %s.", armorNames[Player.arm]);
+		else cputs("Nevermind.");
+		waitForInput();
+
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cprintfxy(1, 20,
+			"BUY WEAPON\r\n\x0e\n"
+			"%s",
+			"Up:   Nothing\r\n\x0e"
+		);
+		if(DAGGER>Player.weap){
+			cprintf("Right:%s (1000)\r\n\x0e", weaponNames[DAGGER]);
+		}
+		if(MACE>Player.weap){
+			cprintf("Down: %s   (2000)\r\n\x0e", weaponNames[MACE]);
+		}
+		if(SWORD>Player.weap){
+			cprintf("Left: %s  (3000)", weaponNames[SWORD]);
+		}
+		do{
+			j = waitForInput();
+			if(JOY_RIGHT(j) && DAGGER>Player.weap && Player.gold > 1000){
+				Player.weap = DAGGER;
+				Player.gold -= 1000;
+				l = 1;
+			}
+			else if(JOY_DOWN(j) && MACE>Player.weap && Player.gold > 2000){
+				Player.weap = MACE;
+				Player.gold -= 2000;
+				l = 1;
+			}
+			else if(JOY_LEFT(j) && SWORD>Player.weap && Player.gold > 3000){
+				Player.weap = SWORD;
+				Player.gold -= 2000;
+				l = 1;
+			}
+			else l = 0;
+		}while(!(j&0xf0));
+		updateStats();
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
+		if(l) cprintf("Bought the %s.", weaponNames[Player.weap]);
+		else cputs("Nevermind.");
+		waitForInput();
+
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cprintfxy(1, 20,
+			"BUY POTION\r\n\x0e\n"
+			"%s",
+			"Up:   Nothing\r\n\x0e"
+		);
+		if(Player.hp<18){
+			cputs("Right:Hit Points (1000)\r\n\x0e");
+		}
+		if(Player.dex<18){
+			cputs("Down: Dexterity  (1000)\r\n\x0e");
+		}
+		if(Player.spi<18){
+			cputs("Left: Spirit     (1000)");
+		}
+		do{
+			j = waitForInput();
+			if(JOY_RIGHT(j) && Player.hp<18 && Player.gold > 1000){
+				++Player.hp;
+				Player.gold -= 1000;
+				l = 1;
+			}
+			else if(JOY_DOWN(j) && Player.dex<18 && Player.gold > 1000){
+				++Player.dex;
+				Player.gold -= 1000;
+				l = 3;
+			}
+			else if(JOY_LEFT(j) && Player.spi<18 && Player.gold > 1000){
+				++Player.spi;
+				Player.gold -= 1000;
+				l = 5;
+			}
+			else l = 0;
+		}while(!(j&0xf0));
+		updateStats();
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
+		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
+		else cputs("Nevermind.");
+		waitForInput();
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cputsxy(1, 20,
+			"BUY TORCHES\r\n\x0e\n"
+			"Buy 10 torches for 1000 GP?\r\n\x0e"
+			"Up:   YES\r\n\x0e"
+			"Down: NO"
+		);
+		do{
+			j = waitForInput();
+			if(JOY_UP(j) && Player.gold > 1000){
+				Player.torches += 10;
+				Player.gold -= 1000;
+				l = 1;
+			}
+			else l = 0;
+		}while(!(j&0xf0));
+		updateStats();
+		clearScreenArea(21, 28);
+		drawWindow(0, 20, 31, 7);
+		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
+		if(l) cputs("Bought the torches.");
+		else cputs("Nevermind.");
+	}
+	else if(JOY_RIGHT(i)){
+		j = rand()%6;
+		cprintf(
+			"%s says:\r\n\x0e"
+			"%s",
+			"VENDOR",
+			vendorQuotes[j]
+		);
+	}
+	else if(JOY_DOWN(i)){
+		vendorsAngry = 1;
+		trigger();
+	}
+	message = 0;
+	waitForInput();
+}
+
 // Light up rooms adjacent to the player
 void useTorch(){
 	if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == WARP)
@@ -623,6 +838,22 @@ void trigger(){
 		waitForInput();
 		message = 0;
 		trigger();
+	}
+	else if(k == VENDOR && vendorsAngry){
+		drawScreen();
+		Enemy.type =  D4 + 5;
+		Enemy.hp = D4 + Enemy.type;
+		cclearxy(1, 22, 30);
+		cclearxy(1, 24, 30);
+		cprintfxy(
+			1, 22,
+			"Encounter!\r\n\n\x0e"
+			"VENDOR shapeshifted into\r\n\x0e"
+			"%s!",
+			enemyNames[Enemy.type]
+		);
+		waitForInput();
+		battle();
 	}
 	else if(k & 0x80){
 		drawScreen();
@@ -677,6 +908,10 @@ void interact(){
 		waitForInput();
 		break;
 
+		case VENDOR:
+		vendor();
+		break;
+
 		case FOUNTAIN:
 		drinkFountain();
 	}
@@ -687,7 +922,7 @@ void charCreation(){
 
 	Player.hp = Player.dex = Player.spi = j = 8;
 	Player.torches = 5;
-	Player.gold = 60;
+	Player.gold = 60000;
 
 	drawWindow(0, 0, 31, 5);
 	cprintfxy(
