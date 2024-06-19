@@ -3,7 +3,7 @@
 
 all: main.nes main
 
-main.nes: main.c
+main.nes: main.c tileset.s tileset.chr
 	cl65 -Oi -t nes main.c tileset.s -o $@
 
 run: main.nes
