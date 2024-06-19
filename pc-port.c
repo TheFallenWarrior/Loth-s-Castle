@@ -94,7 +94,6 @@ void init(){
 	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
 	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 	reversedText = 0;
-	cursorX = cursorY = 0;
 	SetTargetFPS(60);
 }
 
