@@ -183,7 +183,7 @@ uint8_t joy_read(uint8_t r){
 	return r;
 }
 
-inline void joy_uninstall(){}
+void joy_uninstall(){}
 
 void clrscr(){
 	cursorX = cursorY = 0;
