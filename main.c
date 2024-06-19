@@ -339,7 +339,7 @@ void revealRoom(uint8_t x, uint8_t y, uint8_t z){
 		}
 		rooms[z][y][x] = l;
 	}
-	cclearxy(1, 21, 30);
+	cclearxy(1, 22, 30);
 }
 
 void battle(){
@@ -349,7 +349,7 @@ void battle(){
 		drawWindow(0, 20, 31, 7);
 		cputsxy(
 			1,20,
-			"COMMAND\r\n\x0e"
+			"COMMAND\r\n\x0e\n"
 			"Up:   FIGHT\r\n\x0e"
 			"Right:BRIBE\r\n\x0e"
 			"Down: RUN\r\n\x0e"
@@ -367,13 +367,13 @@ void battle(){
 				1, 20,
 				"%s"
 				"You attack the %s!",
-				"MESSAGE\r\n\x0e",
+				"MESSAGE\r\n\x0e\n",
 				enemyNames[Enemy.type]
 			);
 			waitForInput();
-			cclearxy(1, 21, 30);
+			cclearxy(1, 22, 30);
 			cprintfxy(
-				1, 21,
+				1, 22,
 				"%s took %d damage.",
 				enemyNames[Enemy.type], j
 			);
@@ -386,7 +386,7 @@ void battle(){
 					1, 20,
 					"%s"
 					"You have no money.",
-					"MESSAGE\r\n\x0e"
+					"MESSAGE\r\n\x0e\n"
 				);
 				waitForInput();
 				continue;
@@ -400,15 +400,15 @@ void battle(){
 				1, 20,
 				"%s"
 				"Gave %d GP to %s.",
-				"MESSAGE\r\n\x0e",
+				"MESSAGE\r\n\x0e\n",
 				loot, enemyNames[Enemy.type]
 			);
 			updateStats();
 			waitForInput();
 			if(Player.spi+D4 > Enemy.type+D8){
-				cclearxy(1, 21, 30);
+				cclearxy(1, 22, 30);
 				cprintfxy(
-					1, 21,
+					1, 22,
 					"%s says:\r\n\x0e"
 					"`Ok, just don't tell anyone.'",
 					enemyNames[Enemy.type]
@@ -417,9 +417,9 @@ void battle(){
 				rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 				return;
 			} else{
-				cclearxy(1, 21, 30);
+				cclearxy(1, 22, 30);
 				cprintfxy(
-					1, 21,
+					1, 22,
 					"%s says:\r\n\x0e"
 					"`All I want is your life!'",
 					enemyNames[Enemy.type]
@@ -435,7 +435,7 @@ void battle(){
 					"%s"
 					"Run to where?\r\n\x0e"
 					"(Use your D-pad.)",
-					"MESSAGE\r\n\x0e"
+					"MESSAGE\r\n\x0e\n"
 				);
 				j = waitForInput();
 				if(!(j&0xf0)) continue;
@@ -449,7 +449,7 @@ void battle(){
 			} else{
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\x0e");
+				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\x0e\n");
 			}
 		}
 		else if(JOY_LEFT(i)){
@@ -459,7 +459,7 @@ void battle(){
 				1, 20,
 				"%s"
 				"You can't cast spells.",
-				"MESSAGE\r\n\x0e"
+				"MESSAGE\r\n\x0e\n"
 			);
 			waitForInput();
 			continue;
@@ -472,13 +472,13 @@ void battle(){
 			1, 20,
 			"%s"
 			"%s attacks you!",
-			"MESSAGE\r\n\x0e",
+			"MESSAGE\r\n\x0e\n",
 			enemyNames[Enemy.type]
 		);
 		waitForInput();
 		if(Player.dex > 2*Enemy.type + D4){
 			cputsxy(
-				1, 21,
+				1, 22,
 				"But you swiftly evade the\r\n\x0e"
 				"blow."
 			);
@@ -494,7 +494,7 @@ void battle(){
 			1, 20,
 			"%s"
 			"%s took %d damage.",
-			"MESSAGE\r\n\x0e", "You", j
+			"MESSAGE\r\n\x0e\n", "You", j
 		);
 		updateStats();
 		waitForInput();
@@ -505,18 +505,18 @@ void battle(){
 		1, 20,
 		"%s"
 		"You killed %s.",
-		"MESSAGE\r\n\x0e",
+		"MESSAGE\r\n\x0e\n",
 		enemyNames[Enemy.type]
 	);
 	waitForInput();
-	cclearxy(1, 21, 30);
+	cclearxy(1, 22, 30);
 	loot = rand()%((1+Enemy.type)*175);
 	Player.gold += loot;
 	cprintfxy(
 		1, 20,
 		"%s"
 		"%s dropped %d GP.",
-		"MESSAGE\r\n\x0e",
+		"MESSAGE\r\n\x0e\n",
 		enemyNames[Enemy.type], loot
 	);
 	updateStats();
@@ -527,15 +527,15 @@ void battle(){
 
 void drinkFountain(){
 	l = rand()%8;
-	cclearxy(1, 21, 30);
-	cclearxy(1, 23, 30);
-	cputsxy(1, 21, "Drank from the fountain.");
+	cclearxy(1, 22, 30);
+	cclearxy(1, 24, 30);
+	cputsxy(1, 22, "Drank from the fountain.");
 	waitForInput();
 	if(l > 5){
 		Player.race = rand()%4;
-		cclearxy(1, 21, 30);
+		cclearxy(1, 22, 30);
 		cprintfxy(
-			1, 21,
+			1, 22,
 			"You turned into a %s.", 
 			playerRaceNames[Player.race]
 		);
@@ -568,8 +568,8 @@ void drinkFountain(){
 		break;
 	}
 	updateStats();
-	cclearxy(1, 21, 30);
-	cprintfxy(1, 21, "You feel %s.", attrChangeDescriptions[l]);
+	cclearxy(1, 22, 30);
+	cprintfxy(1, 22, "You feel %s.", attrChangeDescriptions[l]);
 	message = 0;
 	waitForInput();
 	return;
@@ -606,10 +606,10 @@ void trigger(){
 		drawScreen();
 		Enemy.type = k & 0x7f;
 		Enemy.hp = D4 + Enemy.type;
-		cclearxy(1, 21, 30);
-		cclearxy(1, 23, 30);
+		cclearxy(1, 22, 30);
+		cclearxy(1, 24, 30);
 		cprintfxy(
-			1, 21,
+			1, 22,
 			"Encounter!\r\n\n\x0e"
 			"You are facing a lousy\r\n\x0e"
 			"%s!",
@@ -637,9 +637,9 @@ void interact(){
 		case TREASURE:
 		l = rand()%8;
 		Player.treasures |= bitMaskTable[l];
-		cclearxy(1, 21, 30);
-		cclearxy(1, 23, 30);
-		cprintfxy(1, 21, "You have obtained %s.", treasureNames[l]);
+		cclearxy(1, 22, 30);
+		cclearxy(1, 24, 30);
+		cprintfxy(1, 22, "You have obtained %s.", treasureNames[l]);
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		message = 0;
 		waitForInput();
@@ -844,7 +844,7 @@ void drawScreen(){
 
 	// Draw message window
 	drawWindow(0, 20, 31, 7);
-	cputsxy(1, 20, "MESSAGE\r\n\x0e");
+	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 
 	if(message){
 		cputs(messageStrings[message]);
@@ -854,7 +854,7 @@ void drawScreen(){
 			cprintf("You see %s.", roomDescriptions[k-1]);
 			if(k > EMPTY){
 				cprintfxy(
-					1, 23,
+					1, 24,
 					"Press %s to interact.",
 					buttonNames[A]
 				);
