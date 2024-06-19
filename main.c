@@ -922,7 +922,7 @@ void charCreation(){
 
 	Player.hp = Player.dex = Player.spi = j = 8;
 	Player.torches = 5;
-	Player.gold = 60000;
+	Player.gold = 60;
 
 	drawWindow(0, 0, 31, 5);
 	cprintfxy(
