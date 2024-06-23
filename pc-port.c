@@ -97,7 +97,7 @@ void init(){
 	SetTargetFPS(60);
 }
 
-// Not to be confused with Raylib's ToggleFullscreen funtion. This one takes
+// Not to be confused with Raylib's ToggleFullscreen function. This one takes
 // monitor/render context into account to force integer scaling.
 void toggleFullscreen(){
 	ToggleFullscreen();
