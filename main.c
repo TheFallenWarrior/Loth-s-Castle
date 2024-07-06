@@ -673,7 +673,7 @@ void vendor(){
 			}
 			else if(JOY_LEFT(j) && PLATE>Player.arm && Player.gold > 3000){
 				Player.arm = PLATE;
-				Player.gold -= 2000;
+				Player.gold -= 3000;
 				l = 1;
 			}
 			else l = 0;
@@ -716,7 +716,7 @@ void vendor(){
 			}
 			else if(JOY_LEFT(j) && SWORD>Player.weap && Player.gold > 3000){
 				Player.weap = SWORD;
-				Player.gold -= 2000;
+				Player.gold -= 3000;
 				l = 1;
 			}
 			else l = 0;
