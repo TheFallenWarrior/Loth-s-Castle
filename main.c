@@ -847,7 +847,7 @@ void trigger(){
 		cclearxy(1, 24, 30);
 		cprintfxy(
 			1, 22,
-			"Encounter!\r\n\n\x0e"
+			"Encounter!\r\n\x0e\n"
 			"VENDOR shapeshifted into\r\n\x0e"
 			"%s!",
 			enemyNames[Enemy.type]
@@ -863,7 +863,7 @@ void trigger(){
 		cclearxy(1, 24, 30);
 		cprintfxy(
 			1, 22,
-			"Encounter!\r\n\n\x0e"
+			"Encounter!\r\n\x0e\n"
 			"You are facing a lousy\r\n\x0e"
 			"%s!",
 			enemyNames[Enemy.type]
@@ -1051,7 +1051,7 @@ void charCreation(){
 		}
 	} while(!(k&0xf0));
 	drawWindow(16, 16, 15, 5);
-	cputsxy(17, 16, "BUY WEAPONS");
+	cputsxy(17, 16, "BUY WEAPON");
 	cprintfxy(17, 17, "Up:%s  (00)", weaponNames[STICK]);
 	cprintfxy(17, 18, "Ri:%s (10)", weaponNames[DAGGER]);
 	cprintfxy(17, 19, "Do:%s   (30)", weaponNames[MACE]);
