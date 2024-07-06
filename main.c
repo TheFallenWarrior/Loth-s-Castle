@@ -893,6 +893,7 @@ void interact(){
 		cclearxy(1, 22, 30);
 		cclearxy(1, 24, 30);
 		cprintfxy(1, 22, "You found %d GP.", i16);
+		updateStats();
 		waitForInput();
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		break;
