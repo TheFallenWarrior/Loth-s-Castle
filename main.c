@@ -638,13 +638,16 @@ void vendor(){
 	cclearxy(1, 22, 30);
 	cclearxy(1, 24, 30);
 	cputsxy(
-			1,20,
-			"COMMAND\r\n\x0e\n"
-			"Up:   TRADE\r\n\x0e"
-			"Right:TALK\r\n\x0e"
-			"Down: ATTACK"
+		1,20,
+		"COMMAND\r\n\x0e\n"
+		"Up:   TRADE\r\n\x0e"
+		"Right:TALK\r\n\x0e"
+		"Down: ATTACK"
 	);
-	i = waitForInput();
+	do{
+		i = waitForInput();
+	} while(i&0x4f);
+
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
 	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
