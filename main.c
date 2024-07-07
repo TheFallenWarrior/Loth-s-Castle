@@ -1195,7 +1195,30 @@ int main(){
 
 	// Title Screen
 	clrscr();
-	cprintf("\nLOTH'S CASTLE\r\n\n\nPRESS %s", buttonNames[START]);
+	drawWindow(0, 0, 31, 26);
+	drawWindow(8, 0, 14, 2);
+	cputsxy(9, 1, "LOTH'S CASTLE");
+
+	cputsxy(
+		1, 5,
+		"1000  years  ago, the  demonic\r\n\x0e"
+		"priest    Loth     transported\r\n\x0e"
+		"himself into the  Astral Plane\r\n\x0e"
+		"to  forge  what  would  become\r\n\x0e"
+		"known as the `Orb of Power'.\r\n\x0e\n" 
+		"Although the priest himself is\r\n\x0e"
+		"long  gone,  the  Orb and  his\r\n\x0e"
+		"many    riches   still    lie\r\n\x0e"
+		"somewhere in his castle.\r\n\x0e\n" 
+		"Because  of that, many  delved\r\n\x0e"
+		"deep into the  Astral Plane in\r\n\x0e"
+		"search  of  the Orb of  Power,\r\n\x0e"
+		"only to never return..."
+	);
+
+	cprintfxy(10, 23, "PRESS %s", buttonNames[START]);
+	cputsxy(0, 27, "(c) 2024 TheFallenWarrior");
+
 	while(!JOY_START(joy_read(JOY_1))) ++j;
 	srand(j);
 
