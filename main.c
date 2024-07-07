@@ -29,6 +29,7 @@ uint8_t playerBribe();
 void enemyAttack();
 void battle();
 void drinkFountain();
+void vendor();
 void useTorch();
 void trigger();
 void interact();
