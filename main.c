@@ -349,10 +349,10 @@ uint8_t waitForInput(){
 	return joy_read(JOY_1);
 }
 
-// Clears screen from x to max_x
-void clearScreenArea(uint8_t x, uint8_t max_x){
-	if(x >= max_x) return;
-	cclearxy(0, x, (max_x-x)*32);
+// Clears screen from y to max_y
+void clearScreenArea(uint8_t y, uint8_t max_y){
+	if(y >= max_y) return;
+	cclearxy(0, y, (max_y-y)*32);
 }
 
 // Draws a rectangle border
