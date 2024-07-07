@@ -226,6 +226,20 @@ const char* const roomDescriptions[] = {
 	"the Orb of Power"
 };
 
+const char* const interactionPrompts[] = {
+	"",
+	"ascend",
+	"descend",
+	"drink",
+	"grab",
+	"open",
+	"",
+	"grab",
+	"",
+	"interact",
+	"grab"
+};
+
 const char* const vendorQuotes[] = {
 	" `Why is there so much gold\r\n\x0e"
 	" in the Astral Plane?'",
@@ -1123,8 +1137,9 @@ void drawScreen(){
 			if(k > EMPTY){
 				cprintfxy(
 					1, 24,
-					"Press %s to interact.",
-					buttonNames[A]
+					"Press %s to %s.",
+					buttonNames[A],
+					interactionPrompts[k-1]
 				);
 			}
 		}
