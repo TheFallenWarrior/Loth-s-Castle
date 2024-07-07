@@ -251,8 +251,8 @@ const char* const vendorQuotes[] = {
 	" `Please look through my\r\n\x0e"
 	" wares.'",
 	" `Forget about 25.807,\r\n\x0e"
-	" DRAGONs are the real\r\n\x0e"
-	" root of all evil.'"
+	" DRAGONs are the real root of\r\n\x0e"
+	" all evil.'"
 };
 
 #ifdef __NES__
@@ -639,7 +639,7 @@ void vendor(){
 	cputsxy(
 			1,20,
 			"COMMAND\r\n\x0e\n"
-			"Up:   BARTER\r\n\x0e"
+			"Up:   TRADE\r\n\x0e"
 			"Right:TALK\r\n\x0e"
 			"Down: ATTACK"
 	);
