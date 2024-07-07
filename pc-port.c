@@ -131,7 +131,7 @@ uint8_t joy_read(uint8_t r){
 		CloseWindow();
 		exit(0);
 	}
-	if(IsKeyPressed(KEY_F3)){
+	if(IsKeyPressed(KEY_F11)){
 		toggleFullscreen();
 	}
 
