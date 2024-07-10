@@ -230,7 +230,6 @@ const char* const roomDescriptions[] = {
 };
 
 const char* const interactionPrompts[] = {
-	"",
 	"ascend",
 	"descend",
 	"drink",
@@ -1145,7 +1144,7 @@ void drawScreen(){
 					1, 24,
 					"Press %s to %s.",
 					buttonNames[A],
-					interactionPrompts[k-1]
+					interactionPrompts[k-2]
 				);
 			}
 		}
