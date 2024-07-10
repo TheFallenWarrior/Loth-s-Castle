@@ -1113,7 +1113,11 @@ void updateStats(){
 		"Hits:%2d  Attr: %2d/%2d  GP:%u\r\n\x0e"
 		"AC:  %2d  Torch:%2d     XY:%1d%1d\r\n\x0e"
 		"Weapon:%6s         Lv:%1d",
-		(Player.status ? statusNames[Player.status] : genderNames[Player.gender]),
+		(
+			Player.status ?
+			statusNames[Player.status] :
+			genderNames[Player.gender]
+		),
 		playerRaceNames[Player.race],
 		Player.hp, Player.dex, Player.spi, Player.gold,
 		10 - (Player.arm*3), Player.torches,
