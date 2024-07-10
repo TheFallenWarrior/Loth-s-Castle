@@ -1045,8 +1045,8 @@ void charCreation(){
 		armorNames[CHAIN],
 		armorNames[PLATE]
 	);
-	drawWindow(0, 25, 31, 2);
-	cprintfxy(1, 25, "YOUR GOLD\r\n\x0e%d GP", Player.gold);
+	drawWindow(0, 22, 31, 2);
+	cprintfxy(1, 22, "YOUR GOLD\r\n\x0e%d GP", Player.gold);
 
 	k = waitForInput(JOY_DPAD_MASK);
 	if(JOY_RIGHT(k)){
@@ -1068,14 +1068,14 @@ void charCreation(){
 	cprintfxy(17, 18, "Ri:%s (10)", weaponNames[DAGGER]);
 	cprintfxy(17, 19, "Do:%s   (30)", weaponNames[MACE]);
 	cprintfxy(17, 20, "Le:%s  (50)", weaponNames[SWORD]);
-	cprintfxy(1, 26, "%d GP", Player.gold);
+	cprintfxy(1, 23, "%02d GP", Player.gold);
 	while(1){
 		k = waitForInput(JOY_DPAD_MASK);
-		if(JOY_UP(k)) return;
+		if(JOY_UP(k)) break;
 		if(JOY_RIGHT(k)){
 			Player.weap = DAGGER;
 			Player.gold -= 10;
-			return;
+			break;
 		}
 		else if(JOY_DOWN(k)){
 			if(Player.gold < 30){
@@ -1084,7 +1084,7 @@ void charCreation(){
 			}
 			Player.weap = MACE;
 			Player.gold -= 30;
-			return;
+			break;
 		}
 		else if(JOY_LEFT(k)){
 			if(Player.gold < 50){
@@ -1093,9 +1093,13 @@ void charCreation(){
 			}
 			Player.weap = SWORD;
 			Player.gold -= 50;
-			return;
+			break;
 		}
 	}
+	drawWindow(0, 25, 31, 2);
+	cprintfxy(8, 26, "Get ready, %s!", playerRaceNames[Player.race]);
+	cprintfxy(1, 23, "%02d GP", Player.gold);
+	waitForInput(0);
 }
 
 void updateStats(){
