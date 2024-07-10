@@ -74,7 +74,7 @@ uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 void init(){
 	clrscr();
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Loth's Castle");
-	nescii = LoadTexture("nescii.png");
+	nescii = LoadTexture("tileset.png");
 	renderTarget = LoadRenderTexture(
 		VIRTUAL_SCREEN_WIDTH,
 		VIRTUAL_SCREEN_HEIGHT
