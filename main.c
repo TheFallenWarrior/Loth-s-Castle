@@ -404,7 +404,7 @@ void playerAttack(){
 }
 
 uint8_t playerBribe(){
-	i16 = MIN(rand()%1000;, Player.gold);
+	i16 = MIN(rand()%1000, Player.gold);
 	Player.gold -= i16;
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
