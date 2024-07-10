@@ -404,8 +404,7 @@ void playerAttack(){
 }
 
 uint8_t playerBribe(){
-	i16 = rand()%1000;
-	i16 = MIN(i16, Player.gold);
+	i16 = MIN(rand()%1000;, Player.gold);
 	Player.gold -= i16;
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
@@ -1078,7 +1077,6 @@ void charCreation(){
 		}
 		else if(JOY_DOWN(k)){
 			if(Player.gold < 30){
-				k = 0;
 				continue;
 			}
 			Player.weap = MACE;
@@ -1087,7 +1085,6 @@ void charCreation(){
 		}
 		else if(JOY_LEFT(k)){
 			if(Player.gold < 50){
-				k = 0;
 				continue;
 			}
 			Player.weap = SWORD;
