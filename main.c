@@ -899,6 +899,7 @@ void interact(){
 
 		case GOLDPIECES:
 		i16 = 10*D8 + Player.turns/2 + rand()%(Player.turns/2);
+		i16 = MIN(i16, 999);
 		Player.gold += i16;
 		cclearxy(1, 22, 30);
 		cclearxy(1, 24, 30);
