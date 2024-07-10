@@ -253,9 +253,8 @@ const char* const vendorQuotes[] = {
 	" `You look cute.'",
 	" `Please look through my\r\n\x0e"
 	" wares.'",
-	" `Forget about 25.807,\r\n\x0e"
-	" DRAGONs are the real root of\r\n\x0e"
-	" all evil.'"
+	" `Forget 25.807,  DRAGONs are\r\n\x0e"
+	" the real root of all evil.'"
 };
 
 #ifdef __NES__
@@ -427,7 +426,7 @@ uint8_t playerBribe(){
 			"%s says:\r\n\x0e"
 			"%s",
 			enemyNames[Enemy.type],
-			"`Ok, just don't tell anyone.'"
+			" `Ok, just don't tell anyone.'"
 		);
 		waitForInput(0);
 		if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR)
@@ -441,7 +440,7 @@ uint8_t playerBribe(){
 			"%s says:\r\n\x0e"
 			"%s",
 			enemyNames[Enemy.type],
-			"`All I want is your life!'"
+			" `All I want is your life!'"
 		);
 		return 0;
 	}
@@ -656,7 +655,7 @@ void vendor(){
 				"%s says:\r\n\x0e"
 				"%s",
 				"VENDOR",
-				"`You don't have enough money.'"
+				" `You don't have enough\r\n\x0e money.'"
 			);
 			message = 0;
 			waitForInput(0);
@@ -1206,8 +1205,8 @@ int main(){
 		"to  forge  what  would  become\r\n\x0e"
 		"known as the `Orb of Power'.\r\n\x0e\n" 
 		"Although the priest himself is\r\n\x0e"
-		"long  gone,  the  Orb and  his\r\n\x0e"
-		"many    riches   still    lie\r\n\x0e"
+		"long  gone,  the Orb  and  his\r\n\x0e"
+		"many    riches    still    lie\r\n\x0e"
 		"somewhere in his castle.\r\n\x0e\n" 
 		"Because  of that, many  delved\r\n\x0e"
 		"deep into the  Astral Plane in\r\n\x0e"
