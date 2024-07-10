@@ -15,12 +15,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define D4        	(1+rand()%4)
-#define D8        	(1+rand()%8)
-#define MIN(x, y) 	((x) > (y) ? (y) : (x))
+#define JOY_DPAD_MASK   (0xf0)
+
+#define D4          (1+rand()%4)
+#define D8          (1+rand()%8)
+#define MIN(x, y)   ((x) > (y) ? (y) : (x))
 
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
-uint8_t waitForInput();
+uint8_t waitForInput(uint8_t);
 void clearScreenArea(uint8_t, uint8_t);
 void drawWindow(uint8_t, uint8_t, uint8_t, uint8_t);
 void revealRoom(uint8_t, uint8_t, uint8_t);
@@ -342,10 +344,11 @@ void cprintfxy(uint8_t x, uint8_t y, const char *str, ...){
 	va_end(args);
 }
 
-// Waits for controller input and then returns it
-uint8_t waitForInput(){
+// Waits for input specified by a mask and then returns it
+uint8_t waitForInput(uint8_t mask){
+	if(!mask) mask = 0xff;
 	while(joy_read(JOY_1));
-	while(!(joy_read(JOY_1)));
+	while(!(mask&joy_read(JOY_1)));
 	return joy_read(JOY_1);
 }
 
@@ -393,7 +396,7 @@ void playerAttack(){
 		"MESSAGE\r\n\x0e\n",
 		enemyNames[Enemy.type]
 	);
-	waitForInput();
+	waitForInput(0);
 	cclearxy(1, 22, 30);
 	cprintfxy(
 		1, 22,
@@ -416,7 +419,7 @@ uint8_t playerBribe(){
 		i16, enemyNames[Enemy.type]
 	);
 	updateStats();
-	waitForInput();
+	waitForInput(0);
 	if(Player.spi+D4 > Enemy.type+D8){
 		cclearxy(1, 22, 30);
 		cprintfxy(
@@ -426,7 +429,7 @@ uint8_t playerBribe(){
 			enemyNames[Enemy.type],
 			"`Ok, just don't tell anyone.'"
 		);
-		waitForInput();
+		waitForInput(0);
 		if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR)
 			vendorsAngry = 0; 
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
@@ -454,14 +457,14 @@ void enemyAttack(){
 		"MESSAGE\r\n\x0e\n",
 		enemyNames[Enemy.type]
 	);
-	waitForInput();
+	waitForInput(0);
 	if(Player.dex > 2*Enemy.type + D4){
 		cputsxy(
 			1, 22,
 			"But you swiftly evade the\r\n\x0e"
 			"blow."
 		);
-		waitForInput();
+		waitForInput(0);
 		return;
 	}
 	l = (D4+Enemy.type)/2;
@@ -476,7 +479,7 @@ void enemyAttack(){
 		"MESSAGE\r\n\x0e\n", "You", j
 	);
 	updateStats();
-	waitForInput();
+	waitForInput(0);
 }
 
 void battle(){
@@ -491,8 +494,7 @@ void battle(){
 			"Down: RUN\r\n\x0e"
 			"Left: CAST"
 		);
-		i = waitForInput();
-		if(!(i&0xf0)) continue;
+		i = waitForInput(JOY_DPAD_MASK);
 		if(JOY_UP(i)){
 			playerAttack();
 		}
@@ -506,7 +508,7 @@ void battle(){
 					"You have no money.",
 					"MESSAGE\r\n\x0e\n"
 				);
-				waitForInput();
+				waitForInput(0);
 				continue;
 			}
 			if(playerBribe()) return;
@@ -523,8 +525,7 @@ void battle(){
 					"(Use your D-pad.)",
 					"MESSAGE\r\n\x0e\n"
 				);
-				j = waitForInput();
-				if(!(j&0xf0)) continue;
+				j = waitForInput(JOY_DPAD_MASK);
 				if(JOY_UP(j))         Player.pos[Y] = (Player.pos[Y]-1)&7;
 				else if(JOY_DOWN(j))  Player.pos[Y] = (Player.pos[Y]+1)&7;
 				else if(JOY_LEFT(j))  Player.pos[X] = (Player.pos[X]-1)&7;
@@ -547,10 +548,10 @@ void battle(){
 				"You can't cast spells.",
 				"MESSAGE\r\n\x0e\n"
 			);
-			waitForInput();
+			waitForInput(0);
 			continue;
 		}
-		waitForInput();
+		waitForInput(0);
 		if(!Enemy.hp) break;
 
 		enemyAttack();
@@ -565,7 +566,7 @@ void battle(){
 		"MESSAGE\r\n\x0e\n",
 		enemyNames[Enemy.type]
 	);
-	waitForInput();
+	waitForInput(0);
 	cclearxy(1, 22, 30);
 	i16 = rand()%((1+Enemy.type)*175);
 	if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR)
@@ -579,7 +580,7 @@ void battle(){
 		enemyNames[Enemy.type], i16
 	);
 	updateStats();
-	waitForInput();
+	waitForInput(0);
 	rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 	message = 0;
 }
@@ -589,7 +590,7 @@ void drinkFountain(){
 	cclearxy(1, 22, 30);
 	cclearxy(1, 24, 30);
 	cputsxy(1, 22, "Drank from the fountain.");
-	waitForInput();
+	waitForInput(0);
 	if(l > 5){
 		Player.race = rand()%4;
 		cclearxy(1, 22, 30);
@@ -599,7 +600,7 @@ void drinkFountain(){
 			playerRaceNames[Player.race]
 		);
 		message = 0;
-		waitForInput();
+		waitForInput(0);
 		return;
 	} else switch(l){
 		case 0:
@@ -630,7 +631,7 @@ void drinkFountain(){
 	cclearxy(1, 22, 30);
 	cprintfxy(1, 22, "You feel %s.", attrChangeDescriptions[l]);
 	message = 0;
-	waitForInput();
+	waitForInput(0);
 	return;
 }
 
@@ -644,9 +645,7 @@ void vendor(){
 		"Right:TALK\r\n\x0e"
 		"Down: ATTACK"
 	);
-	do{
-		i = waitForInput();
-	} while(i&0x4f);
+	i = waitForInput(JOY_DPAD_MASK & ~JOY_LEFT_MASK);
 
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
@@ -660,7 +659,7 @@ void vendor(){
 				"`You don't have enough money.'"
 			);
 			message = 0;
-			waitForInput();
+			waitForInput(0);
 			return;
 		}
 		cprintfxy(1, 20,
@@ -677,32 +676,31 @@ void vendor(){
 		if(PLATE>Player.arm){
 			cprintf("Left: %s  (3000)", armorNames[PLATE]);
 		}
-		do{
-			j = waitForInput();
-			if(JOY_RIGHT(j) && LEATHER>Player.arm && Player.gold > 1000){
-				Player.arm = LEATHER;
-				Player.gold -= 1000;
-				l = 1;
-			}
-			else if(JOY_DOWN(j) && CHAIN>Player.arm && Player.gold > 2000){
-				Player.arm = CHAIN;
-				Player.gold -= 2000;
-				l = 1;
-			}
-			else if(JOY_LEFT(j) && PLATE>Player.arm && Player.gold > 3000){
-				Player.arm = PLATE;
-				Player.gold -= 3000;
-				l = 1;
-			}
-			else l = 0;
-		}while(!(j&0xf0));
+		
+		j = waitForInput(JOY_DPAD_MASK);
+		if(JOY_RIGHT(j) && LEATHER>Player.arm && Player.gold > 1000){
+			Player.arm = LEATHER;
+			Player.gold -= 1000;
+			l = 1;
+		}
+		else if(JOY_DOWN(j) && CHAIN>Player.arm && Player.gold > 2000){
+			Player.arm = CHAIN;
+			Player.gold -= 2000;
+			l = 1;
+		}
+		else if(JOY_LEFT(j) && PLATE>Player.arm && Player.gold > 3000){
+			Player.arm = PLATE;
+			Player.gold -= 3000;
+			l = 1;
+		}
+		else l = 0;
 		updateStats();
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("Bought the %s.", armorNames[Player.arm]);
 		else cputs("Nevermind.");
-		waitForInput();
+		waitForInput(0);
 
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
@@ -720,32 +718,31 @@ void vendor(){
 		if(SWORD>Player.weap){
 			cprintf("Left: %s  (3000)", weaponNames[SWORD]);
 		}
-		do{
-			j = waitForInput();
-			if(JOY_RIGHT(j) && DAGGER>Player.weap && Player.gold > 1000){
-				Player.weap = DAGGER;
-				Player.gold -= 1000;
-				l = 1;
-			}
-			else if(JOY_DOWN(j) && MACE>Player.weap && Player.gold > 2000){
-				Player.weap = MACE;
-				Player.gold -= 2000;
-				l = 1;
-			}
-			else if(JOY_LEFT(j) && SWORD>Player.weap && Player.gold > 3000){
-				Player.weap = SWORD;
-				Player.gold -= 3000;
-				l = 1;
-			}
-			else l = 0;
-		}while(!(j&0xf0));
+		
+		j = waitForInput(JOY_DPAD_MASK);
+		if(JOY_RIGHT(j) && DAGGER>Player.weap && Player.gold > 1000){
+			Player.weap = DAGGER;
+			Player.gold -= 1000;
+			l = 1;
+		}
+		else if(JOY_DOWN(j) && MACE>Player.weap && Player.gold > 2000){
+			Player.weap = MACE;
+			Player.gold -= 2000;
+			l = 1;
+		}
+		else if(JOY_LEFT(j) && SWORD>Player.weap && Player.gold > 3000){
+			Player.weap = SWORD;
+			Player.gold -= 3000;
+			l = 1;
+		}
+		else l = 0;
 		updateStats();
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("Bought the %s.", weaponNames[Player.weap]);
 		else cputs("Nevermind.");
-		waitForInput();
+		waitForInput(0);
 
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
@@ -763,32 +760,31 @@ void vendor(){
 		if(Player.spi<18){
 			cputs("Left: Spirit     (1000)");
 		}
-		do{
-			j = waitForInput();
-			if(JOY_RIGHT(j) && Player.hp<18 && Player.gold > 1000){
-				++Player.hp;
-				Player.gold -= 1000;
-				l = 1;
-			}
-			else if(JOY_DOWN(j) && Player.dex<18 && Player.gold > 1000){
-				++Player.dex;
-				Player.gold -= 1000;
-				l = 3;
-			}
-			else if(JOY_LEFT(j) && Player.spi<18 && Player.gold > 1000){
-				++Player.spi;
-				Player.gold -= 1000;
-				l = 5;
-			}
-			else l = 0;
-		}while(!(j&0xf0));
+		
+		j = waitForInput(JOY_DPAD_MASK);
+		if(JOY_RIGHT(j) && Player.hp<18 && Player.gold > 1000){
+			++Player.hp;
+			Player.gold -= 1000;
+			l = 1;
+		}
+		else if(JOY_DOWN(j) && Player.dex<18 && Player.gold > 1000){
+			++Player.dex;
+			Player.gold -= 1000;
+			l = 3;
+		}
+		else if(JOY_LEFT(j) && Player.spi<18 && Player.gold > 1000){
+			++Player.spi;
+			Player.gold -= 1000;
+			l = 5;
+		}
+		else l = 0;
 		updateStats();
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
 		else cputs("Nevermind.");
-		waitForInput();
+		waitForInput(0);
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20,
@@ -797,15 +793,14 @@ void vendor(){
 			"Up:   YES\r\n\x0e"
 			"Down: NO"
 		);
-		do{
-			j = waitForInput();
-			if(JOY_UP(j) && Player.gold > 1000){
-				Player.torches += 10;
-				Player.gold -= 1000;
-				l = 1;
-			}
-			else l = 0;
-		}while(!(j&0xf0));
+
+		j = waitForInput(JOY_UP_MASK | JOY_DOWN_MASK);
+		if(JOY_UP(j) && Player.gold > 1000){
+			Player.torches += 10;
+			Player.gold -= 1000;
+			l = 1;
+		}
+		else l = 0;
 		updateStats();
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
@@ -827,7 +822,7 @@ void vendor(){
 		trigger();
 	}
 	message = 0;
-	waitForInput();
+	waitForInput(0);
 }
 
 // Light up rooms adjacent to the player
@@ -853,7 +848,7 @@ void trigger(){
 
 		message = WARP;
 		drawScreen();
-		waitForInput();
+		waitForInput(0);
 		message = 0;
 		trigger();
 	}
@@ -870,7 +865,7 @@ void trigger(){
 			"%s!",
 			enemyNames[Enemy.type]
 		);
-		waitForInput();
+		waitForInput(0);
 		battle();
 	}
 	else if(k & 0x80){
@@ -886,7 +881,7 @@ void trigger(){
 			"%s!",
 			enemyNames[Enemy.type]
 		);
-		waitForInput();
+		waitForInput(0);
 		battle();
 	}
 }
@@ -912,7 +907,7 @@ void interact(){
 		cclearxy(1, 24, 30);
 		cprintfxy(1, 22, "You found %d GP.", i16);
 		updateStats();
-		waitForInput();
+		waitForInput(0);
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		break;
 
@@ -924,7 +919,7 @@ void interact(){
 		cprintfxy(1, 22, "You have obtained %s.", treasureNames[l]);
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY;
 		message = 0;
-		waitForInput();
+		waitForInput(0);
 		break;
 
 		case VENDOR:
@@ -961,34 +956,34 @@ void charCreation(){
 		"Press %s to skip creation.",
 		buttonNames[SELECT]
 	);
-	do{
-		k = waitForInput();
-		if(JOY_SELECT(k)){ //Skip character creation
-			Player.race = 3;
-			Player.gender = 1;
-			Player.dex += 8;
-			Player.arm  = CHAIN;
-			Player.weap = MACE;
-			Player.gold = 0;
-			return;
-		}
-		if(JOY_UP(k)) Player.race = HUMAN;
-		else if(JOY_RIGHT(k)){
-			Player.race = ELF;
-			Player.hp  -= 2;
-			Player.dex += 2;
-		}
-		else if(JOY_DOWN(k)){
-			Player.race = DWARF;
-			Player.hp  += 2;
-			Player.dex -= 2;
-		}
-		else if(JOY_LEFT(k)) {
-			Player.race = GNOLL;
-			Player.hp  -= 4;
-			Player.dex += 4;
-		}
-	} while(!(k&0xf0));
+	
+	k = waitForInput(JOY_DPAD_MASK | JOY_SELECT_MASK);
+	if(JOY_SELECT(k)){ //Skip character creation
+		Player.race = 3;
+		Player.gender = 1;
+		Player.dex += 8;
+		Player.arm  = CHAIN;
+		Player.weap = MACE;
+		Player.gold = 0;
+		return;
+	}
+	if(JOY_UP(k)) Player.race = HUMAN;
+	else if(JOY_RIGHT(k)){
+		Player.race = ELF;
+		Player.hp  -= 2;
+		Player.dex += 2;
+	}
+	else if(JOY_DOWN(k)){
+		Player.race = DWARF;
+		Player.hp  += 2;
+		Player.dex -= 2;
+	}
+	else if(JOY_LEFT(k)) {
+		Player.race = GNOLL;
+		Player.hp  -= 4;
+		Player.dex += 4;
+	}
+
 	cclearxy(0, 27, 32);
 	drawWindow(0, 6, 31, 3);
 	cprintfxy(
@@ -999,11 +994,11 @@ void charCreation(){
 		genderNames[0],
 		genderNames[1]
 	);
-	do{
-		k = waitForInput();
-		if(JOY_UP(k))        Player.gender = 0;
-		else if(JOY_DOWN(k)) Player.gender = 1;
-	} while(!(k&0xf0));
+
+	k = waitForInput(JOY_UP_MASK | JOY_DOWN_MASK);
+	if(JOY_UP(k))        Player.gender = 0;
+	else if(JOY_DOWN(k)) Player.gender = 1;
+
 	while(j){
 		cclearxy(0, 10, 155);
 		drawWindow(0, 10, 31, 5);
@@ -1016,7 +1011,7 @@ void charCreation(){
 			"Points: %d",
 			Player.hp, Player.dex, Player.spi, j
 		);
-		k = waitForInput();
+		k = waitForInput(JOY_DPAD_MASK & ~JOY_LEFT_MASK);
 		if(JOY_UP(k)){
 			++Player.hp;
 			--j;
@@ -1054,21 +1049,21 @@ void charCreation(){
 	);
 	drawWindow(0, 25, 31, 2);
 	cprintfxy(1, 25, "YOUR GOLD\r\n\x0e%d GP", Player.gold);
-	do{
-		k = waitForInput();
-		if(JOY_RIGHT(k)){
-			Player.arm = LEATHER;
-			Player.gold -= 10;
-		}
-		else if(JOY_DOWN(k)){
-			Player.arm = CHAIN;
-			Player.gold -= 30;
-		}
-		else if(JOY_LEFT(k)){
-			Player.arm = PLATE;
-			Player.gold -= 50;
-		}
-	} while(!(k&0xf0));
+
+	k = waitForInput(JOY_DPAD_MASK);
+	if(JOY_RIGHT(k)){
+		Player.arm = LEATHER;
+		Player.gold -= 10;
+	}
+	else if(JOY_DOWN(k)){
+		Player.arm = CHAIN;
+		Player.gold -= 30;
+	}
+	else if(JOY_LEFT(k)){
+		Player.arm = PLATE;
+		Player.gold -= 50;
+	}
+
 	drawWindow(16, 16, 15, 5);
 	cputsxy(17, 16, "BUY WEAPON");
 	cprintfxy(17, 17, "Up:%s  (00)", weaponNames[STICK]);
@@ -1076,11 +1071,13 @@ void charCreation(){
 	cprintfxy(17, 19, "Do:%s   (30)", weaponNames[MACE]);
 	cprintfxy(17, 20, "Le:%s  (50)", weaponNames[SWORD]);
 	cprintfxy(1, 26, "%d GP", Player.gold);
-	do{
-		k = waitForInput();
+	while(1){
+		k = waitForInput(JOY_DPAD_MASK);
+		if(JOY_UP(k)) return;
 		if(JOY_RIGHT(k)){
 			Player.weap = DAGGER;
 			Player.gold -= 10;
+			return;
 		}
 		else if(JOY_DOWN(k)){
 			if(Player.gold < 30){
@@ -1089,6 +1086,7 @@ void charCreation(){
 			}
 			Player.weap = MACE;
 			Player.gold -= 30;
+			return;
 		}
 		else if(JOY_LEFT(k)){
 			if(Player.gold < 50){
@@ -1097,8 +1095,9 @@ void charCreation(){
 			}
 			Player.weap = SWORD;
 			Player.gold -= 50;
+			return;
 		}
-	} while(!(k&0xf0));
+	}
 }
 
 void updateStats(){
@@ -1181,7 +1180,7 @@ void gameLoop(){
 	drawScreen();
 
 	message = 0;
-	k = waitForInput();
+	k = waitForInput(0);
 	if(JOY_UP(k))         Player.pos[Y] = (Player.pos[Y]-1)&7;
 	else if(JOY_DOWN(k))  Player.pos[Y] = (Player.pos[Y]+1)&7;
 	else if(JOY_LEFT(k))  Player.pos[X] = (Player.pos[X]-1)&7;
