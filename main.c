@@ -933,7 +933,6 @@ void charCreation(){
 	clrscr();
 
 	Player.hp = Player.dex = Player.spi = j = 8;
-	Player.torches = 5;
 	Player.gold = 60;
 
 	drawWindow(0, 0, 31, 5);
@@ -1096,10 +1095,15 @@ void charCreation(){
 			break;
 		}
 	}
+
 	drawWindow(0, 25, 31, 2);
 	cprintfxy(8, 26, "Get ready, %s!", playerRaceNames[Player.race]);
 	cprintfxy(1, 23, "%02d GP", Player.gold);
 	waitForInput(0);
+
+	// Automatically buy torches
+	Player.torches = Player.gold/2;
+	Player.gold = 0;
 }
 
 void updateStats(){
