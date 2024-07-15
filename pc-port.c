@@ -39,10 +39,10 @@
 
 #define VIRTUAL_SCREEN_WIDTH  (CONSOLE_WIDTH *8)
 #define VIRTUAL_SCREEN_HEIGHT (CONSOLE_HEIGHT*8)
-#define SCREEN_SCALE    2
+#define WINDOW_SCALE    2
 
-#define SCREEN_WIDTH    (VIRTUAL_SCREEN_WIDTH *SCREEN_SCALE)
-#define SCREEN_HEIGHT   (VIRTUAL_SCREEN_HEIGHT*SCREEN_SCALE)
+#define WINDOW_WIDTH    (VIRTUAL_SCREEN_WIDTH *WINDOW_SCALE)
+#define WINDOW_HEIGHT   (VIRTUAL_SCREEN_HEIGHT*WINDOW_SCALE)
 
 void init();
 uint8_t joy_read(uint8_t);
@@ -73,7 +73,7 @@ uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
 void init(){
 	clrscr();
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Loth's Castle");
+	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Loth's Castle");
 	nescii = LoadTexture("tileset.png");
 	renderTarget = LoadRenderTexture(
 		VIRTUAL_SCREEN_WIDTH,
@@ -88,8 +88,8 @@ void init(){
 	renderDestRec = (Rectangle){
 		0,
 		0,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT
 	};
 	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
 	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
@@ -105,10 +105,10 @@ void toggleFullscreen(){
 		renderDestRec = (Rectangle){
 			0,
 			0,
-			SCREEN_WIDTH,
-			SCREEN_HEIGHT
+			WINDOW_WIDTH,
+			WINDOW_HEIGHT
 		};
-		SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	} else{
 		int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
 		renderDestRec = (Rectangle){
