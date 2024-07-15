@@ -252,7 +252,7 @@ const char* const vendorQuotes[] = {
 	" `You look cute.'",
 	" `Please look through my\r\n\x0e"
 	" wares.'",
-	" `Forget 25.807,  DRAGONs are\r\n\x0e"
+	" `Forget 25.807, DRAGONs are\r\n\x0e"
 	" the real root of all evil.'"
 };
 

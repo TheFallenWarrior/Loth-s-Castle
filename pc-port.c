@@ -121,7 +121,7 @@ void toggleFullscreen(){
 			VIRTUAL_SCREEN_WIDTH*x,
 			VIRTUAL_SCREEN_HEIGHT*x
 		};
-		SetWindowSize(monitorWidth,monitorHeight);
+		SetWindowSize(monitorWidth, monitorHeight);
 	}
 }
 
@@ -235,15 +235,15 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	for(;k;k--) cputc('\x00');
 }
 
-void chlinexy(uint8_t x, uint8_t y,uint8_t k){
+void chlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc('\x0b');
 }
 
-void cvlinexy(uint8_t x, uint8_t y,uint8_t k){
+void cvlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(int i=0;i<k;i++){
-		cputcxy(x, y+i,'\x0e');
+		cputcxy(x, y+i, '\x0e');
 	}
 }
 
