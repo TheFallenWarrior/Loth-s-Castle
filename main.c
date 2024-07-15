@@ -851,7 +851,7 @@ void trigger(){
 	}
 	else if(k == VENDOR && vendorsAngry){
 		drawScreen();
-		Enemy.type =  D4 + 5;
+		Enemy.type = D4 + 5;
 		Enemy.hp = D4 + Enemy.type;
 		cclearxy(1, 22, 30);
 		cclearxy(1, 24, 30);
