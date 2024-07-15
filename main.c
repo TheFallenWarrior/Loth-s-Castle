@@ -659,7 +659,8 @@ void vendor(){
 			waitForInput(0);
 			return;
 		}
-		cprintfxy(1, 20,
+		cprintfxy(
+			1, 20,
 			"BUY ARMOR\r\n\x0e\n"
 			"%s",
 			"Up:   Nothing\r\n\x0e"
@@ -701,7 +702,8 @@ void vendor(){
 
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		cprintfxy(1, 20,
+		cprintfxy(
+			1, 20,
 			"BUY WEAPON\r\n\x0e\n"
 			"%s",
 			"Up:   Nothing\r\n\x0e"
@@ -743,7 +745,8 @@ void vendor(){
 
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		cprintfxy(1, 20,
+		cprintfxy(
+			1, 20,
 			"BUY POTION\r\n\x0e\n"
 			"%s",
 			"Up:   Nothing\r\n\x0e"
@@ -782,9 +785,11 @@ void vendor(){
 		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
 		else cputs("Nevermind.");
 		waitForInput(0);
+		
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
-		cputsxy(1, 20,
+		cputsxy(
+			1, 20,
 			"BUY TORCHES\r\n\x0e\n"
 			"Buy 10 torches for 1000 GP?\r\n\x0e"
 			"Up:   YES\r\n\x0e"
