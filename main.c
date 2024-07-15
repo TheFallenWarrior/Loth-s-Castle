@@ -896,10 +896,20 @@ void interact(){
 	switch(k){
 		case UPSTAIRS:
 		Player.pos[Z] = (Player.pos[Z]+1)&7;
+		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
+		drawScreen();
+		waitForInput(0);
+		message = 0;
+		trigger();
 		break;
 
 		case DOWNSTAIRS:
 		Player.pos[Z] = (Player.pos[Z]-1)&7;
+		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
+		drawScreen();
+		waitForInput(0);
+		message = 0;
+		trigger();
 		break;
 
 		case GOLDPIECES:
