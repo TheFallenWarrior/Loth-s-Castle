@@ -64,6 +64,7 @@ RenderTexture2D renderTarget;
 Rectangle       renderSourceRec;
 Rectangle       renderDestRec;
 Texture         nescii;
+Image           icon;
 
 uint16_t monitorWidth, monitorHeight;
 
@@ -75,6 +76,7 @@ void init(){
 	clrscr();
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Loth's Castle");
 	nescii = LoadTexture("tileset.png");
+	icon = LoadImage("icon.png");
 	renderTarget = LoadRenderTexture(
 		VIRTUAL_SCREEN_WIDTH,
 		VIRTUAL_SCREEN_HEIGHT
@@ -94,6 +96,7 @@ void init(){
 	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
 	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 	reversedText = 0;
+	SetWindowIcon(icon);
 	SetTargetFPS(60);
 	SetExitKey(KEY_F4);
 }
