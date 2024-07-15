@@ -95,6 +95,7 @@ void init(){
 	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 	reversedText = 0;
 	SetTargetFPS(60);
+	SetExitKey(KEY_F4);
 }
 
 // Not to be confused with Raylib's ToggleFullscreen function. This one takes
