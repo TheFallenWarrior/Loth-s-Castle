@@ -17,8 +17,8 @@
 
 #define JOY_DPAD_MASK   (0xf0)
 
-#define D4          (1+rand()&3)
-#define D8          (1+rand()&7)
+#define D4          (1+(rand()&3))
+#define D8          (1+(rand()&7))
 #define MIN(x, y)   ((x) > (y) ? (y) : (x))
 
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
