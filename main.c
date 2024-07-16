@@ -17,8 +17,8 @@
 
 #define JOY_DPAD_MASK   (0xf0)
 
-#define D4          (1+rand()%4)
-#define D8          (1+rand()%8)
+#define D4          (1+rand()&3)
+#define D8          (1+rand()&7)
 #define MIN(x, y)   ((x) > (y) ? (y) : (x))
 
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
@@ -583,13 +583,13 @@ void battle(){
 }
 
 void drinkFountain(){
-	l = rand()%8;
+	l = rand()&7;
 	cclearxy(1, 22, 30);
 	cclearxy(1, 24, 30);
 	cputsxy(1, 22, "Drank from the fountain.");
 	waitForInput(0);
 	if(l > 5){
-		Player.race = rand()%4;
+		Player.race = rand()&3;
 		cclearxy(1, 22, 30);
 		cprintfxy(
 			1, 22,
@@ -925,7 +925,7 @@ void interact(){
 		break;
 
 		case TREASURE:
-		l = rand()%8;
+		l = rand()&7;
 		Player.treasures |= bitMaskTable[l];
 		cclearxy(1, 22, 30);
 		cclearxy(1, 24, 30);
