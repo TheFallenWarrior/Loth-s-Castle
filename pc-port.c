@@ -7,12 +7,12 @@
 	reimplement conio.h or joystick.h behaviours.
 */
 
+#include <raylib.h>
+#include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <raylib.h>
-#include <stdint.h>
-#include <stdarg.h>
 
 #define JOY_1           0
 
