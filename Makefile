@@ -4,7 +4,7 @@
 all: main.nes main
 
 main.nes: main.c tileset.s tileset.chr
-	cl65 -Oi -t nes main.c tileset.s -o $@
+	cl65 -Ois -t nes main.c tileset.s -o $@
 
 run: main.nes
 	fceux main.nes
@@ -12,7 +12,7 @@ run: main.nes
 	@rm -f main.cdl main.nes.ram.nl
 
 main: main.c pc-port.c
-	gcc main.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
+	gcc main.c -Wall -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
 
 run-pc: main
 	./main
