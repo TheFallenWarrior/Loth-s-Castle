@@ -685,25 +685,25 @@ void vendor(){
 			"%s",
 			"Up:   Nothing\r\n\x0e"
 		);
-		if(LEATHER>Player.arm)
+		if(LEATHER > Player.arm)
 			cprintf("Right:%s(1000)\r\n\x0e", armorNames[LEATHER]);
-		if(CHAIN>Player.arm)
+		if(CHAIN > Player.arm)
 			cprintf("Down: %s  (2000)\r\n\x0e", armorNames[CHAIN]);
-		if(PLATE>Player.arm)
+		if(PLATE > Player.arm)
 			cprintf("Left: %s  (3000)", armorNames[PLATE]);
 		
 		j = waitForInput(JOY_DPAD_MASK);
-		if(JOY_RIGHT(j) && LEATHER>Player.arm && Player.gold > 1000){
+		if(JOY_RIGHT(j) && LEATHER > Player.arm && Player.gold > 1000){
 			Player.arm = LEATHER;
 			Player.gold -= 1000;
 			l = 1;
 		}
-		else if(JOY_DOWN(j) && CHAIN>Player.arm && Player.gold > 2000){
+		else if(JOY_DOWN(j) && CHAIN > Player.arm && Player.gold > 2000){
 			Player.arm = CHAIN;
 			Player.gold -= 2000;
 			l = 1;
 		}
-		else if(JOY_LEFT(j) && PLATE>Player.arm && Player.gold > 3000){
+		else if(JOY_LEFT(j) && PLATE > Player.arm && Player.gold > 3000){
 			Player.arm = PLATE;
 			Player.gold -= 3000;
 			l = 1;
@@ -725,25 +725,25 @@ void vendor(){
 			"%s",
 			"Up:   Nothing\r\n\x0e"
 		);
-		if(DAGGER>Player.weap)
+		if(DAGGER > Player.weap)
 			cprintf("Right:%s (1000)\r\n\x0e", weaponNames[DAGGER]);
-		if(MACE>Player.weap)
+		if(MACE > Player.weap)
 			cprintf("Down: %s   (2000)\r\n\x0e", weaponNames[MACE]);
-		if(SWORD>Player.weap)
+		if(SWORD > Player.weap)
 			cprintf("Left: %s  (3000)", weaponNames[SWORD]);
 		
 		j = waitForInput(JOY_DPAD_MASK);
-		if(JOY_RIGHT(j) && DAGGER>Player.weap && Player.gold > 1000){
+		if(JOY_RIGHT(j) && DAGGER > Player.weap && Player.gold > 1000){
 			Player.weap = DAGGER;
 			Player.gold -= 1000;
 			l = 1;
 		}
-		else if(JOY_DOWN(j) && MACE>Player.weap && Player.gold > 2000){
+		else if(JOY_DOWN(j) && MACE > Player.weap && Player.gold > 2000){
 			Player.weap = MACE;
 			Player.gold -= 2000;
 			l = 1;
 		}
-		else if(JOY_LEFT(j) && SWORD>Player.weap && Player.gold > 3000){
+		else if(JOY_LEFT(j) && SWORD > Player.weap && Player.gold > 3000){
 			Player.weap = SWORD;
 			Player.gold -= 3000;
 			l = 1;
@@ -765,22 +765,22 @@ void vendor(){
 			"%s",
 			"Up:   Nothing\r\n\x0e"
 		);
-		if(Player.hp<18)  cputs("Right:Hit Points (1000)\r\n\x0e");
-		if(Player.dex<18) cputs("Down: Dexterity  (1000)\r\n\x0e");
-		if(Player.spi<18) cputs("Left: Spirit     (1000)");
+		if(Player.hp < 18)  cputs("Right:Hit Points (1000)\r\n\x0e");
+		if(Player.dex < 18) cputs("Down: Dexterity  (1000)\r\n\x0e");
+		if(Player.spi < 18) cputs("Left: Spirit     (1000)");
 		
 		j = waitForInput(JOY_DPAD_MASK);
-		if(JOY_RIGHT(j) && Player.hp<18 && Player.gold > 1000){
+		if(JOY_RIGHT(j) && Player.hp < 18 && Player.gold > 1000){
 			++Player.hp;
 			Player.gold -= 1000;
 			l = 1;
 		}
-		else if(JOY_DOWN(j) && Player.dex<18 && Player.gold > 1000){
+		else if(JOY_DOWN(j) && Player.dex < 18 && Player.gold > 1000){
 			++Player.dex;
 			Player.gold -= 1000;
 			l = 3;
 		}
-		else if(JOY_LEFT(j) && Player.spi<18 && Player.gold > 1000){
+		else if(JOY_LEFT(j) && Player.spi < 18 && Player.gold > 1000){
 			++Player.spi;
 			Player.gold -= 1000;
 			l = 5;
