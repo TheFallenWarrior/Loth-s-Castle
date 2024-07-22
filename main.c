@@ -36,9 +36,10 @@ void useTorch();
 void trigger();
 void interact();
 void charCreation();
+void deathScreen();
 void updateStats();
 void drawScreen();
-void gameLoop();
+uint8_t gameLoop();
 
 // Used to avoid confusion in Player.pos
 enum coordinates{
@@ -242,6 +243,13 @@ const char* const interactionPrompts[] = {
 	"grab"
 };
 
+const char* const deathCauses[] = {
+	"DEATHSPELL",
+	"blood loss",
+	"clumsiness",
+	"stupidity"
+};
+
 const char* const vendorQuotes[] = {
 	" `Why is there so much gold\r\n\x0e"
 	" in the Astral Plane?'",
@@ -301,6 +309,7 @@ const uint8_t bitMaskTable[] = {
 
 uint8_t message;
 uint8_t vendorsAngry;
+uint8_t killedByDeathspell;
 
 // Castle rooms 3D matrix
 //            Z  Y  X
@@ -550,6 +559,19 @@ void battle(){
 		if(!Enemy.hp) break;
 
 		enemyAttack();
+		if(!Player.hp){
+			clearScreenArea(21, 28);
+			drawWindow(0, 20, 31, 7);
+			cprintfxy(
+				1, 20,
+				"%s"
+				"You succumb to your wounds.",
+				"MESSAGE\r\n\x0e\n",
+				enemyNames[Enemy.type]
+			);
+			waitForInput(0);
+			return;
+		}
 		
 	}
 	clearScreenArea(21, 28);
@@ -810,7 +832,7 @@ void vendor(){
 		trigger();
 	}
 	message = 0;
-	waitForInput(0);
+	if(Player.hp) waitForInput(0);
 }
 
 // Light up rooms adjacent to the player
@@ -933,6 +955,8 @@ void interact(){
 void charCreation(){
 	clrscr();
 
+	Player.pos[X] = Player.pos[Y] = Player.pos[Z] = 0;
+	Player.orb = Player.treasures = 0;
 	Player.hp = Player.dex = Player.spi = j = 8;
 	Player.gold = 60;
 
@@ -1103,6 +1127,63 @@ void charCreation(){
 	Player.gold = 0;
 }
 
+void deathScreen(){
+	clrscr();
+	drawWindow(0, 0, 31, 26);
+	drawWindow(12, 0, 6, 2);
+	cputsxy(13, 1, "DEATH");
+
+	// Count player treasures
+	i = 0;
+	if(Player.treasures & RUBYRED_MASK)   ++i;
+	if(Player.treasures & NORNSTONE_MASK) ++i;
+	if(Player.treasures & PALEPEARL_MASK) ++i;
+	if(Player.treasures & OPALEYE_MASK)   ++i;
+	if(Player.treasures & GREENGEM_MASK)  ++i;
+	if(Player.treasures & BLUEFLAME_MASK) ++i;
+	if(Player.treasures & PALINTIR_MASK)  ++i;
+	if(Player.treasures & SYLMARYL_MASK)  ++i;
+
+	// Assess death cause
+	if(!killedByDeathspell){
+		if(!Player.hp)  j = 1;
+		if(!Player.dex) j = 2;
+		if(!Player.spi) j = 3;
+	} else j = 0;
+
+	cputsxy(
+		1, 5, 
+		"And like  that, your  life has\r\n\x0e"
+		"come  to  a  bitter  end. Your\r\n\x0e"
+		"gravestone    reveals     what\r\n\x0e"
+		"little is known about you:"
+	);
+	
+	cprintfxy(
+		1, 11,
+		" `REST IN PEACE\r\n\x0e\n"
+		"  Here lies a %s %s,\r\n\x0e"
+		"  who died to %s\r\n\x0e"
+		"  at the age of %d,\r\n\x0e"
+		"  survived for %u turns,\r\n\x0e"
+		"  had %u worth of gold,\r\n\x0e"
+		"  had %d/8 treasure types.'",
+		genderNames[Player.gender], playerRaceNames[Player.race],
+		deathCauses[j], 14+(rand()&15), Player.turns,
+		Player.gold, i
+	);
+	cprintfxy(10, 23, "PRESS %s", buttonNames[START]);
+	waitForInput(JOY_START_MASK);
+
+	// Clear dungeon
+	for(i=0;i<8;++i){
+		for(j=0;j<8;++j){
+			for(k=0;k<8;++k)
+				rooms[i][j][k] = 0;
+		}
+	}
+}
+
 void updateStats(){
 	Player.hp  = MIN(Player.hp, 18);
 	Player.dex = MIN(Player.dex, 18);
@@ -1176,10 +1257,11 @@ void drawScreen(){
 	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 }
 
-void gameLoop(){
+uint8_t gameLoop(){
 	++Player.turns;
 	revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 	trigger();
+	if(!Player.hp || !Player.dex || !Player.spi) return 0;
 
 	drawScreen();
 
@@ -1191,6 +1273,9 @@ void gameLoop(){
 	else if(JOY_RIGHT(k)) Player.pos[X] = (Player.pos[X]+1)&7;
 	else if(JOY_BTN_A(k)) interact();
 	else if(JOY_BTN_B(k)) useTorch();
+
+	if(!Player.hp || !Player.dex || !Player.spi) return 0;
+	else return 1;
 }
 
 int main(){
@@ -1225,14 +1310,17 @@ int main(){
 	while(!JOY_START(joy_read(JOY_1))) ++j;
 	srand(j);
 
-	rooms[1+rand()%7][1+rand()%7][1+rand()%7] = YENDORORB;
-	rooms[0][0][0] = EMPTY;
+	while(1){	
+		rooms[1+rand()%7][1+rand()%7][1+rand()%7] = YENDORORB;
+		rooms[0][0][0] = EMPTY;
 
-	charCreation();
+		charCreation();
 
-	clrscr();
-	while(1) gameLoop();
+		clrscr();
+		while(gameLoop());
+		deathScreen();
+	}
+
 	joy_uninstall();
-
 	return 0;
 }
