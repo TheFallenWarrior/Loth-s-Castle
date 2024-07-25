@@ -191,7 +191,7 @@ void joy_uninstall(){}
 
 void clrscr(){
 	cursorX = cursorY = 0;
-	memset(consoleBuffer, '\x00', CONSOLE_WIDTH*CONSOLE_HEIGHT);
+	memset(consoleBuffer, ' ', CONSOLE_WIDTH*CONSOLE_HEIGHT);
 }
 
 void adjustxy(){
@@ -232,7 +232,7 @@ void cputsxy(uint8_t x, uint8_t y, const char *str){
 
 void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
-	for(;k;k--) cputc('\x00');
+	for(;k;k--) cputc(' ');
 }
 
 void chlinexy(uint8_t x, uint8_t y, uint8_t k){
