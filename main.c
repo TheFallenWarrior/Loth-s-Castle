@@ -516,7 +516,7 @@ void battle(){
 				continue;
 			}
 			if(playerBribe()) return;
-			
+
 		}
 		else if(JOY_DOWN(i)){
 			if(Player.dex+D4 > Enemy.type+D8){
@@ -572,7 +572,7 @@ void battle(){
 			waitForInput(0);
 			return;
 		}
-		
+
 	}
 	clearScreenArea(21, 28);
 	drawWindow(0, 20, 31, 7);
@@ -613,7 +613,7 @@ void drinkFountain(){
 		cclearxy(1, 22, 30);
 		cprintfxy(
 			1, 22,
-			"You turned into a %s.", 
+			"You turned into a %s.",
 			playerRaceNames[Player.race]
 		);
 		message = 0;
@@ -623,23 +623,23 @@ void drinkFountain(){
 		case 0:
 		++Player.hp;
 		break;
-	
+
 		case 1:
 		--Player.hp;
 		break;
-	
+
 		case 2:
 		++Player.dex;
 		break;
-	
+
 		case 3:
 		--Player.dex;
 		break;
-		
+
 		case 4:
 		++Player.spi;
 		break;
-	
+
 		case 5:
 		--Player.spi;
 		break;
@@ -691,7 +691,7 @@ void vendor(){
 			cprintf("Down: %s  (2000)\r\n\x0e", armorNames[CHAIN]);
 		if(PLATE > Player.arm)
 			cprintf("Left: %s  (3000)", armorNames[PLATE]);
-		
+
 		j = waitForInput(JOY_DPAD_MASK);
 		if(JOY_RIGHT(j) && LEATHER > Player.arm && Player.gold > 1000){
 			Player.arm = LEATHER;
@@ -731,7 +731,7 @@ void vendor(){
 			cprintf("Down: %s   (2000)\r\n\x0e", weaponNames[MACE]);
 		if(SWORD > Player.weap)
 			cprintf("Left: %s  (3000)", weaponNames[SWORD]);
-		
+
 		j = waitForInput(JOY_DPAD_MASK);
 		if(JOY_RIGHT(j) && DAGGER > Player.weap && Player.gold > 1000){
 			Player.weap = DAGGER;
@@ -768,7 +768,7 @@ void vendor(){
 		if(Player.hp < 18)  cputs("Right:Hit Points (1000)\r\n\x0e");
 		if(Player.dex < 18) cputs("Down: Dexterity  (1000)\r\n\x0e");
 		if(Player.spi < 18) cputs("Left: Spirit     (1000)");
-		
+
 		j = waitForInput(JOY_DPAD_MASK);
 		if(JOY_RIGHT(j) && Player.hp < 18 && Player.gold > 1000){
 			++Player.hp;
@@ -793,7 +793,7 @@ void vendor(){
 		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
 		else cputs("Nevermind.");
 		waitForInput(0);
-		
+
 		clearScreenArea(21, 28);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(
@@ -978,7 +978,7 @@ void charCreation(){
 		"Press %s to skip creation.",
 		buttonNames[SELECT]
 	);
-	
+
 	k = waitForInput(JOY_DPAD_MASK | JOY_SELECT_MASK);
 	if(JOY_SELECT(k)){ //Skip character creation
 		Player.race = 3;
@@ -1152,13 +1152,13 @@ void deathScreen(){
 	} else j = 0;
 
 	cputsxy(
-		1, 5, 
+		1, 5,
 		"And like  that, your  life has\r\n\x0e"
 		"come  to  a  bitter  end. Your\r\n\x0e"
 		"gravestone    reveals     what\r\n\x0e"
 		"little is known about you:"
 	);
-	
+
 	cprintfxy(
 		1, 11,
 		" `REST IN PEACE\r\n\x0e\n"
@@ -1293,11 +1293,11 @@ int main(){
 		"priest    Loth     transported\r\n\x0e"
 		"himself into the  Astral Plane\r\n\x0e"
 		"to  forge  what  would  become\r\n\x0e"
-		"known as the `Orb of Power'.\r\n\x0e\n" 
+		"known as the `Orb of Power'.\r\n\x0e\n"
 		"Although the priest himself is\r\n\x0e"
 		"long  gone,  the Orb  and  his\r\n\x0e"
 		"many    riches    still    lie\r\n\x0e"
-		"somewhere in his castle.\r\n\x0e\n" 
+		"somewhere in his castle.\r\n\x0e\n"
 		"Because  of that, many  delved\r\n\x0e"
 		"deep into the  Astral Plane in\r\n\x0e"
 		"search  of  the Orb of  Power,\r\n\x0e"
@@ -1310,7 +1310,7 @@ int main(){
 	while(!JOY_START(joy_read(JOY_1))) ++j;
 	srand(j);
 
-	while(1){	
+	while(1){
 		rooms[1+rand()%7][1+rand()%7][1+rand()%7] = YENDORORB;
 		rooms[0][0][0] = EMPTY;
 
