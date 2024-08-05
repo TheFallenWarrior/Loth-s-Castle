@@ -45,6 +45,7 @@
 #define WINDOW_HEIGHT   (VIRTUAL_SCREEN_HEIGHT*WINDOW_SCALE)
 
 void init();
+void renderScreen();
 uint8_t joy_read(uint8_t);
 void clrscr();
 void gotoxy(uint8_t, uint8_t);
@@ -125,11 +126,7 @@ void toggleFullscreen(){
 	}
 }
 
-// I assume that this function will always be looping inside waitForInput(),
-// so I use it to draw the screen as well.
-uint8_t joy_read(uint8_t r){
-	r = 0;
-
+void renderScreen(){
 	if(WindowShouldClose()){
 		if(IsWindowFullscreen()) ToggleFullscreen();
 		CloseWindow();
@@ -173,6 +170,10 @@ uint8_t joy_read(uint8_t r){
 		WHITE
 	);
 	EndDrawing();
+}
+
+uint8_t joy_read(uint8_t r){
+	r = 0;
 
 	if(IsKeyDown(KEY_UP))    r |= JOY_UP_MASK;
 	if(IsKeyDown(KEY_DOWN))  r |= JOY_DOWN_MASK;

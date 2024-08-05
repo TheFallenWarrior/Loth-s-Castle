@@ -8,6 +8,7 @@
 	#include <joystick.h>
 	#include <nes.h>
 	#define init()	joy_install(joy_static_stddrv)
+	#define renderScreen() (void)0
 #else
 	#include "pc-port.c"
 #endif
@@ -354,8 +355,8 @@ void cprintfxy(uint8_t x, uint8_t y, const char *str, ...){
 // Waits for input specified by a mask and then returns it
 uint8_t waitForInput(uint8_t mask){
 	if(!mask) mask = 0xff;
-	while(joy_read(JOY_1));
-	while(!(mask&joy_read(JOY_1)));
+	while(joy_read(JOY_1)) renderScreen();
+	while(!(mask&joy_read(JOY_1))) renderScreen();
 	return joy_read(JOY_1);
 }
 
@@ -1309,7 +1310,10 @@ int main(){
 	cprintfxy(10, 23, "PRESS %s", buttonNames[START]);
 	cputsxy(0, 27, "(c) 2024 TheFallenWarrior");
 
-	while(!JOY_START(joy_read(JOY_1))) ++j;
+	while(!JOY_START(joy_read(JOY_1))){
+		renderScreen();
+		++j;
+	}
 	srand(j);
 
 	while(1){
