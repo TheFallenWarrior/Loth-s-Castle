@@ -1326,7 +1326,5 @@ int main(){
 		while(gameLoop());
 		deathScreen();
 	}
-
-	joy_uninstall();
 	return 0;
 }

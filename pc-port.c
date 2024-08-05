@@ -49,7 +49,6 @@ void renderScreen();
 uint8_t joy_read(uint8_t);
 void clrscr();
 void gotoxy(uint8_t, uint8_t);
-void joy_uninstall();
 void cputc(uint8_t);
 void cputcxy(uint8_t, uint8_t, uint8_t);
 void cputs(const char*);
@@ -187,8 +186,6 @@ uint8_t joy_read(uint8_t r){
 
 	return r;
 }
-
-void joy_uninstall(){}
 
 void clrscr(){
 	cursorX = cursorY = 0;
