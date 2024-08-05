@@ -141,7 +141,7 @@ const char* const playerRaceNames[] = {
 	"GNOLL"
 };
 
-const char* const genderNames[] = {
+const char* const sexNames[] = {
 	"MALE",
 	"FEMALE"
 };
@@ -317,7 +317,7 @@ uint8_t rooms[8][8][8];
 
 struct{
 	uint8_t hp, dex, spi;
-	uint8_t gender, race;
+	uint8_t sex, race;
 	uint16_t gold;
 	uint8_t arm, weap;
 	uint8_t status, treasures;
@@ -982,7 +982,7 @@ void charCreation(){
 	k = waitForInput(JOY_DPAD_MASK | JOY_SELECT_MASK);
 	if(JOY_SELECT(k)){ //Skip character creation
 		Player.race = 3;
-		Player.gender = 1;
+		Player.sex = 1;
 		Player.dex += 8;
 		Player.arm  = CHAIN;
 		Player.weap = MACE;
@@ -1010,16 +1010,16 @@ void charCreation(){
 	drawWindow(0, 6, 31, 3);
 	cprintfxy(
 		1, 6,
-		"SELECT YOUR GENDER\r\n\x0e"
+		"SELECT YOUR SEX\r\n\x0e"
 		"Up:   %s\r\n\x0e"
 		"Down: %s",
-		genderNames[0],
-		genderNames[1]
+		sexNames[0],
+		sexNames[1]
 	);
 
 	k = waitForInput(JOY_UP_MASK | JOY_DOWN_MASK);
-	if(JOY_UP(k))        Player.gender = 0;
-	else if(JOY_DOWN(k)) Player.gender = 1;
+	if(JOY_UP(k))        Player.sex = 0;
+	else if(JOY_DOWN(k)) Player.sex = 1;
 
 	while(j){
 		cclearxy(0, 10, 155);
@@ -1168,7 +1168,7 @@ void deathScreen(){
 		"  survived for %u turns,\r\n\x0e"
 		"  had %u worth of gold,\r\n\x0e"
 		"  had %d/8 treasure types.'",
-		genderNames[Player.gender], playerRaceNames[Player.race],
+		sexNames[Player.sex], playerRaceNames[Player.race],
 		deathCauses[j], 14+(rand()&15), Player.turns,
 		Player.gold, i
 	);
@@ -1201,7 +1201,7 @@ void updateStats(){
 		(
 			Player.status ?
 			statusNames[Player.status] :
-			genderNames[Player.gender]
+			sexNames[Player.sex]
 		),
 		playerRaceNames[Player.race],
 		Player.hp, Player.dex, Player.spi, Player.gold,
