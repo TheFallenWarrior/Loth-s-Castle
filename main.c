@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define JOY_DPAD_MASK   (0xf0)
+#define JOY_DPAD_MASK   0xf0
 
 #define D4          (1+(rand()&3))
 #define D8          (1+(rand()&7))
