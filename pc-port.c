@@ -101,9 +101,9 @@ void init(){
 	SetExitKey(KEY_F4);
 }
 
-// Not to be confused with Raylib's ToggleFullscreen function. This one takes
-// monitor/render context into account to force integer scaling.
-void toggleFullscreen(){
+// This function takes monitor/render context into account to force integer 
+// scaling.
+void toggleFullscreenIntegerScale(){
 	ToggleFullscreen();
 	if(!IsWindowFullscreen()){
 		renderDestRec = (Rectangle){
@@ -132,7 +132,7 @@ void renderScreen(){
 		exit(0);
 	}
 	if(IsKeyPressed(KEY_F11)){
-		toggleFullscreen();
+		toggleFullscreenIntegerScale();
 	}
 
 	BeginTextureMode(renderTarget);
