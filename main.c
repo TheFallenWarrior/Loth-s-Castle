@@ -541,7 +541,11 @@ void battle(){
 			} else{
 				clearScreenArea(21, 28);
 				drawWindow(0, 20, 31, 7);
-				cprintfxy(1, 20, "%sFailed to run away.", "MESSAGE\r\n\x0e\n");
+				cprintfxy(
+					1, 20,
+					"%sFailed to run away.",
+					"MESSAGE\r\n\x0e\n"
+				);
 			}
 		}
 		else if(JOY_LEFT(i)){
