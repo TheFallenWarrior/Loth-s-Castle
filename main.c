@@ -1134,7 +1134,7 @@ void charCreation(){
 
 void deathScreen(){
 	clrscr();
-	drawWindow(0, 0, 31, 26);
+	drawWindow(0, 0, 31, 27);
 	drawWindow(12, 0, 6, 2);
 	cputsxy(13, 1, "DEATH");
 
