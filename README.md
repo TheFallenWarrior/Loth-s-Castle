@@ -17,13 +17,13 @@ For the sake of simplicity, the entirety of the game's source code resides in
 ### NES and Linux targets
 
 Assuming you have both Raylib and and cc65 installed, you can compile the NES
-version with `make main.nes`, and the Linux version with `make main`.
+version with `make nes`, and the Linux version with `make linux`.
 
 ### Web
 
 To build for web, you'll need to set up [Emscripten](https://emscripten.org).
 Before compiling, make sure to add the Emscripten SDK to your path using
-`source /path/to/emsdk/emsdk_env.sh`. Then use `make web/main.html` to build
+`source /path/to/emsdk/emsdk_env.sh`. Then use `make web` to build
 the game.
 
 > NOTE: The Makefile assumes Raylib is located at `$HOME/raylib`. If you have
