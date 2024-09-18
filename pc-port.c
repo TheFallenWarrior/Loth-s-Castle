@@ -76,7 +76,6 @@ void init(){
 	clrscr();
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Loth's Castle");
 	nescii = LoadTexture("tileset.png");
-	icon = LoadImage("icon.png");
 	renderTarget = LoadRenderTexture(
 		VIRTUAL_SCREEN_WIDTH,
 		VIRTUAL_SCREEN_HEIGHT
@@ -93,36 +92,42 @@ void init(){
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT
 	};
-	monitorWidth = GetMonitorWidth(GetCurrentMonitor());
-	monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 	reversedText = 0;
-	SetWindowIcon(icon);
 	SetTargetFPS(60);
-	SetExitKey(KEY_F4);
+	
+	#ifndef __EMSCRIPTEN__
+		icon = LoadImage("icon.png");
+		monitorWidth = GetMonitorWidth(GetCurrentMonitor());
+		monitorHeight = GetMonitorHeight(GetCurrentMonitor());
+		SetWindowIcon(icon);
+		SetExitKey(KEY_F4);
+	#endif
 }
 
 // This function takes monitor/render context into account to force integer 
 // scaling.
 void toggleFullscreenIntegerScale(){
-	ToggleFullscreen();
-	if(!IsWindowFullscreen()){
-		renderDestRec = (Rectangle){
-			0,
-			0,
-			WINDOW_WIDTH,
-			WINDOW_HEIGHT
-		};
-		SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	} else{
-		int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
-		renderDestRec = (Rectangle){
-			0,
-			0,
-			VIRTUAL_SCREEN_WIDTH*x,
-			VIRTUAL_SCREEN_HEIGHT*x
-		};
-		SetWindowSize(monitorWidth, monitorHeight);
-	}
+	#ifndef __EMSCRIPTEN__
+		ToggleFullscreen();
+		if(!IsWindowFullscreen()){
+			renderDestRec = (Rectangle){
+				0,
+				0,
+				WINDOW_WIDTH,
+				WINDOW_HEIGHT
+			};
+			SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		} else{
+			int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
+			renderDestRec = (Rectangle){
+				0,
+				0,
+				VIRTUAL_SCREEN_WIDTH*x,
+				VIRTUAL_SCREEN_HEIGHT*x
+			};
+			SetWindowSize(monitorWidth, monitorHeight);
+		}
+	#endif
 }
 
 void renderScreen(){

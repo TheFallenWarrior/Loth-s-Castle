@@ -5,3 +5,4 @@ main
 *.cdl
 *.nl
 screenshot*.png
+web/

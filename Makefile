@@ -1,7 +1,7 @@
 
-.PHONY:	all run run-pc clean
+.PHONY:	all run run-pc run-web clean
 
-all: main.nes main
+all: main.nes main web/main.html
 
 main.nes: main.c tileset.s tileset.chr
 	cl65 -Ois -t nes main.c tileset.s -o $@
@@ -17,5 +17,12 @@ main: main.c pc-port.c
 run-pc: main
 	./main
 
+web/main.html: main.c pc-port.c tileset.png
+	mkdir -p web
+	emcc -o $@ -O2 main.c -Wall ~/raylib/src/libraylib.a -I. -I$(HOME)/raylib/src/ -L. -L$(HOME)/raylib/src/libraylib.a -s USE_GLFW=3 --shell-file $(HOME)/raylib/src/minshell.html -DPLATFORM_WEOM_WEB -s ASYNCIFY --preload-file tileset.png
+
+run-web: web/main.html
+	emrun web/main.html
+
 clean:
-	rm -f main.nes main.o tileset.o main
+	rm -rf main.nes main.o tileset.o main web/
