@@ -1202,9 +1202,9 @@ void updateStats(){
 	cprintfxy(
 		1, 0,
 		"%s %s\r\n\x0e"
-		"Hits:%2d  Attr: %2d/%2d  GP:%u\r\n\x0e"
-		"AC:  %2d  Torch:%2d     XY:%1d%1d\r\n\x0e"
-		"Weapon:%6s         Lv:%1d",
+		"Hits: %-2d Attr: %-2d/%-2d  GP:%u\r\n\x0e"
+		"AC:   %-2d Torch:%-2d     XY:%1d%1d\r\n\x0e"
+		"Weapon:%-6s         Lv:%1d",
 		(
 			Player.status ?
 			statusNames[Player.status] :
