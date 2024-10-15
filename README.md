@@ -35,6 +35,8 @@ Game code by João F. S. Pereira (TheFallenWarrior).
 
 Some `#define`s in `pc-port.c` were borrowed from the cc65 runtime library.
 
+The HTML shell (`webshell.html`) is derived from raylib's `minshell.html`.
+
 Game design was heavily inspired by
 [Amulet of Yendor](https://www.mobygames.com/game/13440/amulet-of-yendor/) and
 Leslie Bird's [Wizard's Castle](https://github.com/lesliesbird/WizardsCastle).
