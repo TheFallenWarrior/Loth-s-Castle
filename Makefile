@@ -21,9 +21,10 @@ linux: main
 run-pc: linux
 	./main
 
-web/main.html: main.c pc-port.c tileset.png
+web/main.html: main.c pc-port.c tileset.png webshell.html
 	mkdir -p web
-	emcc -o $@ -O2 main.c -Wall $(HOME)/raylib/src/libraylib.a -I. -I$(HOME)/raylib/src/ -L. -L$(HOME)/raylib/src/libraylib.a -s USE_GLFW=3 --shell-file $(HOME)/raylib/src/minshell.html -DPLATFORM_WEOM_WEB -s ASYNCIFY --preload-file tileset.png
+	cp icon.png web/icon.png
+	emcc -o $@ -O2 main.c -Wall $(HOME)/raylib/src/libraylib.a -I. -I$(HOME)/raylib/src/ -L. -L$(HOME)/raylib/src/libraylib.a -s USE_GLFW=3 --shell-file webshell.html -DPLATFORM_WEOM_WEB -s ASYNCIFY --preload-file tileset.png
 
 web: web/main.html
 
