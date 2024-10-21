@@ -657,6 +657,7 @@ void drinkFountain(){
 	return;
 }
 
+// Vendor interaction menu
 void vendor(){
 	cclearxy(1, 22, 30);
 	cclearxy(1, 24, 30);
@@ -1132,6 +1133,7 @@ void charCreation(){
 	Player.gold = 0;
 }
 
+// Display player achievements and reset game state
 void deathScreen(){
 	clrscr();
 	drawWindow(0, 0, 31, 27);
@@ -1191,6 +1193,7 @@ void deathScreen(){
 	}
 }
 
+// Clamp player's attributes and display them
 void updateStats(){
 	Player.hp  = MIN(Player.hp, 18);
 	Player.dex = MIN(Player.dex, 18);

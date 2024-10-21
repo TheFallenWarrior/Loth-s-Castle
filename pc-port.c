@@ -2,9 +2,9 @@
 	Loth's Castle
 	Copyright 2024 TheFallenWarrior
 	
-	Dirty frontend that makes the LC's CC65 source code compatible with Raylib
-	This does the bare minimum to to make the game work, and doesn't actually
-	reimplement conio.h or joystick.h behaviours.
+	Dirty frontend that makes the LC's cc65 source code compatible with
+	raylib. This does the bare minimum to to make the game work and doesn't
+	actually reimplement conio.h or joystick.h.
 */
 
 #include <raylib.h>
@@ -72,6 +72,7 @@ uint8_t cursorX, cursorY;
 uint8_t reversedText;
 uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
+// Initialize game window and raylib context
 void init(){
 	clrscr();
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Loth's Castle");
@@ -104,8 +105,7 @@ void init(){
 	#endif
 }
 
-// This function takes monitor/render context into account to force integer 
-// scaling.
+// Toggle fullscreen with forced integer scaling
 void toggleFullscreenIntegerScale(){
 	#ifndef __EMSCRIPTEN__
 		ToggleFullscreen();
@@ -130,6 +130,7 @@ void toggleFullscreenIntegerScale(){
 	#endif
 }
 
+// Render one frame of the conio's console
 void renderScreen(){
 	if(WindowShouldClose()){
 		if(IsWindowFullscreen()) ToggleFullscreen();
@@ -176,6 +177,7 @@ void renderScreen(){
 	EndDrawing();
 }
 
+// Poll game input and return it in NES D-pad format
 uint8_t joy_read(uint8_t r){
 	r = 0;
 
@@ -192,22 +194,26 @@ uint8_t joy_read(uint8_t r){
 	return r;
 }
 
+// Clear screen and set cursor to the top-left
 void clrscr(){
 	cursorX = cursorY = 0;
 	memset(consoleBuffer, ' ', CONSOLE_WIDTH*CONSOLE_HEIGHT);
 }
 
+// Make sure the cursor is within screen bounds
 void adjustxy(){
 	cursorY = (cursorY + cursorX/CONSOLE_WIDTH)%CONSOLE_HEIGHT;
 	cursorX %= CONSOLE_WIDTH;
 }
 
+// Set cursor position to x, y
 void gotoxy(uint8_t x, uint8_t y){
 	cursorX = x;
 	cursorY = y;
 	adjustxy();
 }
 
+// Analogous to putc(c);
 void cputc(uint8_t c){
 	if(c == '\r') cursorX = 0;
 	else if(c == '\n') cursorY++;
@@ -219,30 +225,36 @@ void cputc(uint8_t c){
 	adjustxy();
 }
 
+// Equivalent to gotoxy(x, y); cputc(c);
 void cputcxy(uint8_t x, uint8_t y, uint8_t c){
 	gotoxy(x, y);
 	cputc(c);
 }
 
+// Analogous to puts(str);
 void cputs(const char *str){
 	for(int i=0;str[i];i++) cputc(str[i]);
 }
 
+// Equivalent to gotoxy(x, y); cputs(str);
 void cputsxy(uint8_t x, uint8_t y, const char *str){
 	gotoxy(x, y);
 	cputs(str);
 }
 
+// Write k spaces at x, y
 void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc(' ');
 }
 
+// Draws a horizontal line of length k at x, y
 void chlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc('\x0b');
 }
 
+// Draws a vertical line of length k at x, y
 void cvlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(int i=0;i<k;i++){
@@ -250,6 +262,7 @@ void cvlinexy(uint8_t x, uint8_t y, uint8_t k){
 	}
 }
 
+// Analogous to vprintf(str, arg);
 void vcprintf(const char *str, va_list arg){
 	char tmp[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 
@@ -257,6 +270,7 @@ void vcprintf(const char *str, va_list arg){
 	cputs(tmp);
 }
 
+// Analogous to printf(str, ...);
 void cprintf(const char *str, ...){
 	va_list args;
 	va_start(args, str);
@@ -266,6 +280,7 @@ void cprintf(const char *str, ...){
 	va_end(args);
 }
 
+// Enable/disable reverse character display
 void revers(uint8_t r){
 	reversedText = !!r;
 }
