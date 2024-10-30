@@ -3,8 +3,8 @@
 
 all: nes linux web
 
-main.nes: main.c tileset.s tileset.chr
-	cl65 -Ois -t nes main.c tileset.s -o $@
+main.nes: main.c crt0.s tileset.chr
+	cl65 -Ois -t nes main.c crt0.s -o $@
 
 nes: main.nes
 

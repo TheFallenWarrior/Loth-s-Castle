@@ -33,7 +33,7 @@ it in a different location, you'll need to edit the Makefile accordingly.
 
 Game code by João F. S. Pereira (TheFallenWarrior).
 
-Some `#define`s in `pc-port.c` were borrowed from the cc65 runtime library.
+Source files `pc-port.c` and `crt0.s` are based on cc65 runtime library.
 
 The HTML shell (`webshell.html`) is derived from raylib's `minshell.html`.
 
