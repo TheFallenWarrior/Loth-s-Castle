@@ -108,8 +108,8 @@ void init(){
 // Toggle fullscreen with forced integer scaling
 void toggleFullscreenIntegerScale(){
 	#ifndef __EMSCRIPTEN__
-		ToggleFullscreen();
-		if(!IsWindowFullscreen()){
+		if(IsWindowFullscreen()){
+			ToggleFullscreen();
 			renderDestRec = (Rectangle){
 				0,
 				0,
@@ -126,6 +126,7 @@ void toggleFullscreenIntegerScale(){
 				VIRTUAL_SCREEN_HEIGHT*x
 			};
 			SetWindowSize(monitorWidth, monitorHeight);
+			ToggleFullscreen();
 		}
 	#endif
 }
