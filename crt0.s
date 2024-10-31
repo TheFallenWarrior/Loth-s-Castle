@@ -37,14 +37,13 @@
 
 ;    +--------+------+------------------------------------------+
 ;    | Offset | Size | Content(s)                               |
-;    +--------+------+------------------------------------------+
 ;    |   0    |  3   | 'NES'                                    |
 ;    |   3    |  1   | $1A                                      |
 ;    |   4    |  1   | 16K PRG-ROM page count                   |
 ;    |   5    |  1   | 8K CHR-ROM page count                    |
-;    |   6    |  1   | Mapper, mirroring, battery, saving       |
+;    |   6    |  1   | Mapper, mirroring, battery saving        |
 ;    |   7    |  1   | Mapper, NES 2.0                          |
-;    |   8    |  1   | Mapper MSB/Submapper                     |
+;    |   8    |  1   | Mapper, Submapper                        |
 ;    |   9    |  1   | PRG-ROM/CHR-ROM page count MSB           |
 ;    |   10   |  1   | PRG-RAM/PRG-NVRAM size                   |
 ;    |   11   |  1   | CHR-RAM/CHR-NVRAM size                   |
@@ -57,7 +56,7 @@
         .byte   $4e,$45,$53,$1a ; "NES\x1a"
         .byte   2               ; 32 KiB PRG-ROM
         .byte   1               ; 8 KiB CHR-ROM
-        .byte   1               ; Vertical mirroring
+        .byte   1               ; NROM, Vertical mirroring
         .byte   8               ; NROM, NES 2.0
         .byte   0, 0            ; NROM, Submapper 0
         .byte   7               ; 8 KiB PRG-RAM

@@ -131,7 +131,7 @@ void toggleFullscreenIntegerScale(){
 	#endif
 }
 
-// Render one frame of the conio's console
+// Render one frame of conio's console
 void renderScreen(){
 	if(WindowShouldClose()){
 		if(IsWindowFullscreen()) ToggleFullscreen();
@@ -178,7 +178,7 @@ void renderScreen(){
 	EndDrawing();
 }
 
-// Poll game input and return it in NES D-pad format
+// Poll game input and return it in NES controller format
 uint8_t joy_read(uint8_t r){
 	r = 0;
 
@@ -281,7 +281,7 @@ void cprintf(const char *str, ...){
 	va_end(args);
 }
 
-// Enable/disable reverse character display
+// Toggle reverse character display
 void revers(uint8_t r){
 	reversedText = !!r;
 }
