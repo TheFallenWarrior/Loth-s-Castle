@@ -30,4 +30,4 @@ run-web: web
 	emrun web/main.html
 
 clean:
-	rm -rf main.nes main.o tileset.o main web/
+	rm -rf main.nes main.o crt0.o main web/
