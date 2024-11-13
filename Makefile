@@ -12,7 +12,7 @@ run: nes
 	mesen main.nes
 
 main: main.c pc-port.c
-	gcc main.c -Wall -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
+	gcc main.c pc-port.c -Wall -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
 
 linux: main
 
@@ -22,7 +22,7 @@ run-pc: linux
 web/main.html: main.c pc-port.c tileset.png webshell.html
 	mkdir -p web
 	cp icon.png web/icon.png
-	emcc -o $@ main.c -Wall $(HOME)/raylib/src/libraylib.a -I. -I$(HOME)/raylib/src/ -L. -L$(HOME)/raylib/src/libraylib.a -s USE_GLFW=3 --shell-file webshell.html -DPLATFORM_WEOM_WEB -s ASYNCIFY --preload-file tileset.png
+	emcc -o $@ main.c pc-port.c -Wall $(HOME)/raylib/src/libraylib.a -I. -I$(HOME)/raylib/src/ -L. -L$(HOME)/raylib/src/libraylib.a -s USE_GLFW=3 --shell-file webshell.html -DPLATFORM_WEOM_WEB -s ASYNCIFY --preload-file tileset.png
 
 web: web/main.html
 
