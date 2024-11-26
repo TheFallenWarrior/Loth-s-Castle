@@ -54,8 +54,6 @@ void init(){
 	
 	#ifndef __EMSCRIPTEN__
 		icon = LoadImage("icon.png");
-		monitorWidth = GetMonitorWidth(GetCurrentMonitor());
-		monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 		SetWindowIcon(icon);
 		SetExitKey(KEY_F4);
 	#endif
@@ -64,6 +62,8 @@ void init(){
 // Toggle fullscreen with forced integer scaling
 void toggleFullscreenIntegerScale(){
 	#ifndef __EMSCRIPTEN__
+		monitorWidth = GetMonitorWidth(GetCurrentMonitor());
+		monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 		if(IsWindowFullscreen()){
 			ToggleFullscreen();
 			renderDestRec = (Rectangle){
