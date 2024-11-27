@@ -22,8 +22,6 @@ Rectangle       renderDestRec;
 Texture         nescii;
 Image           icon;
 
-uint16_t monitorWidth, monitorHeight;
-
 uint8_t cursorX, cursorY;
 uint8_t reversedText;
 uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
@@ -62,8 +60,6 @@ void init(){
 // Toggle fullscreen with forced integer scaling
 void toggleFullscreenIntegerScale(){
 	#ifndef __EMSCRIPTEN__
-		monitorWidth = GetMonitorWidth(GetCurrentMonitor());
-		monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 		if(IsWindowFullscreen()){
 			ToggleFullscreen();
 			renderDestRec = (Rectangle){
@@ -74,6 +70,8 @@ void toggleFullscreenIntegerScale(){
 			};
 			SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		} else{
+			int monitorWidth = GetMonitorWidth(GetCurrentMonitor());
+			int monitorHeight = GetMonitorHeight(GetCurrentMonitor());
 			int x = monitorHeight/VIRTUAL_SCREEN_HEIGHT;
 			renderDestRec = (Rectangle){
 				0,
