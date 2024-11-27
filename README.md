@@ -33,7 +33,8 @@ have it in a different location, you'll need to edit the Makefile accordingly.
 
 Game code by João F. S. Pereira (TheFallenWarrior).
 
-Source files `pc-port.c` and `crt0.s` are based on the cc65 runtime library.
+Source files `pc-port.c` and `crt0.s` are based on part of the cc65 runtime
+library.
 
 The HTML shell (`webshell.html`) is based on raylib's `minshell.html`.
 
