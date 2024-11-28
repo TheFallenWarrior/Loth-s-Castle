@@ -554,8 +554,6 @@ void vendor(){
 
 // Light up rooms adjacent to the player
 void useTorch(){
-	if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == WARP_ROOM)
-		return;
 	if(Player.torches){
 		message = 1;
 		--Player.torches;
