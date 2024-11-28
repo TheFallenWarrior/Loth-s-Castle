@@ -42,35 +42,35 @@ enum coordinates{
 };
 
 enum playerRaceTypes{
-	HUMAN,
-	ELF,
-	DWARF,
-	GNOLL
+	RAC_HUMAN,
+	RAC_ELF,
+	RAC_DWARF,
+	RAC_GNOLL
 };
 
 enum weaponTypes{
-	STICK,
-	DAGGER,
-	MACE,
-	SWORD
+	WPN_STICK,
+	WPN_DAGGER,
+	WPN_MACE,
+	WPN_SWORD
 };
 
 enum armorTypes{
-	RAGS,
-	LEATHER,
-	CHAIN,
-	PLATE
+	ARM_RAGS,
+	ARM_LEATHER,
+	ARM_CHAIN,
+	ARM_PLATE
 };
 
 enum treasureTypes{
-	RUBYRED,    // Avoid Lethargy
-	NORNSTONE,  // Nothing
-	PALEPEARL,  // Avoid Bleeding
-	OPALEYE,    // Cure Blindness
-	GREENGEM,   // Avoid Forgetting
-	BLUEFLAME,  // Nothing
-	PALINTIR,   // Nothing
-	SYLMARYL    // Nothing
+	TRS_RUBYRED,    // Avoid Lethargy
+	TRS_NORNSTONE,  // Nothing
+	TRS_PALEPEARL,  // Avoid Bleeding
+	TRS_OPALEYE,    // Cure Blindness
+	TRS_GREENGEM,   // Avoid Forgetting
+	TRS_BLUEFLAME,  // Nothing
+	TRS_PALINTIR,   // Nothing
+	TRS_SYLMARYL    // Nothing
 };
 
 enum treasureMasks{
@@ -85,46 +85,46 @@ enum treasureMasks{
 };
 
 enum statusAilments{
-	HEALTHY,
-	LETHARGY,
-	BLEED,
-	FORGETFULNESS,
-	BLINDNESS
+	STA_HEALTHY,
+	STA_LETHARGY,
+	STA_BLEED,
+	STA_FORGETFULNESS,
+	STA_BLINDNESS
 };
 
 enum roomContents{
-	UNKNOWN,
-	EMPTY,
-	UPSTAIRS,
-	DOWNSTAIRS,
-	FOUNTAIN,
-	GOLDPIECES,
-	CHEST,
-	MONSTER,
-	TREASURE,
-	WARP,
-	VENDOR,
-	YENDORORB
+	UNKNOWN_ROOM,
+	EMPTY_ROOM,
+	UPSTAIRS_ROOM,
+	DOWNSTAIRS_ROOM,
+	FOUNTAIN_ROOM,
+	GOLDPIECES_ROOM,
+	CHEST_ROOM,
+	MONSTER_ROOM,
+	TREASURE_ROOM,
+	WARP_ROOM,
+	VENDOR_ROOM,
+	YENDORORB_ROOM
 };
 
 enum enemyTypes{
-	GOBLIN,
-	KOBOLD,
-	WOLF,
-	ORC,
-	OGRE,
-	LAMIA,
-	TROLL,
-	MINOTAUR,
-	CHIMERA,
-	DRAGON
+	ENM_GOBLIN,
+	ENM_KOBOLD,
+	ENM_WOLF,
+	ENM_ORC,
+	ENM_OGRE,
+	ENM_LAMIA,
+	ENM_TROLL,
+	ENM_MINOTAUR,
+	ENM_CHIMERA,
+	ENM_DRAGON
 };
 
 enum buttons{
-	A,
-	B,
-	SELECT,
-	START
+	BTN_A,
+	BTN_B,
+	BTN_SELECT,
+	BTN_START
 };
 
 const char* const playerRaceNames[] = {
