@@ -920,7 +920,7 @@ void deathScreen(){
 	}
 }
 
-// Clamp player's attributes and display them
+// Limit player's attributes and display them
 void updateStats(){
 	Player.hp  = MIN(Player.hp, 18);
 	Player.dex = MIN(Player.dex, 18);
