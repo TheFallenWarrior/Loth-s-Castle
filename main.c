@@ -393,7 +393,7 @@ void vendor(){
 			cprintf(
 				"%s says:\r\n\x0e"
 				"%s",
-				"VENDOR_ROOM",
+				"VENDOR",
 				" `You don't have enough\r\n\x0e money.'"
 			);
 			message = 0;
