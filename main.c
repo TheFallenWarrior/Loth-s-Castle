@@ -34,6 +34,7 @@ struct{
 	uint8_t status, treasures;
 	uint8_t torches, orb;
 	uint8_t pos[3];
+	uint8_t oldPos[3];
 	uint16_t turns;
 } Player;
 
@@ -242,6 +243,9 @@ void battle(){
 					"MESSAGE\r\n\x0e\n"
 				);
 				j = waitForInput(JOY_DPAD_MASK);
+				Player.oldPos[X] = Player.pos[X];
+				Player.oldPos[Y] = Player.pos[Y];
+				Player.oldPos[Z] = Player.pos[Z];
 				if(JOY_UP(j))         Player.pos[Y] = (Player.pos[Y]-1)&7;
 				else if(JOY_DOWN(j))  Player.pos[Y] = (Player.pos[Y]+1)&7;
 				else if(JOY_LEFT(j))  Player.pos[X] = (Player.pos[X]-1)&7;
@@ -562,6 +566,7 @@ void useTorch(){
 				revealRoom(i&7, j&7, Player.pos[Z]);
 		}
 	}
+	Player.oldPos[Z] = 0xff;
 }
 
 // An event that happens automatically
@@ -569,11 +574,15 @@ void trigger(){
 	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 	if(k == WARP_ROOM){
 		for(i=0;i<3;++i) Player.pos[i] = rand()&7;
+		Player.oldPos[Z] = 0xff;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 
 		message = WARP_ROOM;
 		drawScreen();
 		waitForInput(0);
+		Player.oldPos[X] = Player.pos[X];
+		Player.oldPos[Y] = Player.pos[Y];
+		Player.oldPos[Z] = Player.pos[Z];
 		message = 0;
 		trigger();
 	}
@@ -619,20 +628,28 @@ void interact(){
 	switch(k){
 		case UPSTAIRS_ROOM:
 		Player.pos[Z] = (Player.pos[Z]+1)&7;
+		Player.oldPos[Z] = 0xff;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 		drawScreen();
 		waitForInput(0);
 		message = 0;
 		trigger();
+		Player.oldPos[X] = Player.pos[X];
+		Player.oldPos[Y] = Player.pos[Y];
+		Player.oldPos[Z] = Player.pos[Z];
 		break;
 
 		case DOWNSTAIRS_ROOM:
+		Player.oldPos[Z] = 0xff;
 		Player.pos[Z] = (Player.pos[Z]-1)&7;
 		revealRoom(Player.pos[X], Player.pos[Y], Player.pos[Z]);
 		drawScreen();
 		waitForInput(0);
 		message = 0;
 		trigger();
+		Player.oldPos[X] = Player.pos[X];
+		Player.oldPos[Y] = Player.pos[Y];
+		Player.oldPos[Z] = Player.pos[Z];
 		break;
 
 		case GOLDPIECES_ROOM:
@@ -674,6 +691,7 @@ void charCreation(){
 	Player.orb = Player.treasures = 0;
 	Player.hp = Player.dex = Player.spi = j = 8;
 	Player.gold = 60;
+	Player.oldPos[Z] = 0xff;
 
 	drawWindow(0, 0, 31, 5);
 	cprintfxy(
@@ -931,10 +949,46 @@ void updateStats(){
 }
 
 void drawScreen(){
-	clrscr();
+	// Draw map screen, if the player is the same level they were before, only
+	// update the changed tiles
+	if(Player.pos[Z] == Player.oldPos[Z]){
+		l = rooms[Player.pos[Z]][Player.oldPos[Y]][Player.oldPos[X]];
+		k = mapIcons[l];
+		if(l&0x80) k = mapIcons[MONSTER_ROOM];
+		cprintfxy(4*Player.oldPos[X], 5+2*Player.oldPos[Y], "[%c]", k);
+
+		l = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
+		k = mapIcons[l];
+		if(l&0x80) k = mapIcons[MONSTER_ROOM];
+		else if(l == EMPTY_ROOM) k = '@';
+		revers(1);
+		cprintfxy(4*Player.pos[X], 5+2*Player.pos[Y], "[%c]", k);
+		revers(0);
+	}
+	else{
+		clrscr();
+		gotoxy(0, 5);
+		for(i=0;i<8;++i){
+			for(j=0;j<8;++j){
+				l = rooms[Player.pos[Z]][i][j];
+				k = mapIcons[l];
+				if(j == Player.pos[X] && i == Player.pos[Y]){
+					revers(1);
+					if(l == EMPTY_ROOM) k = '@';
+				}
+				if(l&0x80) k = mapIcons[MONSTER_ROOM];
+				cprintf("[%c]", k);
+				revers(0);
+				cputc(' ');
+			}
+			cputc('\n');
+		}
+	}
+
 	updateStats();
 
 	// Draw message window
+	clearScreenArea(20,27);
 	drawWindow(0, 20, 31, 7);
 	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 
@@ -954,24 +1008,6 @@ void drawScreen(){
 		}
 	}
 
-	// Draw map screen
-	gotoxy(0, 5);
-	for(i=0;i<8;++i){
-		for(j=0;j<8;++j){
-			l = rooms[Player.pos[Z]][i][j];
-			k = mapIcons[l];
-			if(j == Player.pos[X] && i == Player.pos[Y]){
-				revers(1);
-				if(l == EMPTY_ROOM) k = '@';
-			}
-			if(l & 0x80) k = mapIcons[MONSTER_ROOM];
-			cprintf("[%c]", k);
-			revers(0);
-			cputc(' ');
-		}
-		cputc('\n');
-	}
-
 	// This shouldn't be here.
 	k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 }
@@ -986,10 +1022,15 @@ uint8_t gameLoop(){
 
 	message = 0;
 	k = waitForInput(0);
-	if(JOY_UP(k))         Player.pos[Y] = (Player.pos[Y]-1)&7;
-	else if(JOY_DOWN(k))  Player.pos[Y] = (Player.pos[Y]+1)&7;
-	else if(JOY_LEFT(k))  Player.pos[X] = (Player.pos[X]-1)&7;
-	else if(JOY_RIGHT(k)) Player.pos[X] = (Player.pos[X]+1)&7;
+	if(k&JOY_DPAD_MASK){
+		Player.oldPos[X] = Player.pos[X];
+		Player.oldPos[Y] = Player.pos[Y];
+		Player.oldPos[Z] = Player.pos[Z];
+		if(JOY_UP(k))         Player.pos[Y] = (Player.pos[Y]-1)&7;
+		else if(JOY_DOWN(k))  Player.pos[Y] = (Player.pos[Y]+1)&7;
+		else if(JOY_LEFT(k))  Player.pos[X] = (Player.pos[X]-1)&7;
+		else if(JOY_RIGHT(k)) Player.pos[X] = (Player.pos[X]+1)&7;
+	}
 	else if(JOY_BTN_A(k)) interact();
 	else if(JOY_BTN_B(k)) useTorch();
 
