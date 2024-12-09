@@ -44,7 +44,7 @@
 ;    |   6    |  1   | Mapper, mirroring, battery saving        |
 ;    |   7    |  1   | Mapper, NES 2.0                          |
 ;    |   8    |  1   | Mapper, Submapper                        |
-;    |   9    |  1   | PRG-ROM/CHR-ROM page count MSB           |
+;    |   9    |  1   | PRG-ROM/CHR-ROM page count high nibbles  |
 ;    |   10   |  1   | PRG-RAM/PRG-NVRAM size                   |
 ;    |   11   |  1   | CHR-RAM/CHR-NVRAM size                   |
 ;    |   12   |  1   | CPU/PPU Timing                           |
@@ -59,8 +59,8 @@
         .byte   1               ; NROM, Vertical mirroring
         .byte   8               ; NROM, NES 2.0
         .byte   0, 0            ; NROM, Submapper 0
-        .byte   7               ; 8 KiB PRG-RAM
-        .byte   0               ; 0 KiB CHR-RAM
+        .byte   7               ; 8 KiB PRG-RAM, 0 KiB PRG-NVRAM
+        .byte   0               ; 0 KiB CHR-RAM, 0 KiB CHR-NVRAM
         .byte   0               ; NTSC
         .byte   0, 0            ; Standard hardware
         .byte   1               ; Standard controllers
@@ -72,7 +72,7 @@
 
 start:
 
-; Set up the CPU and System-IRQ.
+; Set up the CPU and system IRQ.
 
         sei
         cld
