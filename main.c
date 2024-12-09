@@ -691,7 +691,10 @@ void charCreation(){
 	Player.orb = Player.treasures = 0;
 	Player.hp = Player.dex = Player.spi = j = 8;
 	Player.gold = 60;
+	Player.turns = 0;
 	Player.oldPos[Z] = 0xff;
+
+	vendorsAngry = killedByDeathspell = 0;
 
 	drawWindow(0, 0, 31, 5);
 	cprintfxy(
@@ -910,7 +913,6 @@ void deathScreen(){
 	waitForInput(JOY_START_MASK);
 
 	// Clear game state
-	killedByDeathspell = 0;
 	vendorsAngry = 0;
 	for(i=0;i<8;++i){
 		for(j=0;j<8;++j){
