@@ -150,7 +150,7 @@ uint8_t playerBribe(){
 		);
 		waitForInput(0);
 		if(rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] == VENDOR_ROOM)
-			vendorsAngry = 0; 
+			vendorsAngry = 0;
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY_ROOM;
 		return 1;
 	} else{
@@ -258,7 +258,8 @@ void battle(){
 				drawWindow(0, 20, 31, 7);
 				cprintfxy(
 					1, 20,
-					"%sFailed to run away.",
+					"%s"
+					"Failed to run away.",
 					"MESSAGE\r\n\x0e\n"
 				);
 			}
