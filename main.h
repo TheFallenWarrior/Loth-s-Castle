@@ -13,10 +13,10 @@
 #define D4          (1+(rand()&3))
 #define D8          (1+(rand()&7))
 #define MIN(x, y)   ((x) > (y) ? (y) : (x))
+#define CCLEAR_AREA(y, k) cclearxy(0, (y), (k)*32);
 
 void cprintfxy(uint8_t, uint8_t, const char*, ...);
 uint8_t waitForInput(uint8_t);
-void clearScreenArea(uint8_t, uint8_t);
 void drawWindow(uint8_t, uint8_t, uint8_t, uint8_t);
 void revealRoom(uint8_t, uint8_t, uint8_t);
 void playerAttack();

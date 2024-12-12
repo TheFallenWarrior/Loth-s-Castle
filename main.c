@@ -71,12 +71,6 @@ uint8_t waitForInput(uint8_t mask){
 	return joy_read(JOY_1);
 }
 
-// Clears screen from y to max_y
-void clearScreenArea(uint8_t y, uint8_t max_y){
-	if(y >= max_y) return;
-	cclearxy(0, y, (max_y-y)*32);
-}
-
 // Draws a rectangle border
 void drawWindow(uint8_t x, uint8_t y, uint8_t width, uint8_t height){
 	if(!width || !height) return;
@@ -106,7 +100,7 @@ void playerAttack(){
 	l = D4+Player.weap;
 	j = (Enemy.type>l ? 0 : l-Enemy.type);
 	Enemy.hp = (j>Enemy.hp ? 0 : Enemy.hp-j);
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cprintfxy(
 		1, 20,
@@ -128,7 +122,7 @@ uint8_t playerBribe(){
 	i16 = rand()%1000;
 	i16 = MIN(i16, Player.gold);
 	Player.gold -= i16;
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cprintfxy(
 		1, 20,
@@ -167,7 +161,7 @@ uint8_t playerBribe(){
 }
 
 void enemyAttack(){
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cprintfxy(
 		1, 20,
@@ -189,7 +183,7 @@ void enemyAttack(){
 	l = (D4+Enemy.type)/2;
 	j = (Player.arm>l ? 0 : l-Player.arm);
 	Player.hp = (j>Player.hp ? 0 : Player.hp-j);
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cprintfxy(
 		1, 20,
@@ -203,7 +197,7 @@ void enemyAttack(){
 
 void battle(){
 	while(1){
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(
 			1,20,
@@ -217,7 +211,7 @@ void battle(){
 		if(JOY_UP(i)) playerAttack();
 		else if(JOY_RIGHT(i)){
 			if(!Player.gold){
-				clearScreenArea(21, 28);
+				CCLEAR_AREA(21, 7);
 				drawWindow(0, 20, 31, 7);
 				cprintfxy(
 					1, 20,
@@ -233,7 +227,7 @@ void battle(){
 		}
 		else if(JOY_DOWN(i)){
 			if(Player.dex+D4 > Enemy.type+D8){
-				clearScreenArea(21, 28);
+				CCLEAR_AREA(21, 7);
 				drawWindow(0, 20, 31, 7);
 				cprintfxy(
 					1, 20,
@@ -254,7 +248,7 @@ void battle(){
 				trigger();
 				return;
 			} else{
-				clearScreenArea(21, 28);
+				CCLEAR_AREA(21, 7);
 				drawWindow(0, 20, 31, 7);
 				cprintfxy(
 					1, 20,
@@ -265,7 +259,7 @@ void battle(){
 			}
 		}
 		else if(JOY_LEFT(i)){
-			clearScreenArea(21, 28);
+			CCLEAR_AREA(21, 7);
 			drawWindow(0, 20, 31, 7);
 			cprintfxy(
 				1, 20,
@@ -281,7 +275,7 @@ void battle(){
 
 		enemyAttack();
 		if(!Player.hp){
-			clearScreenArea(21, 28);
+			CCLEAR_AREA(21, 7);
 			drawWindow(0, 20, 31, 7);
 			cprintfxy(
 				1, 20,
@@ -295,7 +289,7 @@ void battle(){
 		}
 
 	}
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cprintfxy(
 		1, 20,
@@ -386,7 +380,7 @@ void vendor(){
 	);
 	i = waitForInput(JOY_DPAD_MASK & ~JOY_LEFT_MASK);
 
-	clearScreenArea(21, 28);
+	CCLEAR_AREA(21, 7);
 	drawWindow(0, 20, 31, 7);
 	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 	if(JOY_UP(i)){
@@ -432,14 +426,14 @@ void vendor(){
 		}
 		else l = 0;
 		updateStats();
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("Bought the %s.", armorNames[Player.arm]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cprintfxy(
 			1, 20,
@@ -472,14 +466,14 @@ void vendor(){
 		}
 		else l = 0;
 		updateStats();
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("Bought the %s.", weaponNames[Player.weap]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cprintfxy(
 			1, 20,
@@ -509,14 +503,14 @@ void vendor(){
 		}
 		else l = 0;
 		updateStats();
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(
 			1, 20,
@@ -534,7 +528,7 @@ void vendor(){
 		}
 		else l = 0;
 		updateStats();
-		clearScreenArea(21, 28);
+		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 		if(l) cputs("Bought the torches.");
@@ -929,7 +923,7 @@ void updateStats(){
 	Player.dex = MIN(Player.dex, 18);
 	Player.spi = MIN(Player.spi, 18);
 	// Draw player stats window
-	clearScreenArea(0, 4);
+	CCLEAR_AREA(0, 4);
 	drawWindow(0, 0, 31, 4);
 
 	cprintfxy(
@@ -991,7 +985,7 @@ void drawScreen(){
 	updateStats();
 
 	// Draw message window
-	clearScreenArea(20,27);
+	CCLEAR_AREA(20, 7);
 	drawWindow(0, 20, 31, 7);
 	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 
