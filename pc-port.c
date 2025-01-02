@@ -1,6 +1,6 @@
 /*
 	Loth's Castle
-	Copyright 2024 TheFallenWarrior
+	Copyright 2025 TheFallenWarrior
 	
 	Dirty frontend that makes the LC's cc65 source code compatible with
 	raylib. This does the bare minimum to to make the game work and doesn't

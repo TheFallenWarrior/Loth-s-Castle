@@ -1,6 +1,6 @@
 /*
 	Loth's Castle
-	Copyright 2024 TheFallenWarrior
+	Copyright 2025 TheFallenWarrior
 */
 
 #ifdef __NES__
@@ -1062,7 +1062,7 @@ int main(){
 	);
 
 	cprintfxy(10, 23, "PRESS %s", buttonNames[BTN_START]);
-	cputsxy(0, 27, "(c) 2024 TheFallenWarrior");
+	cputsxy(0, 27, "(c) 2025 TheFallenWarrior");
 
 	while(!JOY_START(joy_read(JOY_1))){
 		renderScreen();

@@ -1,6 +1,6 @@
 /*
 	Loth's Castle
-	Copyright 2024 TheFallenWarrior
+	Copyright 2025 TheFallenWarrior
 */
 
 #ifndef LC_PC_PORT_H
