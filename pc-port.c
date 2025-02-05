@@ -203,13 +203,13 @@ void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	for(;k;k--) cputc(' ');
 }
 
-// Draws a horizontal line of length k at x, y
+// Draw a horizontal line of length k at x, y
 void chlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc('\x0b');
 }
 
-// Draws a vertical line of length k at x, y
+// Draw a vertical line of length k at x, y
 void cvlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(int i=0;i<k;i++){
