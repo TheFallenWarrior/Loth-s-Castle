@@ -4,7 +4,7 @@
 	
 	Dirty frontend that makes the LC's cc65 source code compatible with
 	raylib. This does the bare minimum to to make the game work and doesn't
-	actually reimplement conio.h or joystick.h.
+	actually reimplement conio.h nor joystick.h.
 */
 
 #include <raylib.h>
