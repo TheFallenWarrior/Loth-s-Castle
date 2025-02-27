@@ -325,10 +325,13 @@ void drinkFountain(){
 	waitForInput(0);
 	if(l > 5){
 		Player.race = rand()&3;
+		Player.sex  = rand()&1;
 		cclearxy(1, 22, 30);
 		cprintfxy(
 			1, 22,
-			"You turned into a %s.",
+			"You turned into a %s\r\n\x0e"
+			"%s.",
+			sexNames[Player.sex],
 			playerRaceNames[Player.race]
 		);
 		message = 0;
