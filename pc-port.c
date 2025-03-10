@@ -29,7 +29,7 @@ uint8_t consoleBuffer[CONSOLE_WIDTH*CONSOLE_HEIGHT];
 // Initialize game window and raylib context
 void init(){
 	clrscr();
-	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Loth's Castle");
+	InitWindow(WINDOW_WIDTH, 4+WINDOW_HEIGHT, "Loth's Castle");
 	nescii = LoadTexture("tileset.png");
 	renderTarget = LoadRenderTexture(
 		VIRTUAL_SCREEN_WIDTH,
@@ -68,7 +68,7 @@ void toggleFullscreenIntegerScale(){
 				WINDOW_WIDTH,
 				WINDOW_HEIGHT
 			};
-			SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+			SetWindowSize(WINDOW_WIDTH, 4+WINDOW_HEIGHT);
 		} else{
 			int monitorWidth = GetMonitorWidth(GetCurrentMonitor());
 			int monitorHeight = GetMonitorHeight(GetCurrentMonitor());
