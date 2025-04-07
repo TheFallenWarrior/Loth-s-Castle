@@ -2,9 +2,9 @@
 	Loth's Castle
 	Copyright 2025 TheFallenWarrior
 	
-	Dirty frontend that makes the LC's cc65 source code compatible with
+	Frontend that makes the Loth's Castle's cc65 source code compatible with
 	raylib. This does the bare minimum to to make the game work and doesn't
-	actually reimplement conio.h nor joystick.h.
+	fully replace conio.h/joystick.h used by the NES version.
 */
 
 #include <raylib.h>
@@ -134,7 +134,7 @@ void renderScreen(){
 
 // Poll game input and return it in NES controller format
 uint8_t joy_read(uint8_t r){
-	r = 0;
+	r = 0; // Discard argument
 
 	if(IsKeyDown(KEY_UP))    r |= JOY_UP_MASK;
 	if(IsKeyDown(KEY_DOWN))  r |= JOY_DOWN_MASK;
