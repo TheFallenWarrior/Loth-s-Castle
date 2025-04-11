@@ -65,7 +65,7 @@ enum armorTypes{
 enum treasureTypes{
 	TRS_RUBYRED,    // Avoid Lethargy
 	TRS_NORNSTONE,  // Nothing
-	TRS_PALEPEARL,  // Avoid Bleeding
+	TRS_PALEPEARL,  // Avoid Leech
 	TRS_OPALEYE,    // Cure Blindness
 	TRS_GREENGEM,   // Avoid Forgetting
 	TRS_BLUEFLAME,  // Nothing
@@ -87,7 +87,7 @@ enum treasureMasks{
 enum statusAilments{
 	STA_HEALTHY,
 	STA_LETHARGY,
-	STA_BLEED,
+	STA_LEECH,
 	STA_FORGETFULNESS,
 	STA_BLINDNESS
 };
@@ -167,7 +167,7 @@ const char* const treasure_names[] = {
 const char* const status_names[] = {
 	"",
 	"LETHARGIC",
-	"BLEEDING",
+	"LEECHING",
 	"",
 	"BLIND"
 };
