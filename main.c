@@ -950,7 +950,7 @@ void updateStats(){
 
 void drawScreen(){
 	// Draw map screen, if the player is the same level they were before, only
-	// update the tiles that canged
+	// update the tiles that changed
 	if(Player.pos[Z] == Player.oldPos[Z]){
 		l = rooms[Player.pos[Z]][Player.oldPos[Y]][Player.oldPos[X]];
 		k = map_icons[l];

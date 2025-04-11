@@ -161,7 +161,7 @@ void adjustxy(){
 	cursorX %= CONSOLE_WIDTH;
 }
 
-// Set cursor position to x, y
+// Set cursor position to (x, y)
 void gotoxy(uint8_t x, uint8_t y){
 	cursorX = x;
 	cursorY = y;
@@ -197,19 +197,19 @@ void cputsxy(uint8_t x, uint8_t y, const char *str){
 	cputs(str);
 }
 
-// Write k spaces at x, y
+// Write k spaces at (x, y)
 void cclearxy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc(' ');
 }
 
-// Draw a horizontal line of length k at x, y
+// Draw a horizontal line of length k at (x, y)
 void chlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(;k;k--) cputc('\x0b');
 }
 
-// Draw a vertical line of length k at x, y
+// Draw a vertical line of length k at (x, y)
 void cvlinexy(uint8_t x, uint8_t y, uint8_t k){
 	gotoxy(x, y);
 	for(int i=0;i<k;i++){
