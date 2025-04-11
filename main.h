@@ -127,33 +127,33 @@ enum buttons{
 	BTN_START
 };
 
-const char* const playerRaceNames[] = {
+const char* const player_race_names[] = {
 	"HUMAN",
 	"ELF",
 	"DWARF",
 	"GNOLL"
 };
 
-const char* const sexNames[] = {
+const char* const sex_names[] = {
 	"MALE",
 	"FEMALE"
 };
 
-const char* const armorNames[] = {
+const char* const armor_names[] = {
 	"RAGS",
 	"LEATHER",
 	"CHAIN",
 	"PLATE"
 };
 
-const char* const weaponNames[] = {
+const char* const weapon_names[] = {
 	"STICK",
 	"DAGGER",
 	"MACE",
 	"SWORD"
 };
 
-const char* const treasureNames[] = {
+const char* const treasure_names[] = {
 	"RUBY RED",
 	"NORNSTONE",
 	"PALE PEARL",
@@ -164,7 +164,7 @@ const char* const treasureNames[] = {
 	"SYLMARYL"
 };
 
-const char* const statusNames[] = {
+const char* const status_names[] = {
 	"",
 	"LETHARGIC",
 	"BLEEDING",
@@ -172,7 +172,7 @@ const char* const statusNames[] = {
 	"BLIND"
 };
 
-const char* const enemyNames[] = {
+const char* const enemy_names[] = {
 	"GOBLIN",
 	"KOBOLD",
 	"WOLF",
@@ -185,7 +185,7 @@ const char* const enemyNames[] = {
 	"DRAGON"
 };
 
-const char* const attrChangeDescriptions[] = {
+const char* const attr_change_descriptions[] = {
 	"BETTER",
 	"FLIMSIER",
 	"NIMBLER",
@@ -194,7 +194,7 @@ const char* const attrChangeDescriptions[] = {
 	"STUPIDER"
 };
 
-const char* const messageStrings[] = {
+const char* const message_strings[] = {
 	"",
 	"Lit up a torch.",
 	"Ascended the stairs.",
@@ -209,7 +209,7 @@ const char* const messageStrings[] = {
 	"You have the Orb of Power."
 };
 
-const char* const roomDescriptions[] = {
+const char* const room_descriptions[] = {
 	"an empty room",
 	"stairs going up",
 	"stairs going down",
@@ -223,7 +223,7 @@ const char* const roomDescriptions[] = {
 	"the Orb of Power"
 };
 
-const char* const interactionPrompts[] = {
+const char* const interaction_prompts[] = {
 	"ascend",
 	"descend",
 	"drink",
@@ -236,14 +236,14 @@ const char* const interactionPrompts[] = {
 	"grab"
 };
 
-const char* const deathCauses[] = {
+const char* const death_causes[] = {
 	"DEATHSPELL",
 	"blood loss",
 	"clumsiness",
 	"stupidity"
 };
 
-const char* const vendorQuotes[] = {
+const char* const vendor_quotes[] = {
 	" `Why is there so much gold\r\n\x0e"
 	" in the Astral Plane?'",
 	" `Old Loth was a despot.'",
@@ -258,14 +258,14 @@ const char* const vendorQuotes[] = {
 };
 
 #ifdef __NES__
-	const char* const buttonNames[] = {
+	const char* const button_names[] = {
 		"A",
 		"B",
 		"SELECT",
 		"START"
 	};
 #else
-	const char* const buttonNames[] = {
+	const char* const button_names[] = {
 		"C",
 		"X",
 		"SPACE",
@@ -273,7 +273,7 @@ const char* const vendorQuotes[] = {
 	};
 #endif
 
-const uint8_t mapIcons[] = {
+const uint8_t map_icons[] = {
 	'?',
 	' ',
 	'U',
@@ -289,7 +289,7 @@ const uint8_t mapIcons[] = {
 };
 
 // Used to map the treasure bits
-const uint8_t bitMaskTable[] = {
+const uint8_t bitmask_table[] = {
 	0x01,
 	0x02,
 	0x04,

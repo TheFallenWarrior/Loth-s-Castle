@@ -107,14 +107,14 @@ void playerAttack(){
 		"%s"
 		"You attack the %s!",
 		"MESSAGE\r\n\x0e\n",
-		enemyNames[Enemy.type]
+		enemy_names[Enemy.type]
 	);
 	waitForInput(0);
 	cclearxy(1, 22, 30);
 	cprintfxy(
 		1, 22,
 		"%s took %d damage.",
-		enemyNames[Enemy.type], j
+		enemy_names[Enemy.type], j
 	);
 }
 
@@ -129,7 +129,7 @@ uint8_t playerBribe(){
 		"%s"
 		"Gave %d GP to %s.",
 		"MESSAGE\r\n\x0e\n",
-		i16, enemyNames[Enemy.type]
+		i16, enemy_names[Enemy.type]
 	);
 	updateStats();
 	waitForInput(0);
@@ -139,7 +139,7 @@ uint8_t playerBribe(){
 			1, 22,
 			"%s says:\r\n\x0e"
 			"%s",
-			enemyNames[Enemy.type],
+			enemy_names[Enemy.type],
 			" `Ok, just don't tell anyone.'"
 		);
 		waitForInput(0);
@@ -153,7 +153,7 @@ uint8_t playerBribe(){
 			1, 22,
 			"%s says:\r\n\x0e"
 			"%s",
-			enemyNames[Enemy.type],
+			enemy_names[Enemy.type],
 			" `All I want is your life!'"
 		);
 		return 0;
@@ -168,7 +168,7 @@ void enemyAttack(){
 		"%s"
 		"%s attacks you!",
 		"MESSAGE\r\n\x0e\n",
-		enemyNames[Enemy.type]
+		enemy_names[Enemy.type]
 	);
 	waitForInput(0);
 	if(Player.dex > 2*Enemy.type + D4){
@@ -282,7 +282,7 @@ void battle(){
 				"%s"
 				"You succumb to your wounds.",
 				"MESSAGE\r\n\x0e\n",
-				enemyNames[Enemy.type]
+				enemy_names[Enemy.type]
 			);
 			waitForInput(0);
 			return;
@@ -296,7 +296,7 @@ void battle(){
 		"%s"
 		"You killed %s.",
 		"MESSAGE\r\n\x0e\n",
-		enemyNames[Enemy.type]
+		enemy_names[Enemy.type]
 	);
 	waitForInput(0);
 	cclearxy(1, 22, 30);
@@ -309,7 +309,7 @@ void battle(){
 		"%s"
 		"%s dropped %d GP.",
 		"MESSAGE\r\n\x0e\n",
-		enemyNames[Enemy.type], i16
+		enemy_names[Enemy.type], i16
 	);
 	updateStats();
 	waitForInput(0);
@@ -331,8 +331,8 @@ void drinkFountain(){
 			1, 22,
 			"You turned into a %s\r\n\x0e"
 			"%s.",
-			sexNames[Player.sex],
-			playerRaceNames[Player.race]
+			sex_names[Player.sex],
+			player_race_names[Player.race]
 		);
 		message = 0;
 		waitForInput(0);
@@ -364,7 +364,7 @@ void drinkFountain(){
 	}
 	updateStats();
 	cclearxy(1, 22, 30);
-	cprintfxy(1, 22, "You feel %s.", attrChangeDescriptions[l]);
+	cprintfxy(1, 22, "You feel %s.", attr_change_descriptions[l]);
 	message = 0;
 	waitForInput(0);
 	return;
@@ -405,11 +405,11 @@ void vendor(){
 			"Up:   Nothing\r\n\x0e"
 		);
 		if(ARM_LEATHER > Player.arm)
-			cprintf("Right:%s(1000)\r\n\x0e", armorNames[ARM_LEATHER]);
+			cprintf("Right:%s(1000)\r\n\x0e", armor_names[ARM_LEATHER]);
 		if(ARM_CHAIN > Player.arm)
-			cprintf("Down: %s  (2000)\r\n\x0e", armorNames[ARM_CHAIN]);
+			cprintf("Down: %s  (2000)\r\n\x0e", armor_names[ARM_CHAIN]);
 		if(ARM_PLATE > Player.arm)
-			cprintf("Left: %s  (3000)", armorNames[ARM_PLATE]);
+			cprintf("Left: %s  (3000)", armor_names[ARM_PLATE]);
 
 		j = waitForInput(JOY_DPAD_MASK);
 		if(JOY_RIGHT(j) && ARM_LEATHER > Player.arm && Player.gold > 1000){
@@ -432,7 +432,7 @@ void vendor(){
 		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
-		if(l) cprintf("Bought the %s.", armorNames[Player.arm]);
+		if(l) cprintf("Bought the %s.", armor_names[Player.arm]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
@@ -445,11 +445,11 @@ void vendor(){
 			"Up:   Nothing\r\n\x0e"
 		);
 		if(WPN_DAGGER > Player.weap)
-			cprintf("Right:%s (1000)\r\n\x0e", weaponNames[WPN_DAGGER]);
+			cprintf("Right:%s (1000)\r\n\x0e", weapon_names[WPN_DAGGER]);
 		if(WPN_MACE > Player.weap)
-			cprintf("Down: %s   (2000)\r\n\x0e", weaponNames[WPN_MACE]);
+			cprintf("Down: %s   (2000)\r\n\x0e", weapon_names[WPN_MACE]);
 		if(WPN_SWORD > Player.weap)
-			cprintf("Left: %s  (3000)", weaponNames[WPN_SWORD]);
+			cprintf("Left: %s  (3000)", weapon_names[WPN_SWORD]);
 
 		j = waitForInput(JOY_DPAD_MASK);
 		if(JOY_RIGHT(j) && WPN_DAGGER > Player.weap && Player.gold > 1000){
@@ -472,7 +472,7 @@ void vendor(){
 		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
-		if(l) cprintf("Bought the %s.", weaponNames[Player.weap]);
+		if(l) cprintf("Bought the %s.", weapon_names[Player.weap]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
@@ -509,7 +509,7 @@ void vendor(){
 		CCLEAR_AREA(21, 7);
 		drawWindow(0, 20, 31, 7);
 		cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
-		if(l) cprintf("You feel %s.", attrChangeDescriptions[l-1]);
+		if(l) cprintf("You feel %s.", attr_change_descriptions[l-1]);
 		else cputs("Nevermind.");
 		waitForInput(0);
 
@@ -543,7 +543,7 @@ void vendor(){
 			"%s says:\r\n\x0e"
 			"%s",
 			"VENDOR",
-			vendorQuotes[j]
+			vendor_quotes[j]
 		);
 	}
 	else if(JOY_DOWN(i)){
@@ -595,7 +595,7 @@ void trigger(){
 			"Encounter!\r\n\x0e\n"
 			"VENDOR shapeshifted into\r\n\x0e"
 			"%s!",
-			enemyNames[Enemy.type]
+			enemy_names[Enemy.type]
 		);
 		waitForInput(0);
 		battle();
@@ -611,7 +611,7 @@ void trigger(){
 			"Encounter!\r\n\x0e\n"
 			"You are facing a lousy\r\n\x0e"
 			"%s!",
-			enemyNames[Enemy.type]
+			enemy_names[Enemy.type]
 		);
 		waitForInput(0);
 		battle();
@@ -664,10 +664,10 @@ void interact(){
 
 		case TREASURE_ROOM:
 		l = rand()&7;
-		Player.treasures |= bitMaskTable[l];
+		Player.treasures |= bitmask_table[l];
 		cclearxy(1, 22, 30);
 		cclearxy(1, 24, 30);
-		cprintfxy(1, 22, "You have obtained %s.", treasureNames[l]);
+		cprintfxy(1, 22, "You have obtained %s.", treasure_names[l]);
 		rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]] = EMPTY_ROOM;
 		message = 0;
 		waitForInput(0);
@@ -702,15 +702,15 @@ void charCreation(){
 		"Right:%s\r\n\x0e"
 		"Down: %s\r\n\x0e"
 		"Left: %s",
-		playerRaceNames[RAC_HUMAN],
-		playerRaceNames[RAC_ELF],
-		playerRaceNames[RAC_DWARF],
-		playerRaceNames[RAC_GNOLL]
+		player_race_names[RAC_HUMAN],
+		player_race_names[RAC_ELF],
+		player_race_names[RAC_DWARF],
+		player_race_names[RAC_GNOLL]
 	);
 	cprintfxy(
 		0, 27,
 		"Press %s to skip creation.",
-		buttonNames[BTN_SELECT]
+		button_names[BTN_SELECT]
 	);
 
 	k = waitForInput(JOY_DPAD_MASK | JOY_SELECT_MASK);
@@ -747,8 +747,8 @@ void charCreation(){
 		"SELECT YOUR SEX\r\n\x0e"
 		"Up:   %s\r\n\x0e"
 		"Down: %s",
-		sexNames[0],
-		sexNames[1]
+		sex_names[0],
+		sex_names[1]
 	);
 
 	k = waitForInput(JOY_UP_MASK | JOY_DOWN_MASK);
@@ -798,10 +798,10 @@ void charCreation(){
 		"Ri:%s(10)\r\n\x0e"
 		"Do:%s  (30)\r\n\x0e"
 		"Le:%s  (50)",
-		armorNames[ARM_RAGS],
-		armorNames[ARM_LEATHER],
-		armorNames[ARM_CHAIN],
-		armorNames[ARM_PLATE]
+		armor_names[ARM_RAGS],
+		armor_names[ARM_LEATHER],
+		armor_names[ARM_CHAIN],
+		armor_names[ARM_PLATE]
 	);
 	drawWindow(0, 22, 31, 2);
 	cprintfxy(1, 22, "YOUR GOLD\r\n\x0e%d GP", Player.gold);
@@ -822,10 +822,10 @@ void charCreation(){
 
 	drawWindow(16, 16, 15, 5);
 	cputsxy(17, 16, "BUY WEAPON");
-	cprintfxy(17, 17, "Up:%s  (00)", weaponNames[WPN_STICK]);
-	cprintfxy(17, 18, "Ri:%s (10)", weaponNames[WPN_DAGGER]);
-	cprintfxy(17, 19, "Do:%s   (30)", weaponNames[WPN_MACE]);
-	cprintfxy(17, 20, "Le:%s  (50)", weaponNames[WPN_SWORD]);
+	cprintfxy(17, 17, "Up:%s  (00)", weapon_names[WPN_STICK]);
+	cprintfxy(17, 18, "Ri:%s (10)", weapon_names[WPN_DAGGER]);
+	cprintfxy(17, 19, "Do:%s   (30)", weapon_names[WPN_MACE]);
+	cprintfxy(17, 20, "Le:%s  (50)", weapon_names[WPN_SWORD]);
 	cprintfxy(1, 23, "%02d GP", Player.gold);
 	while(1){
 		k = waitForInput(JOY_DPAD_MASK);
@@ -852,7 +852,7 @@ void charCreation(){
 	}
 
 	drawWindow(0, 25, 31, 2);
-	cprintfxy(8, 26, "Get ready, %s!", playerRaceNames[Player.race]);
+	cprintfxy(8, 26, "Get ready, %s!", player_race_names[Player.race]);
 	cprintfxy(1, 23, "%02d GP", Player.gold);
 	waitForInput(0);
 
@@ -903,11 +903,11 @@ void deathScreen(){
 		"  survived for %u turns,\r\n\x0e"
 		"  had %u worth of gold,\r\n\x0e"
 		"  had %d/8 treasure types.'",
-		sexNames[Player.sex], playerRaceNames[Player.race],
-		deathCauses[j], 14+(rand()&15), Player.turns,
+		sex_names[Player.sex], player_race_names[Player.race],
+		death_causes[j], 14+(rand()&15), Player.turns,
 		Player.gold, i
 	);
-	cprintfxy(10, 23, "PRESS %s", buttonNames[BTN_START]);
+	cprintfxy(10, 23, "PRESS %s", button_names[BTN_START]);
 	waitForInput(JOY_START_MASK);
 
 	// Clear game state
@@ -937,14 +937,14 @@ void updateStats(){
 		"Weapon:%-6s         Lv:%1d",
 		(
 			Player.status ?
-			statusNames[Player.status] :
-			sexNames[Player.sex]
+			status_names[Player.status] :
+			sex_names[Player.sex]
 		),
-		playerRaceNames[Player.race],
+		player_race_names[Player.race],
 		Player.hp, Player.dex, Player.spi, Player.gold,
 		10 - (Player.arm*3), Player.torches,
 		Player.pos[X]+1, Player.pos[Y]+1,
-		weaponNames[Player.weap], Player.pos[Z]+1
+		weapon_names[Player.weap], Player.pos[Z]+1
 	);
 }
 
@@ -953,13 +953,13 @@ void drawScreen(){
 	// update the tiles that canged
 	if(Player.pos[Z] == Player.oldPos[Z]){
 		l = rooms[Player.pos[Z]][Player.oldPos[Y]][Player.oldPos[X]];
-		k = mapIcons[l];
-		if(l&0x80) k = mapIcons[MONSTER_ROOM];
+		k = map_icons[l];
+		if(l&0x80) k = map_icons[MONSTER_ROOM];
 		cprintfxy(4*Player.oldPos[X], 5+2*Player.oldPos[Y], "[%c]", k);
 
 		l = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
-		k = mapIcons[l];
-		if(l&0x80) k = mapIcons[MONSTER_ROOM];
+		k = map_icons[l];
+		if(l&0x80) k = map_icons[MONSTER_ROOM];
 		else if(l == EMPTY_ROOM) k = '@';
 		revers(1);
 		cprintfxy(4*Player.pos[X], 5+2*Player.pos[Y], "[%c]", k);
@@ -971,12 +971,12 @@ void drawScreen(){
 		for(i=0;i<8;++i){
 			for(j=0;j<8;++j){
 				l = rooms[Player.pos[Z]][i][j];
-				k = mapIcons[l];
+				k = map_icons[l];
 				if(j == Player.pos[X] && i == Player.pos[Y]){
 					revers(1);
 					if(l == EMPTY_ROOM) k = '@';
 				}
-				if(l&0x80) k = mapIcons[MONSTER_ROOM];
+				if(l&0x80) k = map_icons[MONSTER_ROOM];
 				cprintf("[%c]", k);
 				revers(0);
 				cputc(' ');
@@ -992,17 +992,17 @@ void drawScreen(){
 	drawWindow(0, 20, 31, 7);
 	cputsxy(1, 20, "MESSAGE\r\n\x0e\n");
 
-	if(message) cputs(messageStrings[message]);
+	if(message) cputs(message_strings[message]);
 	else{
 		k = rooms[Player.pos[Z]][Player.pos[Y]][Player.pos[X]];
 		if(!(k & 0x80)){
-			cprintf("You see %s.", roomDescriptions[k-1]);
+			cprintf("You see %s.", room_descriptions[k-1]);
 			if(k > EMPTY_ROOM){
 				cprintfxy(
 					1, 24,
 					"Press %s to %s.",
-					buttonNames[BTN_A],
-					interactionPrompts[k-2]
+					button_names[BTN_A],
+					interaction_prompts[k-2]
 				);
 			}
 		}
@@ -1064,7 +1064,7 @@ int main(){
 		"only to never return..."
 	);
 
-	cprintfxy(10, 23, "PRESS %s", buttonNames[BTN_START]);
+	cprintfxy(10, 23, "PRESS %s", button_names[BTN_START]);
 	cputsxy(0, 27, "(c) 2025 TheFallenWarrior");
 
 	while(!JOY_START(joy_read(JOY_1))){
