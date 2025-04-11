@@ -870,14 +870,14 @@ void deathScreen(){
 
 	// Count player treasures
 	i = 0;
-	if(Player.treasures & RUBYRED_MASK)   ++i;
-	if(Player.treasures & NORNSTONE_MASK) ++i;
-	if(Player.treasures & PALEPEARL_MASK) ++i;
-	if(Player.treasures & OPALEYE_MASK)   ++i;
-	if(Player.treasures & GREENGEM_MASK)  ++i;
-	if(Player.treasures & BLUEFLAME_MASK) ++i;
-	if(Player.treasures & PALINTIR_MASK)  ++i;
-	if(Player.treasures & SYLMARYL_MASK)  ++i;
+	if(Player.treasures & TRS_RUBYRED_MASK)   ++i;
+	if(Player.treasures & TRS_NORNSTONE_MASK) ++i;
+	if(Player.treasures & TRS_PALEPEARL_MASK) ++i;
+	if(Player.treasures & TRS_OPALEYE_MASK)   ++i;
+	if(Player.treasures & TRS_GREENGEM_MASK)  ++i;
+	if(Player.treasures & TRS_BLUEFLAME_MASK) ++i;
+	if(Player.treasures & TRS_PALINTIR_MASK)  ++i;
+	if(Player.treasures & TRS_SYLMARYL_MASK)  ++i;
 
 	// Assess death cause
 	if(!killedByDeathspell){
