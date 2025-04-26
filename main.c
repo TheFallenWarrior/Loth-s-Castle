@@ -7,7 +7,7 @@
 	#include <conio.h>
 	#include <joystick.h>
 	#include <nes.h>
-	#define init()	joy_install(joy_static_stddrv)
+	#define init() joy_install(joy_static_stddrv)
 	#define renderScreen() (void)0
 #else
 	#include "pc-port.h"

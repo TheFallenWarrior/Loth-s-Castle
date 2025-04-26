@@ -1,6 +1,6 @@
 EXE := lothscastle
 
-.PHONY:	all nes run linux run-pc web run-web clean
+.PHONY: all nes run linux run-pc web run-web clean
 
 all: nes linux web
 
