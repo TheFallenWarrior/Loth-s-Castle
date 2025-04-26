@@ -1,8 +1,8 @@
 EXE := lothscastle
 
-.PHONY: all nes run linux run-pc web run-web clean
+.PHONY: all nes run pc run-pc web run-web clean
 
-all: nes linux web
+all: nes pc web
 
 $(EXE).nes: main.c crt0.s tileset.chr
 	cl65 -Os -t nes main.c crt0.s -o $@
@@ -15,9 +15,9 @@ run: nes
 $(EXE): main.c pc-port.c
 	gcc main.c pc-port.c -Wall -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -o $@
 
-linux: $(EXE)
+pc: $(EXE)
 
-run-pc: linux
+run-pc: pc
 	./$(EXE)
 
 web/index.html: main.c pc-port.c tileset.png webshell.html
