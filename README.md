@@ -17,7 +17,7 @@ For the sake of simplicity, the entirety of the game's source code resides in
 ### NES and Linux targets
 
 Assuming you have both raylib and and cc65 installed, you can compile the NES
-version with `make nes`, and the Linux version with `make linux`.
+version with `make nes`, and the Linux version with `make pc`.
 
 ### Web
 
