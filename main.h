@@ -35,34 +35,34 @@ void drawScreen();
 uint8_t gameLoop();
 
 // Used to avoid confusion in Player.pos
-enum coordinates{
+enum _coordinates{
 	X,
 	Y,
 	Z
 };
 
-enum playerRaceTypes{
+enum _playerRaceTypes{
 	RAC_HUMAN,
 	RAC_ELF,
 	RAC_DWARF,
 	RAC_GNOLL
 };
 
-enum weaponTypes{
+enum _weaponTypes{
 	WPN_STICK,
 	WPN_DAGGER,
 	WPN_MACE,
 	WPN_SWORD
 };
 
-enum armorTypes{
+enum _armorTypes{
 	ARM_RAGS,
 	ARM_LEATHER,
 	ARM_CHAIN,
 	ARM_PLATE
 };
 
-enum treasureTypes{
+enum _treasureTypes{
 	TRS_RUBYRED,    // Avoid Lethargy
 	TRS_NORNSTONE,  // Nothing
 	TRS_PALEPEARL,  // Avoid Leech
@@ -73,7 +73,7 @@ enum treasureTypes{
 	TRS_SYLMARYL    // Nothing
 };
 
-enum treasureMasks{
+enum _treasureMasks{
 	TRS_RUBYRED_MASK    = 0x01,
 	TRS_NORNSTONE_MASK  = 0x02,
 	TRS_PALEPEARL_MASK  = 0x04,
@@ -84,7 +84,7 @@ enum treasureMasks{
 	TRS_SYLMARYL_MASK   = 0x80
 };
 
-enum statusAilments{
+enum _statusAilments{
 	STA_HEALTHY,
 	STA_LETHARGY,
 	STA_LEECH,
@@ -92,7 +92,7 @@ enum statusAilments{
 	STA_BLINDNESS
 };
 
-enum roomContents{
+enum _roomContents{
 	UNKNOWN_ROOM,
 	EMPTY_ROOM,
 	UPSTAIRS_ROOM,
@@ -107,7 +107,7 @@ enum roomContents{
 	YENDORORB_ROOM
 };
 
-enum enemyTypes{
+enum _enemyTypes{
 	ENM_GOBLIN,
 	ENM_KOBOLD,
 	ENM_WOLF,
@@ -120,7 +120,7 @@ enum enemyTypes{
 	ENM_DRAGON
 };
 
-enum buttons{
+enum _buttons{
 	BTN_A,
 	BTN_B,
 	BTN_SELECT,
