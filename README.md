@@ -31,7 +31,7 @@ have it in a different location, you'll need to edit the Makefile accordingly.
 
 ## Credits
 
-Game code by João F. S. Pereira (TheFallenWarrior).
+Game code by [Anna J. S. Pereira](https://github.com/TheFallenWarrior).
 
 Source files `pc-port.c` and `crt0.s` are based on part of the cc65 runtime
 library.
