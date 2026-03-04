@@ -1,9 +1,9 @@
-# Loth's Castle
+# ⚔ Loth's Castle
 
 Loth's Castle is an old-school ASCII rogue-like for NES, PC, and Web. It is a
 Wizard's Castle clone written in C.
 
-## Building
+## 🛠 Building
 
 As is, Loth's Castle can be compiled to NES through
 [cc65](https://github.com/cc65/cc65) or to modern devices using
@@ -14,12 +14,12 @@ For the sake of simplicity, the entirety of the game's source code resides in
 
 `make all` will try to compile all targets at once.
 
-### NES and Linux targets
+### 🎮 NES and 🐧 Linux targets
 
 Assuming you have both raylib and and cc65 installed, you can compile the NES
 version with `make nes`, and the Linux version with `make pc`.
 
-### Web
+### 🌐 Web
 
 To build for web, you'll need to set up [Emscripten](https://emscripten.org).
 Before compiling, make sure to add the Emscripten SDK to your path using
@@ -29,9 +29,9 @@ the game.
 **NOTE:** The Makefile assumes raylib is located at `$HOME/raylib`. If you
 have it in a different location, you'll need to edit the Makefile accordingly.
 
-## Credits
+## 💫 Credits
 
-Game code by João F. S. Pereira (TheFallenWarrior).
+Game code by [Anna J. S. Pereira](https://github.com/TheFallenWarrior).
 
 Source files `pc-port.c` and `crt0.s` are based on part of the cc65 runtime
 library.
